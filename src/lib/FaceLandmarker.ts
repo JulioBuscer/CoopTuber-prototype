@@ -67,11 +67,11 @@ export class FaceLandmarkDetector {
                 const eyeBlinkRight = blendshapes.categories.find((c: blendshapesCategory) => c.categoryName === 'eyeBlinkRight').score;
                 const jawOpen = blendshapes.categories.find((c: blendshapesCategory) => c.categoryName === 'jawOpen').score;
 
-                const eyesClosed = (eyeBlinkLeft + eyeBlinkRight) / 2 > 0.5;
-                const mouthOpen = jawOpen > 0.3;
+                // const eyesClosed = (eyeBlinkLeft + eyeBlinkRight) / 2 > 0.5;
+                // const mouthOpen = jawOpen > 0.3;
 
-                console.log(`Cara ${index + 1} detectada:`);
-                console.log(`Estado: ${eyesClosed ? 'Ojos Cerrados' : 'Ojos Abiertos'}, ${mouthOpen ? 'Boca Abierta' : 'Boca Cerrada'}`);
+                // console.log(`Cara ${index + 1} detectada:`);
+                // console.log(`Estado: ${eyesClosed ? 'Ojos Cerrados' : 'Ojos Abiertos'}, ${mouthOpen ? 'Boca Abierta' : 'Boca Cerrada'}`);
             });
 
             for (const landmarks of results.faceLandmarks) {
@@ -105,7 +105,7 @@ export class FaceLandmarkDetector {
                 this.drawingUtils.drawConnectors(
                     landmarks,
                     FaceLandmarker.FACE_LANDMARKS_LIPS,
-                    { color: '#E0E0E0', lineWidth: 1 }
+                    { color: '#816AF7', lineWidth: 1 }
                 );
             }
         } else {
