@@ -147,6 +147,36 @@ const WebcamViewer = () => {
                 padding: "20px",
             }}
         >
+
+            <div
+                style={{
+                    display: "flex",
+                    gap: "20px",
+                    'width': '1920px',
+                    'height': 'auto',
+                    'max-width': '100%',
+                    'aspect-ratio': '16/9',
+                    //'background-color': '#00FF00',
+                    padding: '5px',
+                }}>
+                <Avatar
+                    characterId="face1"
+                    eyesClosed={eyesClosedP1()}
+                    mouthOpen={mouthOpenP1()}
+                    eyeBlinkLeftScore={eyeBlinkLeftScoreP1()}
+                    eyeBlinkRightScore={eyeBlinkRightScoreP1()}
+                    jawOpenScore={jawOpenScoreP1()}
+                />
+                <Avatar
+                    characterId="face2"
+                    eyesClosed={eyesClosedP2()}
+                    mouthOpen={mouthOpenP2()}
+                    eyeBlinkLeftScore={eyeBlinkLeftScoreP2()}
+                    eyeBlinkRightScore={eyeBlinkRightScoreP2()}
+                    jawOpenScore={jawOpenScoreP2()}
+                />
+            </div>
+
             <div
                 class="webcam-container"
                 style="position: relative; width: 640px; height: 480px;"
@@ -160,44 +190,6 @@ const WebcamViewer = () => {
                 />
             </div>
 
-            <div
-                style={{
-                    display: "flex",
-                    gap: "20px",
-                }}>
-                <Score
-                    faceNumber={1}
-                    eyeBlinkLeftScore={eyeBlinkLeftScoreP1()}
-                    eyeBlinkRightScore={eyeBlinkRightScoreP1()}
-                    jawOpenScore={jawOpenScoreP1()} />
-                <Score
-                    faceNumber={2}
-                    eyeBlinkLeftScore={eyeBlinkLeftScoreP2()}
-                    eyeBlinkRightScore={eyeBlinkRightScoreP2()}
-                    jawOpenScore={jawOpenScoreP2()} />
-            </div>
-            <div
-                style={{
-                    display: "flex",
-                    gap: "20px",
-                    'width': '1920px',
-                    'height': 'auto',
-                    'max-width': '100%',
-                    'aspect-ratio': '16/9',
-                    'background-color': '#00FF00',
-                    padding: '5px',
-                }}>
-                <Avatar
-                    eyesClosed={eyesClosedP1()}
-                    mouthOpen={mouthOpenP1()}
-                    characterId="face1"
-                />
-                <Avatar
-                    eyesClosed={eyesClosedP2()}
-                    mouthOpen={mouthOpenP2()}
-                    characterId="face2"
-                />
-            </div>
 
         </div>
     );

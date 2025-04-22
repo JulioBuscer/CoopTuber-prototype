@@ -1,9 +1,14 @@
 import { Component, createSignal } from 'solid-js';
+import Score from './Score';
 
 interface AvatarProps {
   eyesClosed: boolean;
   mouthOpen: boolean;
   characterId?: string;
+
+  eyeBlinkLeftScore: number;
+  eyeBlinkRightScore: number;
+  jawOpenScore: number;
 }
 
 const Avatar: Component<AvatarProps> = (props) => {
@@ -19,29 +24,41 @@ const Avatar: Component<AvatarProps> = (props) => {
 
   return (
     <div
-      style={{
-        'width': '100%',
-        'height': '100%',
-        'display': 'flex',
-        'justify-content': 'center',
-        'align-items': 'center',
-        'overflow': 'hidden',
-
-      }}
+      style={{ display: 'flex', 'flex-direction': 'column', gap: '8px', width: '100%', height: '100%', padding: '8px' }}
     >
-      <img
-        src={getImagePath()}
-        alt="Avatar"
+      <div
         style={{
-          'object-fit': 'contain',
-          'max-width': '100%',
-          'max-height': '100%',
-          'width': 'auto',
-          'height': 'auto',
-          transform: 'scaleX(1)'
+          'width': '100%',
+          'height': '100%',
+          'display': 'flex',
+          'justify-content': 'center',
+          'align-items': 'center',
+          'overflow': 'hidden',
+          'background-color': '#00FF00',
+          padding: '8px',
         }}
-      />
+      >
+        <img
+          src={getImagePath()}
+          alt="Avatar"
+          style={{
+            'object-fit': 'contain',
+            'max-width': '100%',
+            'max-height': '100%',
+            'width': 'auto',
+            'height': 'auto',
+            transform: 'scaleX(1)'
+          }}
+        />
+      </div>
+
+      <Score
+        faceName={props.characterId!}
+        eyeBlinkLeftScore={props.eyeBlinkLeftScore}
+        eyeBlinkRightScore={props.eyeBlinkRightScore}
+        jawOpenScore={props.jawOpenScore} />
     </div>
+
   );
 };
 
