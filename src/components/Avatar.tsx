@@ -18,21 +18,27 @@ const Avatar: Component<AvatarProps> = (props) => {
   };
 
   return (
-    <div class="avatar-container" style={{
-      'background-color': '#00FF00',
-      'width': '480px',
-      'height': '480px',
-      'display': 'flex',
-      'justify-content': 'center',
-      'align-items': 'center'
-    }}>
+    <div
+      style={{
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justify-content': 'center',
+        'align-items': 'center',
+        'overflow': 'hidden',
+
+      }}
+    >
       <img
         src={getImagePath()}
         alt="Avatar"
         style={{
+          'object-fit': 'contain',
           'max-width': '100%',
           'max-height': '100%',
-          'object-fit': 'contain'
+          'width': 'auto',
+          'height': 'auto',
+          transform: 'scaleX(1)'
         }}
       />
     </div>
