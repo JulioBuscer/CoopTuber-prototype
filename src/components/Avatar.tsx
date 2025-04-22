@@ -1,64 +1,57 @@
-import { Component, createSignal } from 'solid-js';
 import Score from './Score';
 
 interface AvatarProps {
+  characterId: string;
   eyesClosed: boolean;
   mouthOpen: boolean;
-  characterId?: string;
-
   eyeBlinkLeftScore: number;
   eyeBlinkRightScore: number;
   jawOpenScore: number;
 }
 
-const Avatar: Component<AvatarProps> = (props) => {
-  const [currentImage, setCurrentImage] = createSignal('normal');
-
-  const getImagePath = () => {
-    const folder = props.characterId || 'face1';
-    if (props.eyesClosed && props.mouthOpen) return `/avatars/${folder}/blinkTalk.png`;
-    if (props.eyesClosed) return `/avatars/${folder}/blink.png`;
-    if (props.mouthOpen) return `/avatars/${folder}/talking.png`;
-    return `/avatars/${folder}/normal.png`;
+const Avatar = (props: AvatarProps) => {
+  const getAvatarImage = () => {
+    const baseDir = `/avatars/${props.characterId}`;
+    if (props.eyesClosed && props.mouthOpen) {
+      return `${baseDir}/blinkTalk.png`;
+    } else if (props.eyesClosed) {
+      return `${baseDir}/blink.png`;
+    } else if (props.mouthOpen) {
+      return `${baseDir}/talking.png`;
+    } else {
+      return `${baseDir}/normal.png`;
+    }
   };
 
   return (
     <div
-      style={{ display: 'flex', 'flex-direction': 'column', gap: '8px', width: '100%', height: '100%', padding: '8px' }}
+      style={{
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justify-content': 'center',
+        'align-items': 'center',
+        'background-color': '#2a2a2a',
+        'border-radius': '10px',
+        'overflow': 'hidden'
+      }}
     >
-      <div
+      <img
+        src={getAvatarImage()}
+        alt={`Avatar ${props.characterId}`}
         style={{
-          'width': '100%',
-          'height': '100%',
-          'display': 'flex',
-          'justify-content': 'center',
-          'align-items': 'center',
-          'overflow': 'hidden',
-          'background-color': '#00FF00',
-          padding: '8px',
+          'max-width': '100%',
+          'max-height': '100%',
+          'object-fit': 'contain'
         }}
-      >
-        <img
-          src={getImagePath()}
-          alt="Avatar"
-          style={{
-            'object-fit': 'contain',
-            'max-width': '100%',
-            'max-height': '100%',
-            'width': 'auto',
-            'height': 'auto',
-            transform: 'scaleX(1)'
-          }}
-        />
-      </div>
-
+      />
       <Score
-        faceName={props.characterId!}
+        faceName={props.characterId}
         eyeBlinkLeftScore={props.eyeBlinkLeftScore}
         eyeBlinkRightScore={props.eyeBlinkRightScore}
-        jawOpenScore={props.jawOpenScore} />
+        jawOpenScore={props.jawOpenScore} 
+      />
     </div>
-
   );
 };
 

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Avatar Viewer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .avatar {
+            width: 400px;
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #2a2a2a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        #backgroundVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 1px;
+            opacity: 0.01;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video en segundo plano para mantener el procesamiento -->
+    <video id="backgroundVideo" src="/video.mp4" loop muted playsinline autoplay disablepictureinpicture></video>
+
+    <div class="container">
+        <div class="avatar">
+            <img id="avatar1" src="/avatars/face1/normal.png" alt="Avatar 1">
+        </div>
+        <div class="avatar">
+            <img id="avatar2" src="/avatars/face2/normal.png" alt="Avatar 2">
+        </div>
+    </div>
+
+    <script>
+        // Configurar el video en segundo plano
+        const backgroundVideo = document.getElementById('backgroundVideo');
+        backgroundVideo.defaultPlaybackRate = 1.0;
+        backgroundVideo.playbackRate = 1.0;
+
+        // Intentar mantener el video reproduciéndose
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                backgroundVideo.play().catch(console.error);
+            }
+        });
+
+        // Reiniciar si se pausa
+        backgroundVideo.addEventListener('pause', () => {
+            backgroundVideo.play().catch(console.error);
+        });
+
+        // Asegurarse de que el video esté cargado y reproduciéndose
+        backgroundVideo.addEventListener('loadedmetadata', () => {
+            backgroundVideo.play().catch(console.error);
+        });
+
+        const avatar1 = document.getElementById('avatar1');
+        const avatar2 = document.getElementById('avatar2');
+
+        function getAvatarImage(characterId, eyesClosed, mouthOpen) {
+            const baseDir = `/avatars/${characterId}`;
+            if (eyesClosed && mouthOpen) {
+                return `${baseDir}/blinkTalk.png`;
+            } else if (eyesClosed) {
+                return `${baseDir}/blink.png`;
+            } else if (mouthOpen) {
+                return `${baseDir}/talking.png`;
+            } else {
+                return `${baseDir}/normal.png`;
+            }
+        }
+
+        async function updateAvatars() {
+            try {
+                const response = await fetch('/avatar-state', {
+                    headers: {
+                        'Cache-Control': 'no-cache, no-store, must-revalidate',
+                        'Pragma': 'no-cache',
+                        'Expires': '0'
+                    }
+                });
+                const state = await response.json();
+
+                // Actualizar avatar 1
+                const newSrc1 = getAvatarImage('face1', state.eyesClosedP1, state.mouthOpenP1);
+                if (avatar1.src !== newSrc1) {
+                    avatar1.src = newSrc1;
+                }
+
+                // Actualizar avatar 2
+                const newSrc2 = getAvatarImage('face2', state.eyesClosedP2, state.mouthOpenP2);
+                if (avatar2.src !== newSrc2) {
+                    avatar2.src = newSrc2;
+                }
+
+            } catch (error) {
+                console.error('Error fetching avatar state:', error);
+            }
+        }
+
+        // Actualizar cada 16ms (aproximadamente 60fps)
+        setInterval(updateAvatars, 16);
+
+        // Solicitar permiso para mantener la pantalla activa
+        if ('wakeLock' in navigator) {
+            (async () => {
+                try {
+                    // @ts-ignore
+                    const wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Wake Lock activado');
+                    
+                    document.addEventListener('visibilitychange', async () => {
+                        if (document.visibilityState === 'visible') {
+                            // @ts-ignore
+                            await navigator.wakeLock.request('screen');
+                            console.log('Wake Lock reactivado');
+                        }
+                    });
+                } catch (err) {
+                    console.error('Error al activar Wake Lock:', err);
+                }
+            })();
+        }
+    </script>
+</body>
+</html>
