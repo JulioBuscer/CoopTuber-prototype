@@ -1,5 +1,6 @@
 #root {
   max-width: 1280px;
+  width: auto;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -11,17 +12,31 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.solid:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 .card {
   padding: 2em;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background-color: #242424;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .read-the-docs {
   color: #888;
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
 }
