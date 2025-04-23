@@ -15,7 +15,6 @@ interface AvatarProps {
 }
 
 const Avatar: Component<AvatarProps> = (props) => {
-  const [currentImage, setCurrentImage] = createSignal('normal');
   const [rateEyesClosed, setRateEyesClosed] = props.rateEyesClosed;
   const [rateMouthOpen, setRateMouthOpen] = props.rateMouthOpen;
 
@@ -29,17 +28,19 @@ const Avatar: Component<AvatarProps> = (props) => {
 
   return (
     <div
-      style={{ display: 'flex', 'flex-direction': 'column', gap: '8px', width: '100%', height: '100%', padding: '8px' }}
+      style={{
+        display: 'flex',
+        'flex-direction': 'column',
+        gap: '8px',
+        'aspect-ratio': '16/9',
+        padding: '8px'
+      }}
     >
+      <h3>{props.characterId =='face1' ? 'P1' : 'P2'}</h3>
       <div
+        id={props.characterId == 'face1' ? 'P1' : 'P2'}
         style={{
-          'width': '100%',
-          'height': '100%',
-          'display': 'flex',
-          'justify-content': 'center',
-          'align-items': 'center',
-          'overflow': 'hidden',
-          'background-color': '#00FF00',
+          overflow: 'hidden',
           padding: '8px',
         }}
       >
@@ -52,11 +53,20 @@ const Avatar: Component<AvatarProps> = (props) => {
             'max-height': '100%',
             'width': 'auto',
             'height': 'auto',
+            'background-color': '#00FF00',
             transform: 'scaleX(1)'
           }}
         />
       </div>
-      <div>
+      <div style={{ display: 'flex', gap: '8px', 'flex-direction': 'column', 'align-items': 'start' }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <label for="rateMouthOpen">Rate Mouth Open:</label>
+          <input type="number" id="rateMouthOpen" min="0" max="1" step="0.01" value={rateMouthOpen()} onChange={(e) => setRateMouthOpen(parseFloat(e.target.value))} />
+        </div>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <label for="rateEyesClosed">Rate Eyes Closed:</label>
+          <input type="number" id="rateEyesClosed" min="0" max="1" step="0.01" value={rateEyesClosed()} onChange={(e) => setRateEyesClosed(parseFloat(e.target.value))} />
+        </div>
       </div>
 
       <Score
@@ -64,8 +74,8 @@ const Avatar: Component<AvatarProps> = (props) => {
         eyeBlinkLeftScore={props.eyeBlinkLeftScore}
         eyeBlinkRightScore={props.eyeBlinkRightScore}
         jawOpenScore={props.jawOpenScore}
-        rateEyesClosed={rateEyesClosed()}
-        rateMouthOpen={rateMouthOpen()}
+        rateEyesClosed={[rateEyesClosed, setRateEyesClosed]}
+        rateMouthOpen={[rateMouthOpen, setRateMouthOpen]}
       />
     </div>
   );

@@ -1,12 +1,5 @@
 import { FaceLandmarker, DrawingUtils, FilesetResolver } from "@mediapipe/tasks-vision";
 
-type blendshapesCategory = {
-    index: number,
-    score: number;
-    categoryName: string;
-    displayName: string
-}
-
 export class FaceLandmarkDetector {
     private faceLandmarker: FaceLandmarker | null = null; // Inicializar como null
     private drawingUtils!: DrawingUtils;
@@ -106,6 +99,18 @@ export class FaceLandmarkDetector {
                     landmarks,
                     FaceLandmarker.FACE_LANDMARKS_LIPS,
                     { color: '#816AF7', lineWidth: 1 }
+                );
+
+                // Dibujar los puntos de la mandíbula
+                this.drawingUtils.drawConnectors(
+                    landmarks,
+                    FaceLandmarker.FACE_LANDMARKS_LEFT_EYEBROW,
+                    { color: '#30FF30', lineWidth: 1 }
+                );
+                this.drawingUtils.drawConnectors(
+                    landmarks,
+                    FaceLandmarker.FACE_LANDMARKS_RIGHT_EYEBROW,
+                    { color: '#30FF30', lineWidth: 1 }
                 );
             }
         } else {
