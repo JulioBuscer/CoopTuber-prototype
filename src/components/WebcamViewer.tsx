@@ -160,15 +160,21 @@ const WebcamViewer = () => {
             }}
         >
 
-            <div
-                class="webcam-container"
-            >
+            <div class="card webcam-container"
+            style={{
+                display: "flex",
+                "aspect-ratio": "16/9",
+                padding: "8px",
+            }}>
                 <video ref={el => (videoRef = el!)} autoplay muted playsinline />
                 <canvas
                     ref={el => (canvasRef = el!)}
                     width={1920}
                     height={1080}
-                    style="width: 100%; height: 100%; object-fit: cover;"
+                    style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;"
                 />
             </div>
             <div
@@ -176,15 +182,13 @@ const WebcamViewer = () => {
                     display: "flex",
                     "flex-direction": "column",
                     gap: "20px",
-                    'width': '1920px',
-                    'height': 'auto',
                     'max-width': '100%',
                     'aspect-ratio': '16/9',
                     //'background-color': '#00FF00',
                     padding: '5px',
                 }}>
                 <Avatar
-                    characterId="face1"
+                    characterId="P1"
                     eyesClosed={eyesClosedP1()}
                     mouthOpen={mouthOpenP1()}
                     eyeBlinkLeftScore={eyeBlinkLeftScoreP1()}
@@ -195,7 +199,7 @@ const WebcamViewer = () => {
                 />
 
                 <Avatar
-                    characterId="face2"
+                    characterId="P2"
                     eyesClosed={eyesClosedP2()}
                     mouthOpen={mouthOpenP2()}
                     eyeBlinkLeftScore={eyeBlinkLeftScoreP2()}
@@ -205,9 +209,6 @@ const WebcamViewer = () => {
                     rateMouthOpen={[rateMouthOpenP2, setRateMouthOpenP2]}
                 />
             </div>
-
-
-
         </div>
     );
 };

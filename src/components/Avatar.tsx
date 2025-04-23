@@ -18,8 +18,14 @@ const Avatar: Component<AvatarProps> = (props) => {
   const [rateEyesClosed, setRateEyesClosed] = props.rateEyesClosed;
   const [rateMouthOpen, setRateMouthOpen] = props.rateMouthOpen;
 
+  try {
+    //Trataremos de obtener de localStorage 
+  } catch (error) {
+
+  }
+
   const getImagePath = () => {
-    const folder = props.characterId || 'face1';
+    const folder = props.characterId!;
     if (props.eyesClosed && props.mouthOpen) return `/avatars/${folder}/blinkTalk.png`;
     if (props.eyesClosed) return `/avatars/${folder}/blink.png`;
     if (props.mouthOpen) return `/avatars/${folder}/talking.png`;
@@ -28,6 +34,7 @@ const Avatar: Component<AvatarProps> = (props) => {
 
   return (
     <div
+      class="card avatar-container"
       style={{
         display: 'flex',
         'flex-direction': 'column',
@@ -36,7 +43,7 @@ const Avatar: Component<AvatarProps> = (props) => {
         padding: '8px'
       }}
     >
-      <h3>{props.characterId =='face1' ? 'P1' : 'P2'}</h3>
+      <h3>{props.characterId == 'face1' ? 'P1' : 'P2'}</h3>
       <div
         id={props.characterId == 'face1' ? 'P1' : 'P2'}
         style={{
@@ -58,15 +65,33 @@ const Avatar: Component<AvatarProps> = (props) => {
           }}
         />
       </div>
-      <div style={{ display: 'flex', gap: '8px', 'flex-direction': 'column', 'align-items': 'start' }}>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <label for="rateMouthOpen">Rate Mouth Open:</label>
-          <input type="number" id="rateMouthOpen" min="0" max="1" step="0.01" value={rateMouthOpen()} onChange={(e) => setRateMouthOpen(parseFloat(e.target.value))} />
-        </div>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <label for="rateEyesClosed">Rate Eyes Closed:</label>
-          <input type="number" id="rateEyesClosed" min="0" max="1" step="0.01" value={rateEyesClosed()} onChange={(e) => setRateEyesClosed(parseFloat(e.target.value))} />
-        </div>
+      <div style={{
+        display: 'grid',
+        gap: '8px',
+        'grid-template-columns': '20ch 10ch',
+        'align-items': 'start',
+        'justify-content': 'start',
+        'width': '100%',
+        'text-align': 'end'
+      }}>
+        <label for="rateMouthOpen">Rate Mouth Open:</label>
+        <input id="rateMouthOpen"
+          type="number"
+          min="0"
+          max="1"
+          step="0.01"
+          value={rateMouthOpen()}
+          onChange={(e) => setRateMouthOpen(parseFloat(e.target.value))}
+        />
+        <label for="rateEyesClosed">Rate Eyes Closed:</label>
+        <input id="rateEyesClosed"
+          type="number"
+          min="0"
+          max="1"
+          step="0.01"
+          value={rateEyesClosed()}
+          onChange={(e) => setRateEyesClosed(parseFloat(e.target.value))}
+        />
       </div>
 
       <Score
