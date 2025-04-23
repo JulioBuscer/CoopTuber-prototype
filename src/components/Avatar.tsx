@@ -1,4 +1,4 @@
-import { Component, createSignal } from 'solid-js';
+import { Component, createSignal, Signal } from 'solid-js';
 import Score from './Score';
 
 interface AvatarProps {
@@ -9,10 +9,15 @@ interface AvatarProps {
   eyeBlinkLeftScore: number;
   eyeBlinkRightScore: number;
   jawOpenScore: number;
+
+  rateEyesClosed: Signal<number>;
+  rateMouthOpen: Signal<number>;
 }
 
 const Avatar: Component<AvatarProps> = (props) => {
   const [currentImage, setCurrentImage] = createSignal('normal');
+  const [rateEyesClosed, setRateEyesClosed] = props.rateEyesClosed;
+  const [rateMouthOpen, setRateMouthOpen] = props.rateMouthOpen;
 
   const getImagePath = () => {
     const folder = props.characterId || 'face1';
@@ -51,12 +56,17 @@ const Avatar: Component<AvatarProps> = (props) => {
           }}
         />
       </div>
+      <div>
+      </div>
 
       <Score
         faceName={props.characterId!}
         eyeBlinkLeftScore={props.eyeBlinkLeftScore}
         eyeBlinkRightScore={props.eyeBlinkRightScore}
-        jawOpenScore={props.jawOpenScore} />
+        jawOpenScore={props.jawOpenScore}
+        rateEyesClosed={rateEyesClosed()}
+        rateMouthOpen={rateMouthOpen()}
+      />
     </div>
   );
 };

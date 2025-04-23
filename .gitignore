@@ -25,3 +25,8 @@ dist-ssr
 *.sw?
 
 *.mp4
+
+#carpeta de imagenes
+public/avatars/*.png
+public/avatars/face1/*.png
+public/avatars/face2/*.png
