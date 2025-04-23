@@ -13,23 +13,46 @@ interface AvatarProps {
   rateEyesClosed: Signal<number>;
   rateMouthOpen: Signal<number>;
 }
+interface AvatarState {
+  imagePaths: {
+    'normal': string;
+    'blink': string;
+    'talking': string;
+    'blinkTalk': string;
+  };
+}
 
 const Avatar: Component<AvatarProps> = (props) => {
   const [rateEyesClosed, setRateEyesClosed] = props.rateEyesClosed;
   const [rateMouthOpen, setRateMouthOpen] = props.rateMouthOpen;
+  const [imagePaths, setImagePaths] = createSignal<AvatarState['imagePaths'] | null>(null);
 
   try {
-    //Trataremos de obtener de localStorage 
+    //Trataremos de obtener de localStorage las 4 imagenes de cada personaje, de lo contrario lo obtenemos de la carpeta public
+    setImagePaths(localStorage.getItem(`avatar-${props.characterId}`) ? JSON.parse(localStorage.getItem(`avatar-${props.characterId}`)!) : null);
+    if (!imagePaths()) {
+      localStorage.setItem(`avatar-${props.characterId}`, JSON.stringify({
+        normal: `/avatars/${props.characterId}/normal.png`,
+        blink: `/avatars/${props.characterId}/blink.png`,
+        talking: `/avatars/${props.characterId}/talking.png`,
+        blinkTalk: `/avatars/${props.characterId}/blinkTalk.png`,
+      }));
+      setImagePaths({
+        normal: `/avatars/${props.characterId}/normal.png`,
+        blink: `/avatars/${props.characterId}/blink.png`,
+        talking: `/avatars/${props.characterId}/talking.png`,
+        blinkTalk: `/avatars/${props.characterId}/blinkTalk.png`,
+      });
+    }
   } catch (error) {
-
+    console.error("Error al acceder a localStorage", error);
   }
 
   const getImagePath = () => {
-    const folder = props.characterId!;
-    if (props.eyesClosed && props.mouthOpen) return `/avatars/${folder}/blinkTalk.png`;
-    if (props.eyesClosed) return `/avatars/${folder}/blink.png`;
-    if (props.mouthOpen) return `/avatars/${folder}/talking.png`;
-    return `/avatars/${folder}/normal.png`;
+    if (props.eyesClosed && props.mouthOpen) return imagePaths()?.blinkTalk;
+    if (props.eyesClosed) return imagePaths()?.blink;
+    if (props.mouthOpen) return imagePaths()?.talking;
+    return imagePaths()?.normal;
   };
 
   return (
@@ -43,12 +66,30 @@ const Avatar: Component<AvatarProps> = (props) => {
         padding: '8px'
       }}
     >
-      <h3>{props.characterId == 'face1' ? 'P1' : 'P2'}</h3>
+      <h3>{props.characterId ?? 'P1'}</h3>
       <div
         id={props.characterId == 'face1' ? 'P1' : 'P2'}
         style={{
           overflow: 'hidden',
           padding: '8px',
+          position: 'relative',
+          width: '100%'
+        }}
+        on:mouseover={(e) => {
+          const target = e.currentTarget.querySelector(`#avatar-images-${props.characterId}`);
+          if (target) {
+            target.style.display = 'flex';
+            target.style.transition = 'all 0.5s ease-in-out';
+            target.style.opacity = '1';
+          }
+        }}
+        on:mouseout={(e) => {
+          const target = e.currentTarget.querySelector(`#avatar-images-${props.characterId}`);
+          if (target) {
+            target.style.display = 'none';
+            target.style.transition = 'all 0.5s ease-in-out';
+            target.style.opacity = '0';
+          }
         }}
       >
         <img
@@ -64,7 +105,118 @@ const Avatar: Component<AvatarProps> = (props) => {
             transform: 'scaleX(1)'
           }}
         />
+
+        <div
+          id={`avatar-images-${props.characterId}`}
+          style={{
+            position: 'absolute',
+            top: '0',
+            left: '-1',
+            display: 'none',
+            gap: '16px',
+            'flex-direction': 'column',
+            'justify-content': 'space-evenly',
+            'align-items': 'center',
+            'width': '100%',
+            'z-index': '5',
+          }}
+
+        >
+          {imagePaths() && (
+            <div style={{
+              display: 'flex',
+              gap: '8px',
+              'flex-direction': 'column',
+              'align-items': 'center',
+            }}>
+              <label for="normal">Normal</label>
+              <img
+                src={imagePaths()!.normal}
+                alt="Avatar"
+                style={{
+                  'object-fit': 'contain',
+                  'max-width': '128px',
+                  'max-height': '128px',
+                  'width': 'auto',
+                  'height': 'auto',
+                  'background-color': '#00FF00',
+                  transform: 'scaleX(1)'
+                }}
+              />
+            </div>
+          )}
+          {imagePaths() && (
+            <div style={{
+              display: 'flex',
+              gap: '8px',
+              'flex-direction': 'column',
+              'align-items': 'center',
+            }}>
+              <label for="blink">Blink</label>
+              <img
+                src={imagePaths()!.blink}
+                alt="Avatar"
+                style={{
+                  'object-fit': 'contain',
+                  'max-width': '128px',
+                  'max-height': '128px',
+                  'width': 'auto',
+                  'height': 'auto',
+                  'background-color': '#00FF00',
+                  transform: 'scaleX(1)'
+                }}
+              />
+            </div>
+          )}
+          {imagePaths() && (
+            <div style={{
+              display: 'flex',
+              gap: '8px',
+              'flex-direction': 'column',
+              'align-items': 'center',
+            }}>
+              <label for="talking">Talking</label>
+              <img
+                src={imagePaths()!.talking}
+                alt="Avatar"
+                style={{
+                  'object-fit': 'contain',
+                  'max-width': '128px',
+                  'max-height': '128px',
+                  'width': 'auto',
+                  'height': 'auto',
+                  'background-color': '#00FF00',
+                  transform: 'scaleX(1)'
+                }}
+              />
+            </div>
+          )}
+          {imagePaths() && (
+            <div style={{
+              display: 'flex',
+              gap: '8px',
+              'flex-direction': 'column',
+              'align-items': 'center',
+            }}>
+              <label for="blinkTalk">Blink Talk</label>
+              <img
+                src={imagePaths()!.blinkTalk}
+                alt="Avatar"
+                style={{
+                  'object-fit': 'contain',
+                  'max-width': '128px',
+                  'max-height': '128px',
+                  'width': 'auto',
+                  'height': 'auto',
+                  'background-color': '#00FF00',
+                  transform: 'scaleX(1)'
+                }}
+              />
+            </div>
+          )}
+        </div>
       </div>
+
       <div style={{
         display: 'grid',
         gap: '8px',
@@ -102,7 +254,7 @@ const Avatar: Component<AvatarProps> = (props) => {
         rateEyesClosed={[rateEyesClosed, setRateEyesClosed]}
         rateMouthOpen={[rateMouthOpen, setRateMouthOpen]}
       />
-    </div>
+    </div >
   );
 };
 
