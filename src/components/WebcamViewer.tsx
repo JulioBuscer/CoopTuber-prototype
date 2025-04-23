@@ -39,8 +39,8 @@ const WebcamViewer = () => {
             // Solicitar acceso a la cámara
             const stream = await navigator.mediaDevices.getUserMedia({
                 video: {
-                    width: 640, //Ancho deseado
-                    height: 480, //Alto deseado
+                    width: 1920, //Ancho deseado
+                    height: 1080, //Alto deseado
                     facingMode: "user" // usar la camara frontal
                 }
             });
@@ -98,8 +98,8 @@ const WebcamViewer = () => {
                             setEyeBlinkRightScoreP1(eyeBlinkRight);
                             setJawOpenScoreP1(jawOpen);
 
-                            setEyesClosedP1((eyeBlinkLeft + eyeBlinkRight) / 2 > 0.4);
-                            setMouthOpenP1(jawOpen > 0.09);
+                            setEyesClosedP1((eyeBlinkLeft + eyeBlinkRight) / 2 > 0.2);
+                            setMouthOpenP1(jawOpen > 0.07);
                         }
                         if (results.faceBlendshapes[1]) {
                             const blendshapes = results.faceBlendshapes[1];
@@ -115,8 +115,8 @@ const WebcamViewer = () => {
                             setEyeBlinkRightScoreP2(eyeBlinkRight);
                             setJawOpenScoreP2(jawOpen);
 
-                            setEyesClosedP2((eyeBlinkLeft + eyeBlinkRight) / 2 > 0.4);
-                            setMouthOpenP2(jawOpen > 0.09);
+                            setEyesClosedP2((eyeBlinkLeft + eyeBlinkRight) / 2 > 0.2);
+                            setMouthOpenP2(jawOpen > 0.07);
                         }
 
                         det.drawResults(results);
@@ -179,7 +179,7 @@ const WebcamViewer = () => {
 
             <div
                 class="webcam-container"
-                style="position: relative; width: 640px; height: 480px;"
+                style="position: relative; "
             >
                 <video ref={el => (videoRef = el!)} autoplay muted playsinline />
                 <canvas
