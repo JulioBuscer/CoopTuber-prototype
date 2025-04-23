@@ -58,7 +58,6 @@ const Avatar: Component<AvatarProps> = (props) => {
         eyeBlinkRightScore={props.eyeBlinkRightScore}
         jawOpenScore={props.jawOpenScore} />
     </div>
-
   );
 };
 
