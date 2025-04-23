@@ -23,6 +23,11 @@ const WebcamViewer = () => {
     const [eyeBlinkRightScoreP2, setEyeBlinkRightScoreP2] = createSignal(0);
     const [jawOpenScoreP2, setJawOpenScoreP2] = createSignal(0);
 
+    const [rateEyesClosedP1, setRateEyesClosedP1] = createSignal(0.02);
+    const [rateEyesClosedP2, setRateEyesClosedP2] = createSignal(0.02);
+    const [rateMouthOpenP1, setRateMouthOpenP1] = createSignal(0.07);
+    const [rateMouthOpenP2, setRateMouthOpenP2] = createSignal(0.07);
+
     let videoRef: HTMLVideoElement | undefined;
     let canvasRef: HTMLCanvasElement | undefined;
     const [detector, setDetector] = createSignal<FaceLandmarkDetector | null>(null);
@@ -41,7 +46,8 @@ const WebcamViewer = () => {
                 video: {
                     width: 1920, //Ancho deseado
                     height: 1080, //Alto deseado
-                    facingMode: "user" // usar la camara frontal
+                    facingMode: "user", // usar la camara frontal
+                    aspectRatio: 16 / 9, // Proporcion deseada
                 }
             });
             //Asignar el stream al elemento video
@@ -98,8 +104,8 @@ const WebcamViewer = () => {
                             setEyeBlinkRightScoreP1(eyeBlinkRight);
                             setJawOpenScoreP1(jawOpen);
 
-                            setEyesClosedP1((eyeBlinkLeft + eyeBlinkRight) / 2 > 0.2);
-                            setMouthOpenP1(jawOpen > 0.07);
+                            setEyesClosedP1((eyeBlinkLeft + eyeBlinkRight) / 2 > rateEyesClosedP1());
+                            setMouthOpenP1(jawOpen > rateMouthOpenP1());
                         }
                         if (results.faceBlendshapes[1]) {
                             const blendshapes = results.faceBlendshapes[1];
@@ -115,8 +121,8 @@ const WebcamViewer = () => {
                             setEyeBlinkRightScoreP2(eyeBlinkRight);
                             setJawOpenScoreP2(jawOpen);
 
-                            setEyesClosedP2((eyeBlinkLeft + eyeBlinkRight) / 2 > 0.2);
-                            setMouthOpenP2(jawOpen > 0.07);
+                            setEyesClosedP2((eyeBlinkLeft + eyeBlinkRight) / 2 > rateEyesClosedP2());
+                            setMouthOpenP2(jawOpen > rateMouthOpenP2());
                         }
 
                         det.drawResults(results);
@@ -149,8 +155,20 @@ const WebcamViewer = () => {
         >
 
             <div
+                class="webcam-container"
+            >
+                <video ref={el => (videoRef = el!)} autoplay muted playsinline />
+                <canvas
+                    ref={el => (canvasRef = el!)}
+                    width={1920}
+                    height={1080}
+                    style="width: 100%; height: 100%; object-fit: cover;"
+                />
+            </div>
+            <div
                 style={{
                     display: "flex",
+                    "flex-direction": "column",
                     gap: "20px",
                     'width': '1920px',
                     'height': 'auto',
@@ -166,7 +184,10 @@ const WebcamViewer = () => {
                     eyeBlinkLeftScore={eyeBlinkLeftScoreP1()}
                     eyeBlinkRightScore={eyeBlinkRightScoreP1()}
                     jawOpenScore={jawOpenScoreP1()}
+                    rateEyesClosed={[rateEyesClosedP1, setRateEyesClosedP1]}
+                    rateMouthOpen={[rateMouthOpenP1, setRateMouthOpenP1]}
                 />
+
                 <Avatar
                     characterId="face2"
                     eyesClosed={eyesClosedP2()}
@@ -174,21 +195,11 @@ const WebcamViewer = () => {
                     eyeBlinkLeftScore={eyeBlinkLeftScoreP2()}
                     eyeBlinkRightScore={eyeBlinkRightScoreP2()}
                     jawOpenScore={jawOpenScoreP2()}
+                    rateEyesClosed={[rateEyesClosedP2, setRateEyesClosedP2]}
+                    rateMouthOpen={[rateMouthOpenP2, setRateMouthOpenP2]}
                 />
             </div>
 
-            <div
-                class="webcam-container"
-                style="position: relative; "
-            >
-                <video ref={el => (videoRef = el!)} autoplay muted playsinline />
-                <canvas
-                    ref={el => (canvasRef = el!)}
-                    width={1920}
-                    height={1080}
-                    style="width: 100%; height: 100%; object-fit: cover;"
-                />
-            </div>
 
 
         </div>
