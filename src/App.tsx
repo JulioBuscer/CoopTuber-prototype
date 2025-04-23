@@ -5,7 +5,7 @@ function App() {
 
   return (
     <div class='app-container'>
-      <h1>Mi Vtuber Prototype</h1>
+      <h1>CoopTuber</h1>
       <WebcamViewer />
     </div>
   )

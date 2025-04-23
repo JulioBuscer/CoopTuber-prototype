@@ -1,7 +1,6 @@
 import Avatar from "./Avatar";
 import { createSignal, onCleanup, onMount } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
-import Score from "./Score";
 
 type BlendshapesCategory = {
     categoryName: string;
@@ -23,7 +22,7 @@ const WebcamViewer = () => {
     const [eyeBlinkRightScoreP2, setEyeBlinkRightScoreP2] = createSignal(0);
     const [jawOpenScoreP2, setJawOpenScoreP2] = createSignal(0);
 
-    const [rateEyesClosedP1, setRateEyesClosedP1] = createSignal(0.02);
+    const [rateEyesClosedP1, setRateEyesClosedP1] = createSignal(0.05);
     const [rateEyesClosedP2, setRateEyesClosedP2] = createSignal(0.02);
     const [rateMouthOpenP1, setRateMouthOpenP1] = createSignal(0.07);
     const [rateMouthOpenP2, setRateMouthOpenP2] = createSignal(0.07);
@@ -41,21 +40,27 @@ const WebcamViewer = () => {
 
     onMount(async () => {
         try {
-            // Solicitar acceso a la cámara
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: {
-                    width: 1920, //Ancho deseado
-                    height: 1080, //Alto deseado
-                    facingMode: "user", // usar la camara frontal
-                    aspectRatio: 16 / 9, // Proporcion deseada
-                }
-            });
-            //Asignar el stream al elemento video
-            videoRef!.srcObject = stream;
-            //setVideoStream(stream);
+            try {
+                // Solicitar acceso a la cámara
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: 1920, //Ancho deseado
+                        height: 1080, //Alto deseado
+                        facingMode: "user", // usar la camara frontal
+                        aspectRatio: 16 / 9, // Proporcion deseada
+                    }
+                });
+                //Asignar el stream al elemento video
+                videoRef!.srcObject = stream;
+            } catch (error) {
+                console.error("Error al acceder a la cámara", error);
+                alert("¡Necesitas permitir el acceso a la cámara para usar esta app! 😅");
+            }
 
             // Usar video estático en lugar de webcam
             const video = videoRef!;
+            
+
             video.onerror = (e) => console.error("Video error:", e);
 
             // Forzar tamaño de canvas y video
@@ -70,10 +75,11 @@ const WebcamViewer = () => {
                 left: "0",
             });
 
-            //video.src = "/video.mp4";
-            //video.loop = true;
-            //video.muted = true;
-            //await video.play();
+            video.src = "/video.mp4";
+            video.loop = true;
+            video.muted = true;
+            await video.play();
+
 
             const landmarkDetector = new FaceLandmarkDetector(canvas);
             await landmarkDetector.initialize();
