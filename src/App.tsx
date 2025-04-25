@@ -5,7 +5,7 @@ function App() {
 
   return (
     <div class='app-container'>
-      <h1>CoopTuber</h1>
+      <h1 >CoopTuber</h1>
       <WebcamViewer />
     </div>
   )

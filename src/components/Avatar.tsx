@@ -26,6 +26,8 @@ const Avatar: Component<AvatarProps> = (props) => {
   const [rateEyesClosed, setRateEyesClosed] = props.rateEyesClosed;
   const [rateMouthOpen, setRateMouthOpen] = props.rateMouthOpen;
   const [imagePaths, setImagePaths] = createSignal<AvatarState['imagePaths'] | null>(null);
+  const [isMirror, setIsMirror] = createSignal(false);
+  
 
   try {
     //Trataremos de obtener de localStorage las 4 imagenes de cada personaje, de lo contrario lo obtenemos de la carpeta public
@@ -62,7 +64,6 @@ const Avatar: Component<AvatarProps> = (props) => {
         display: 'flex',
         'flex-direction': 'column',
         gap: '8px',
-        'aspect-ratio': '16/9',
         padding: '8px'
       }}
     >
@@ -86,25 +87,30 @@ const Avatar: Component<AvatarProps> = (props) => {
         on:mouseout={(e) => {
           const target = e.currentTarget.querySelector(`#avatar-images-${props.characterId}`);
           if (target) {
-            target.style.display = 'none';
             target.style.transition = 'all 0.5s ease-in-out';
             target.style.opacity = '0';
           }
         }}
       >
-        <img
-          src={getImagePath()}
-          alt="Avatar"
+        <div
           style={{
-            'object-fit': 'contain',
-            'max-width': '100%',
-            'max-height': '100%',
-            'width': 'auto',
-            'height': 'auto',
-            'background-color': '#00FF00',
-            transform: 'scaleX(1)'
+            overflow: 'hidden',
+            'aspect-ratio': '16/9',
+            
           }}
-        />
+        >
+          <img
+            src={getImagePath()}
+            alt="Avatar"
+            style={{
+              width: '100%',
+              height: '100%',
+              'object-fit': 'contain',
+              'background-color': '#00FF00',
+              transform: 'scaleX(1)',
+            }}
+          />
+        </div>
 
         <div
           id={`avatar-images-${props.characterId}`}
@@ -117,7 +123,6 @@ const Avatar: Component<AvatarProps> = (props) => {
             'flex-direction': 'column',
             'justify-content': 'space-evenly',
             'align-items': 'center',
-            'width': '100%',
             'z-index': '5',
           }}
 
