@@ -28,5 +28,4 @@ dist-ssr
 
 #carpeta de imagenes
 public/avatars/*.png
-public/avatars/face1/*.png
-public/avatars/face2/*.png
+#public/avatars/*/*.png

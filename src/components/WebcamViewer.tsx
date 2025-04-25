@@ -1,6 +1,7 @@
 import Avatar from "./Avatar";
 import { createSignal, onCleanup, onMount } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
+import Score from "./Score";
 
 type BlendshapesCategory = {
     categoryName: string;
@@ -54,12 +55,13 @@ const WebcamViewer = () => {
                 videoRef!.srcObject = stream;
             } catch (error) {
                 console.error("Error al acceder a la cámara", error);
-                alert("¡Necesitas permitir el acceso a la cámara para usar esta app! 😅");
+                //alert("¡Necesitas permitir el acceso a la cámara para usar esta app! 😅");
+
             }
 
             // Usar video estático en lugar de webcam
             const video = videoRef!;
-            
+
 
             video.onerror = (e) => console.error("Video error:", e);
 
@@ -75,10 +77,6 @@ const WebcamViewer = () => {
                 left: "0",
             });
 
-            video.src = "/video.mp4";
-            video.loop = true;
-            video.muted = true;
-            await video.play();
 
 
             const landmarkDetector = new FaceLandmarkDetector(canvas);
@@ -148,24 +146,23 @@ const WebcamViewer = () => {
         }
     });
 
-    return (
-        <div
-            style={{
-                display: "flex",
-                gap: "20px",
-                "flex-direction": "column",
-                "justify-content": "center",
-                "align-items": "center",
-                padding: "20px",
-            }}
-        >
+    const handlePlayVideo = async () => {
+        if (!videoRef) return;
+        videoRef.src = "/video.mp4";
+        videoRef.loop = true;
+        videoRef.muted = true;
+        await videoRef.play();
+    };
 
-            <div class="card webcam-container"
-            style={{
-                display: "flex",
-                "aspect-ratio": "16/9",
-                padding: "8px",
-            }}>
+    return (
+        <div class="layout-panel">
+
+            <div class="card webcam-container webcam"
+                style={{
+                    display: "flex",
+                    "aspect-ratio": "16/9",
+                    padding: "8px",
+                }}>
                 <video ref={el => (videoRef = el!)} autoplay muted playsinline />
                 <canvas
                     ref={el => (canvasRef = el!)}
@@ -175,18 +172,10 @@ const WebcamViewer = () => {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;"
+                    onClick={handlePlayVideo}
                 />
             </div>
-            <div
-                style={{
-                    display: "flex",
-                    "flex-direction": "column",
-                    gap: "20px",
-                    'max-width': '100%',
-                    'aspect-ratio': '16/9',
-                    //'background-color': '#00FF00',
-                    padding: '5px',
-                }}>
+            <div class="player1">
                 <Avatar
                     characterId="P1"
                     eyesClosed={eyesClosedP1()}
@@ -197,7 +186,8 @@ const WebcamViewer = () => {
                     rateEyesClosed={[rateEyesClosedP1, setRateEyesClosedP1]}
                     rateMouthOpen={[rateMouthOpenP1, setRateMouthOpenP1]}
                 />
-
+            </div>
+            <div class="player2">
                 <Avatar
                     characterId="P2"
                     eyesClosed={eyesClosedP2()}
