@@ -27,7 +27,7 @@ const Avatar: Component<AvatarProps> = (props) => {
   const [rateMouthOpen, setRateMouthOpen] = props.rateMouthOpen;
   const [imagePaths, setImagePaths] = createSignal<AvatarState['imagePaths'] | null>(null);
   const [isMirror, setIsMirror] = createSignal(false);
-  
+
 
   try {
     //Trataremos de obtener de localStorage las 4 imagenes de cada personaje, de lo contrario lo obtenemos de la carpeta public
@@ -59,49 +59,31 @@ const Avatar: Component<AvatarProps> = (props) => {
 
   return (
     <div
-      class="card avatar-container"
-      style={{
-        display: 'flex',
-        'flex-direction': 'column',
-        gap: '8px',
-        padding: '8px'
-      }}
+      class="player"
     >
-      <h3>{props.characterId ?? 'P1'}</h3>
+      <h3 style={{
+        'text-align': 'center',
+        margin: '0',
+        padding: '0',
+      }}>{props.characterId ?? 'P1'}</h3>
       <div
         id={props.characterId == 'face1' ? 'P1' : 'P2'}
         style={{
           overflow: 'hidden',
-          padding: '8px',
           position: 'relative',
-          width: '100%'
-        }}
-        on:mouseover={(e) => {
-          const target = e.currentTarget.querySelector(`#avatar-images-${props.characterId}`);
-          if (target) {
-            target.style.display = 'flex';
-            target.style.transition = 'all 0.5s ease-in-out';
-            target.style.opacity = '1';
-          }
-        }}
-        on:mouseout={(e) => {
-          const target = e.currentTarget.querySelector(`#avatar-images-${props.characterId}`);
-          if (target) {
-            target.style.transition = 'all 0.5s ease-in-out';
-            target.style.opacity = '0';
-          }
         }}
       >
         <div
           style={{
             overflow: 'hidden',
             'aspect-ratio': '16/9',
-            
           }}
         >
           <img
             src={getImagePath()}
             alt="Avatar"
+            width={1920}
+            height={1080}
             style={{
               width: '100%',
               height: '100%',
@@ -222,44 +204,46 @@ const Avatar: Component<AvatarProps> = (props) => {
         </div>
       </div>
 
-      <div style={{
-        display: 'grid',
-        gap: '8px',
-        'grid-template-columns': '20ch 10ch',
-        'align-items': 'start',
-        'justify-content': 'start',
-        'width': '100%',
-        'text-align': 'end'
-      }}>
-        <label for="rateMouthOpen">Rate Mouth Open:</label>
-        <input id="rateMouthOpen"
-          type="number"
-          min="0"
-          max="1"
-          step="0.01"
-          value={rateMouthOpen()}
-          onChange={(e) => setRateMouthOpen(parseFloat(e.target.value))}
-        />
-        <label for="rateEyesClosed">Rate Eyes Closed:</label>
-        <input id="rateEyesClosed"
-          type="number"
-          min="0"
-          max="1"
-          step="0.01"
-          value={rateEyesClosed()}
-          onChange={(e) => setRateEyesClosed(parseFloat(e.target.value))}
-        />
-      </div>
+      <div style={{ display: 'none' }} >
+        <div style={{
+          display: 'grid',
+          gap: '8px',
+          'grid-template-columns': '20ch 10ch',
+          'align-items': 'start',
+          'justify-content': 'start',
+          'width': '100%',
+          'text-align': 'end'
+        }}>
+          <label for="rateMouthOpen">Rate Mouth Open:</label>
+          <input id="rateMouthOpen"
+            type="number"
+            min="0"
+            max="1"
+            step="0.01"
+            value={rateMouthOpen()}
+            onChange={(e) => setRateMouthOpen(parseFloat(e.target.value))}
+          />
+          <label for="rateEyesClosed">Rate Eyes Closed:</label>
+          <input id="rateEyesClosed"
+            type="number"
+            min="0"
+            max="1"
+            step="0.01"
+            value={rateEyesClosed()}
+            onChange={(e) => setRateEyesClosed(parseFloat(e.target.value))}
+          />
+        </div>
 
-      <Score
-        faceName={props.characterId!}
-        eyeBlinkLeftScore={props.eyeBlinkLeftScore}
-        eyeBlinkRightScore={props.eyeBlinkRightScore}
-        jawOpenScore={props.jawOpenScore}
-        rateEyesClosed={[rateEyesClosed, setRateEyesClosed]}
-        rateMouthOpen={[rateMouthOpen, setRateMouthOpen]}
-      />
-    </div >
+        <Score
+          faceName={props.characterId!}
+          eyeBlinkLeftScore={props.eyeBlinkLeftScore}
+          eyeBlinkRightScore={props.eyeBlinkRightScore}
+          jawOpenScore={props.jawOpenScore}
+          rateEyesClosed={[rateEyesClosed, setRateEyesClosed]}
+          rateMouthOpen={[rateMouthOpen, setRateMouthOpen]}
+        />
+      </div >
+    </div>
   );
 };
 
