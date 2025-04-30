@@ -5,8 +5,14 @@ function App() {
 
   return (
     <div class='app-container'>
-      <h1 >CoopTuber</h1>
-      <WebcamViewer />
+      <header>
+        <h1 >CoopTuber</h1>
+      </header>
+      <main>
+        <div class='main-content'>
+        <WebcamViewer />
+        </div>
+      </main>
     </div>
   )
 }

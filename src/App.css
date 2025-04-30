@@ -1,16 +1,41 @@
 #root {
-  max-width: 1280px;
-  min-width: 320px;
+  min-height: 100vh;
   width: auto;
   text-align: center;
-  padding: 1rem;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+}
 
-  border: 1px solid red;
+main {
+  flex: 1 1 0%;
+  padding: 1.5rem;
+  gap: 1.5rem;
+}
+
+.main-content {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.layout-panel {
+  width: 100%;
+  display: grid;
+  gap: 16px 16px;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto;
+  grid-template-areas:
+    "players players webcam";
+
+  @media screen and (max-width: 768px) {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "webcam"
+      "players";
+  }
 }
 
 .logo {
@@ -48,25 +73,12 @@
   justify-content: center;
 }
 
-.layout-panel {
-  display: grid;
-  gap: 16px 16px;
-  grid-auto-flow: row;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto 1fr 1fr;
-  grid-template-areas:
-    "webcam webcam"
-    "player1 player2";
 
-  @media screen and (max-width: 768px) {
-    grid-auto-flow: column;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr 1fr;
-    grid-template-areas:
-      "webcam "
-      "player1"
-      "player2";
-  }
+.players,
+.webcam {
+  border: 1px solid #444;
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
 
 .webcam {
@@ -77,10 +89,59 @@
   grid-area: title;
 }
 
+.players {
+  grid-area: players;
+  padding: 1.5rem;
+}
+
+.players-container{
+  aspect-ratio: 16/9;
+  border-radius: 0.5rem;
+  padding: 1rem;
+
+
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+}
+
+.player{
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
 .player1 {
   grid-area: player1;
 }
 
 .player2 {
   grid-area: player2;
+}
+
+
+.tools{
+  width: 100%;
+}
+
+.tools-bar{
+  width: 100%;
+  grid-template-columns: repeat(5, minmax(0, 1fr)); 
+  display: grid;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.2rem;
+  background-color: #1a1a1a;
+}
+
+.tools-bar button{
+  border-radius: calc(.5rem -2px);
+} 
+
+.tools-config{
+  margin-top: 1rem;
+
 }

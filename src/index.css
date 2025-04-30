@@ -25,10 +25,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  min-width: 320px;
   min-height: 100vh;
-  justify-content: center;
 }
 
 h1 {
@@ -73,14 +70,16 @@ button:focus-visible {
 }
 
 .app-container {
-  max-width: 1280px;
-  padding-inline: 1rem;
+  min-height: 100vh;
+  width: auto;
   text-align: center;
-  border: 1px solid #582;
+  display: flex;
+  flex-direction: column;
 }
 
 .webcam-container {
   position: relative;
+  aspect-ratio: 16/9;
 }
 
 canvas {
@@ -90,7 +89,8 @@ canvas {
   width: 100%;
   height: 100%;
   z-index: 2;
-  transform: scaleX(-1); /* Espejo para efecto espejo */
+  transform: scaleX(-1);
+  /* Espejo para efecto espejo */
 }
 
 video {
@@ -99,7 +99,9 @@ video {
   left: 0;
   width: 100%;
   height: 100%;
-  transform: scaleX(-1); /* Espejo para efecto espejo */
+  transform: scaleX(-1);
+  /* Espejo para efecto espejo */
+  z-index: -10;
 }
 
 .status {
