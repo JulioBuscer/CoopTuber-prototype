@@ -156,48 +156,51 @@ const WebcamViewer = () => {
 
     return (
         <div class="layout-panel">
+            <div class="webcam">
+                <div class="card webcam-container ">
+                    <video ref={el => (videoRef = el!)} autoplay muted playsinline />
+                    <canvas
+                        ref={el => (canvasRef = el!)}
+                        width={1920}
+                        height={1080}
+                        onClick={handlePlayVideo}
+                    />
+                </div>
+            </div>
 
-            <div class="card webcam-container webcam"
-                style={{
-                    display: "flex",
-                    "aspect-ratio": "16/9",
-                    padding: "8px",
-                }}>
-                <video ref={el => (videoRef = el!)} autoplay muted playsinline />
-                <canvas
-                    ref={el => (canvasRef = el!)}
-                    width={1920}
-                    height={1080}
-                    style="
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;"
-                    onClick={handlePlayVideo}
-                />
-            </div>
-            <div class="player1">
-                <Avatar
-                    characterId="P1"
-                    eyesClosed={eyesClosedP1()}
-                    mouthOpen={mouthOpenP1()}
-                    eyeBlinkLeftScore={eyeBlinkLeftScoreP1()}
-                    eyeBlinkRightScore={eyeBlinkRightScoreP1()}
-                    jawOpenScore={jawOpenScoreP1()}
-                    rateEyesClosed={[rateEyesClosedP1, setRateEyesClosedP1]}
-                    rateMouthOpen={[rateMouthOpenP1, setRateMouthOpenP1]}
-                />
-            </div>
-            <div class="player2">
-                <Avatar
-                    characterId="P2"
-                    eyesClosed={eyesClosedP2()}
-                    mouthOpen={mouthOpenP2()}
-                    eyeBlinkLeftScore={eyeBlinkLeftScoreP2()}
-                    eyeBlinkRightScore={eyeBlinkRightScoreP2()}
-                    jawOpenScore={jawOpenScoreP2()}
-                    rateEyesClosed={[rateEyesClosedP2, setRateEyesClosedP2]}
-                    rateMouthOpen={[rateMouthOpenP2, setRateMouthOpenP2]}
-                />
+            <div class="players">
+                <div class="players-container">
+                    <Avatar
+                        characterId="P1"
+                        eyesClosed={eyesClosedP1()}
+                        mouthOpen={mouthOpenP1()}
+                        eyeBlinkLeftScore={eyeBlinkLeftScoreP1()}
+                        eyeBlinkRightScore={eyeBlinkRightScoreP1()}
+                        jawOpenScore={jawOpenScoreP1()}
+                        rateEyesClosed={[rateEyesClosedP1, setRateEyesClosedP1]}
+                        rateMouthOpen={[rateMouthOpenP1, setRateMouthOpenP1]}
+                    />
+                    <Avatar
+                        characterId="P2"
+                        eyesClosed={eyesClosedP2()}
+                        mouthOpen={mouthOpenP2()}
+                        eyeBlinkLeftScore={eyeBlinkLeftScoreP2()}
+                        eyeBlinkRightScore={eyeBlinkRightScoreP2()}
+                        jawOpenScore={jawOpenScoreP2()}
+                        rateEyesClosed={[rateEyesClosedP2, setRateEyesClosedP2]}
+                        rateMouthOpen={[rateMouthOpenP2, setRateMouthOpenP2]}
+                    />
+                </div>
+                <div class="tools">
+                    <div class="tools-bar">
+                        {["Personaje", "Fondo", "Parametros", "Efectos", "Otros"].map((text, index) => (
+                            <button>{text}</button>
+                        ))}
+                    </div>
+                    <div class="tools-config">
+                        <p>Espacio para las configuraciones</p>
+                    </div>
+                </div>
             </div>
         </div>
     );
