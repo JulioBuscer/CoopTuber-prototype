@@ -6,11 +6,13 @@ function App() {
   return (
     <div class='app-container'>
       <header>
-        <h1 >CoopTuber</h1>
+        <h1 >
+          {/* CoopTuber */}
+        </h1>
       </header>
       <main>
         <div class='main-content'>
-        <WebcamViewer />
+          <WebcamViewer />
         </div>
       </main>
     </div>

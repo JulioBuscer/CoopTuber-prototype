@@ -61,36 +61,22 @@ const Avatar: Component<AvatarProps> = (props) => {
     <div
       class="player"
     >
-      <h3 style={{
-        'text-align': 'center',
-        margin: '0',
-        padding: '0',
-      }}>{props.characterId ?? 'P1'}</h3>
-      <div
-        id={props.characterId == 'face1' ? 'P1' : 'P2'}
-        style={{
-          overflow: 'hidden',
-          position: 'relative',
-        }}
-      >
-        <div
-          style={{
-            overflow: 'hidden',
-            'aspect-ratio': '16/9',
-          }}
-        >
+      <div class="player-text">
+        <span >{props.characterId ?? 'P1'}</span>
+      </div>
+      <div class="player-background" 
+      style={{
+        // El background se coloreara segun las preferencias del usuario
+        'background-color': '#1a1a1a'
+      }}
+      />
+      <div id={props.characterId == 'face1' ? 'P1' : 'P2'} class='avatar-display'>
+        <div class="avatar">
           <img
             src={getImagePath()}
             alt="Avatar"
-            width={1920}
-            height={1080}
-            style={{
-              width: '100%',
-              height: '100%',
-              'object-fit': 'contain',
-              'background-color': '#00FF00',
-              transform: 'scaleX(1)',
-            }}
+            width={200}
+            height={200}
           />
         </div>
 

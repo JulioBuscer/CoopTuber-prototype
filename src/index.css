@@ -101,7 +101,7 @@ video {
   height: 100%;
   transform: scaleX(-1);
   /* Espejo para efecto espejo */
-  z-index: -10;
+  z-index: -1;
 }
 
 .status {
