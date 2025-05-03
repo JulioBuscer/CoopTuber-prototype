@@ -1,7 +1,10 @@
 import Avatar from "./Avatar";
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount, createEffect } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
+import usePlayers, { players, selectedPlayer, setPlayer } from "../data/signals/player";
 import Score from "./Score";
+import Params from "./Params";
+
 
 type BlendshapesCategory = {
     categoryName: string;
@@ -9,29 +12,24 @@ type BlendshapesCategory = {
 };
 
 const WebcamViewer = () => {
-    const [eyesClosedP1, setEyesClosedP1] = createSignal(false);
-    const [mouthOpenP1, setMouthOpenP1] = createSignal(false);
 
-    const [eyesClosedP2, setEyesClosedP2] = createSignal(false);
-    const [mouthOpenP2, setMouthOpenP2] = createSignal(false);
+    const [player1, setPlayer1] = createSignal(players()[0]);
+    const [player2, setPlayer2] = createSignal(players()[1]);
 
-    const [eyeBlinkLeftScoreP1, setEyeBlinkLeftScoreP1] = createSignal(0);
-    const [eyeBlinkRightScoreP1, setEyeBlinkRightScoreP1] = createSignal(0);
-    const [jawOpenScoreP1, setJawOpenScoreP1] = createSignal(0);
-
-    const [eyeBlinkLeftScoreP2, setEyeBlinkLeftScoreP2] = createSignal(0);
-    const [eyeBlinkRightScoreP2, setEyeBlinkRightScoreP2] = createSignal(0);
-    const [jawOpenScoreP2, setJawOpenScoreP2] = createSignal(0);
-
-    const [rateEyesClosedP1, setRateEyesClosedP1] = createSignal(0.05);
-    const [rateEyesClosedP2, setRateEyesClosedP2] = createSignal(0.02);
-    const [rateMouthOpenP1, setRateMouthOpenP1] = createSignal(0.07);
-    const [rateMouthOpenP2, setRateMouthOpenP2] = createSignal(0.07);
+    // Actualizar los jugadores cuando cambien
+    createEffect(() => {
+        setPlayer1(players()[0]);
+        setPlayer2(players()[1]);
+    });
 
     let videoRef: HTMLVideoElement | undefined;
     let canvasRef: HTMLCanvasElement | undefined;
     const [detector, setDetector] = createSignal<FaceLandmarkDetector | null>(null);
     let animationFrameId: number | undefined;
+
+    const handleToolClick = (tool: string) => {
+        console.log(`Seleccionado: ${tool}`);
+    };
 
     // Limpieza de recursos al desmontar el componente
     onCleanup(() => {
@@ -104,12 +102,16 @@ const WebcamViewer = () => {
                             const eyeBlinkLeft = findScore("eyeBlinkLeft");
                             const eyeBlinkRight = findScore("eyeBlinkRight");
                             const jawOpen = findScore("jawOpen");
-                            setEyeBlinkLeftScoreP1(eyeBlinkLeft);
-                            setEyeBlinkRightScoreP1(eyeBlinkRight);
-                            setJawOpenScoreP1(jawOpen);
-
-                            setEyesClosedP1((eyeBlinkLeft + eyeBlinkRight) / 2 > rateEyesClosedP1());
-                            setMouthOpenP1(jawOpen > rateMouthOpenP1());
+                            const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player1().rateEyesClosed);
+                            const mouthOpen = (jawOpen > player1().rateMouthOpen);
+                            setPlayer('P1', {
+                                ...player1(),
+                                eyeBlinkLeftScore: eyeBlinkLeft,
+                                eyeBlinkRightScore: eyeBlinkRight,
+                                jawOpenScore: jawOpen,
+                                eyesClosed: eyesClosed,
+                                mouthOpen: mouthOpen
+                            });
                         }
                         if (results.faceBlendshapes[1]) {
                             const blendshapes = results.faceBlendshapes[1];
@@ -121,12 +123,16 @@ const WebcamViewer = () => {
                             const eyeBlinkLeft = findScore("eyeBlinkLeft");
                             const eyeBlinkRight = findScore("eyeBlinkRight");
                             const jawOpen = findScore("jawOpen");
-                            setEyeBlinkLeftScoreP2(eyeBlinkLeft);
-                            setEyeBlinkRightScoreP2(eyeBlinkRight);
-                            setJawOpenScoreP2(jawOpen);
-
-                            setEyesClosedP2((eyeBlinkLeft + eyeBlinkRight) / 2 > rateEyesClosedP2());
-                            setMouthOpenP2(jawOpen > rateMouthOpenP2());
+                            const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player2().rateEyesClosed);
+                            const mouthOpen = (jawOpen > player2().rateMouthOpen);
+                            setPlayer('P2', {
+                                ...player2(),
+                                eyeBlinkLeftScore: eyeBlinkLeft,
+                                eyeBlinkRightScore: eyeBlinkRight,
+                                jawOpenScore: jawOpen,
+                                eyesClosed,
+                                mouthOpen
+                            });
                         }
 
                         det.drawResults(results);
@@ -166,39 +172,31 @@ const WebcamViewer = () => {
                         onClick={handlePlayVideo}
                     />
                 </div>
+                <div>
+                    {players().map(player => <Score faceName={player.characterId} />)}
+                </div>
             </div>
 
             <div class="players">
                 <div class="players-container">
-                    <Avatar
-                        characterId="P1"
-                        eyesClosed={eyesClosedP1()}
-                        mouthOpen={mouthOpenP1()}
-                        eyeBlinkLeftScore={eyeBlinkLeftScoreP1()}
-                        eyeBlinkRightScore={eyeBlinkRightScoreP1()}
-                        jawOpenScore={jawOpenScoreP1()}
-                        rateEyesClosed={[rateEyesClosedP1, setRateEyesClosedP1]}
-                        rateMouthOpen={[rateMouthOpenP1, setRateMouthOpenP1]}
-                    />
-                    <Avatar
-                        characterId="P2"
-                        eyesClosed={eyesClosedP2()}
-                        mouthOpen={mouthOpenP2()}
-                        eyeBlinkLeftScore={eyeBlinkLeftScoreP2()}
-                        eyeBlinkRightScore={eyeBlinkRightScoreP2()}
-                        jawOpenScore={jawOpenScoreP2()}
-                        rateEyesClosed={[rateEyesClosedP2, setRateEyesClosedP2]}
-                        rateMouthOpen={[rateMouthOpenP2, setRateMouthOpenP2]}
-                    />
+                    {players().map(player => <Avatar characterId={player.characterId} />)}
                 </div>
                 <div class="tools">
                     <div class="tools-bar">
-                        {["Personaje", "Fondo", "Parametros", "Efectos", "Otros"].map((text, index) => (
-                            <button>{text}</button>
+                        {["Personaje", "Fondo", "Parametros", "Efectos", "Otros"].map((text) => (
+                            <button onClick={() => handleToolClick(text)}>{text}</button>
                         ))}
                     </div>
                     <div class="tools-config">
-                        <p>Espacio para las configuraciones</p>
+                        {
+                            selectedPlayer()?.characterId
+                        }
+
+                        {
+                            selectedPlayer() && (
+                                <Params />
+                            )
+                        }
                     </div>
                 </div>
             </div>

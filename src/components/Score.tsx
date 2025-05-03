@@ -1,37 +1,36 @@
 import { Component, Signal } from "solid-js";
+import usePlayers, { players } from "../data/signals/player";
 
 interface ScoreProps {
     faceName: string;
-    eyeBlinkLeftScore: number;
-    eyeBlinkRightScore: number;
-    jawOpenScore: number;
-    rateEyesClosed: Signal<number>;
-    rateMouthOpen: Signal<number>;
 }
 
 const Score: Component<ScoreProps> = (props) => {
-    //const { faceNumber, eyeBlinkLeftScore, eyeBlinkRightScore, jawOpenScore } = props;
+    const player = players().find(p => p.characterId === props.faceName);
+    if (!player) {
+        return <> No se encontro el jugador {props.faceName}</>;
+    };
 
-    const [rateEyesClosed, setRateEyesClosed] = props.rateEyesClosed;
-    const [rateMouthOpen, setRateMouthOpen] = props.rateMouthOpen;
+    const { rateEyesClosed, rateMouthOpen, eyeBlinkLeftScore, eyeBlinkRightScore, jawOpenScore } = player;
+
     return (
-        <div style={{ display: "flex", gap: "16px", width: "100%", "align-content": "center", "justify-content": "center"}}>
-                    <div>
-                        <h4>Eye Blink Left:</h4>
-                        <p>{props.eyeBlinkLeftScore.toFixed(2)}</p>
-                        <progress max={rateEyesClosed()} value={props.eyeBlinkLeftScore} > {props.eyeBlinkLeftScore} </progress>
+        <div >
+            <div>
+                <h4>Eye Blink Left:</h4>
+                <p>{eyeBlinkLeftScore.toFixed(2)}</p>
+                <progress max={rateEyesClosed} value={eyeBlinkLeftScore} > {eyeBlinkLeftScore} </progress>
 
-                    </div>
-                    <div>
-                        <h4>Eye Blink Right:</h4>
-                        <p>{props.eyeBlinkRightScore.toFixed(2)}</p>
-                        <progress max={rateEyesClosed()} value={props.eyeBlinkRightScore} > {props.eyeBlinkRightScore} </progress>
-                    </div>
-                    <div>
-                        <h4>Jaw Open:</h4>
-                        <p>{props.jawOpenScore.toFixed(2)}</p>
-                        <progress max={rateMouthOpen()} value={props.jawOpenScore} > {props.jawOpenScore} </progress>
-                    </div>
+            </div>
+            <div>
+                <h4>Eye Blink Right:</h4>
+                <p>{eyeBlinkRightScore.toFixed(2)}</p>
+                <progress max={rateEyesClosed} value={eyeBlinkRightScore} > {eyeBlinkRightScore} </progress>
+            </div>
+            <div>
+                <h4>Jaw Open:</h4>
+                <p>{jawOpenScore.toFixed(2)}</p>
+                <progress max={rateMouthOpen} value={jawOpenScore} > {jawOpenScore} </progress>
+            </div>
         </div>
     );
 }

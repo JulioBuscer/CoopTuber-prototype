@@ -1,13 +1,13 @@
 import './App.css'
 import WebcamViewer from './components/WebcamViewer'
+import { Avatar, InitialAvatar } from './data/types/avatar';
 
 function App() {
-
   return (
     <div class='app-container'>
       <header>
         <h1 >
-          {/* CoopTuber */}
+          CoopTuber
         </h1>
       </header>
       <main>
