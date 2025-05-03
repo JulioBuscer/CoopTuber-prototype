@@ -1,7 +1,7 @@
+import { usePlayersStore } from "../data/store/players.store";
+import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
 import Avatar from "./Avatar";
 import { createSignal, onCleanup, onMount } from "solid-js";
-import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
-import Score from "./Score";
 
 type BlendshapesCategory = {
     categoryName: string;
@@ -9,24 +9,8 @@ type BlendshapesCategory = {
 };
 
 const WebcamViewer = () => {
-    const [eyesClosedP1, setEyesClosedP1] = createSignal(false);
-    const [mouthOpenP1, setMouthOpenP1] = createSignal(false);
 
-    const [eyesClosedP2, setEyesClosedP2] = createSignal(false);
-    const [mouthOpenP2, setMouthOpenP2] = createSignal(false);
-
-    const [eyeBlinkLeftScoreP1, setEyeBlinkLeftScoreP1] = createSignal(0);
-    const [eyeBlinkRightScoreP1, setEyeBlinkRightScoreP1] = createSignal(0);
-    const [jawOpenScoreP1, setJawOpenScoreP1] = createSignal(0);
-
-    const [eyeBlinkLeftScoreP2, setEyeBlinkLeftScoreP2] = createSignal(0);
-    const [eyeBlinkRightScoreP2, setEyeBlinkRightScoreP2] = createSignal(0);
-    const [jawOpenScoreP2, setJawOpenScoreP2] = createSignal(0);
-
-    const [rateEyesClosedP1, setRateEyesClosedP1] = createSignal(0.05);
-    const [rateEyesClosedP2, setRateEyesClosedP2] = createSignal(0.02);
-    const [rateMouthOpenP1, setRateMouthOpenP1] = createSignal(0.07);
-    const [rateMouthOpenP2, setRateMouthOpenP2] = createSignal(0.07);
+    const players = usePlayersStore();
 
     let videoRef: HTMLVideoElement | undefined;
     let canvasRef: HTMLCanvasElement | undefined;
@@ -170,26 +154,20 @@ const WebcamViewer = () => {
 
             <div class="players">
                 <div class="players-container">
-                    <Avatar
-                        characterId="P1"
-                        eyesClosed={eyesClosedP1()}
-                        mouthOpen={mouthOpenP1()}
-                        eyeBlinkLeftScore={eyeBlinkLeftScoreP1()}
-                        eyeBlinkRightScore={eyeBlinkRightScoreP1()}
-                        jawOpenScore={jawOpenScoreP1()}
-                        rateEyesClosed={[rateEyesClosedP1, setRateEyesClosedP1]}
-                        rateMouthOpen={[rateMouthOpenP1, setRateMouthOpenP1]}
-                    />
-                    <Avatar
-                        characterId="P2"
-                        eyesClosed={eyesClosedP2()}
-                        mouthOpen={mouthOpenP2()}
-                        eyeBlinkLeftScore={eyeBlinkLeftScoreP2()}
-                        eyeBlinkRightScore={eyeBlinkRightScoreP2()}
-                        jawOpenScore={jawOpenScoreP2()}
-                        rateEyesClosed={[rateEyesClosedP2, setRateEyesClosedP2]}
-                        rateMouthOpen={[rateMouthOpenP2, setRateMouthOpenP2]}
-                    />
+                    {
+                        Object.entries(players).map(([playerId, avatar]) => (
+                            <Avatar
+                                characterId={playerId}
+                                eyesClosed={avatar.eyesClosed}
+                                mouthOpen={avatar.mouthOpen}
+                                eyeBlinkLeftScore={avatar.eyeBlinkLeftScore}
+                                eyeBlinkRightScore={avatar.eyeBlinkRightScore}
+                                jawOpenScore={avatar.jawOpenScore}
+                                rateEyesClosed={avatar.rateEyesClosed}
+                                rateMouthOpen={avatar.rateMouthOpen}
+                            />
+                        ))
+                    }
                 </div>
                 <div class="tools">
                     <div class="tools-bar">

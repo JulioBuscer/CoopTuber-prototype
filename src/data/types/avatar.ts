@@ -1,9 +1,9 @@
+
 export interface Avatar {
     characterId: string;
 
     eyesClosed: boolean;
     mouthOpen: boolean;
-
 
     eyeBlinkLeftScore: number;
     eyeBlinkRightScore: number;
@@ -11,6 +11,16 @@ export interface Avatar {
 
     rateEyesClosed: number;
     rateMouthOpen: number;
+
+    imagePaths: imagePaths;
+
+}
+
+export interface imagePaths {
+    'normal': string;
+    'blink': string;
+    'talking': string;
+    'blinkTalk': string;
 }
 
 export const defaultAvatar: Avatar = {
@@ -21,7 +31,13 @@ export const defaultAvatar: Avatar = {
     eyeBlinkRightScore: 0,
     jawOpenScore: 0,
     rateEyesClosed: 0,
-    rateMouthOpen: 0
+    rateMouthOpen: 0,
+    imagePaths: {
+        'normal': '/avatars/default/normal.png',
+        'blink': '/avatars/default/blink.png',
+        'talking': '/avatars/default/talking.png',
+        'blinkTalk': '/avatars/default/blinkTalk.png'
+    }
 }
 
 export const InitialAvatar = (idAvatar?: string) => {

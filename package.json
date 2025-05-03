@@ -14,7 +14,7 @@
     "@tensorflow/tfjs-core": "^4.22.0",
     "@ungap/event-target": "^0.2.4",
     "solid-js": "^1.9.5",
-    "zustand": "^5.0.3"
+    "solid-zustand": "^1.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",

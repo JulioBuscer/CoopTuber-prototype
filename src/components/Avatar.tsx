@@ -1,5 +1,6 @@
-import { Component, createSignal, Signal } from 'solid-js';
+import { Component } from 'solid-js';
 import Score from './Score';
+import { PlayersActions, PlayersState, usePlayersStore } from '../data/store/players.store';
 
 interface AvatarProps {
   eyesClosed: boolean;
@@ -10,51 +11,23 @@ interface AvatarProps {
   eyeBlinkRightScore: number;
   jawOpenScore: number;
 
-  rateEyesClosed: Signal<number>;
-  rateMouthOpen: Signal<number>;
+  rateEyesClosed: number;
+  rateMouthOpen: number;
 }
-interface AvatarState {
-  imagePaths: {
-    'normal': string;
-    'blink': string;
-    'talking': string;
-    'blinkTalk': string;
-  };
-}
-
 const Avatar: Component<AvatarProps> = (props) => {
-  const [rateEyesClosed, setRateEyesClosed] = props.rateEyesClosed;
-  const [rateMouthOpen, setRateMouthOpen] = props.rateMouthOpen;
-  const [imagePaths, setImagePaths] = createSignal<AvatarState['imagePaths'] | null>(null);
-  const [isMirror, setIsMirror] = createSignal(false);
+  const key: keyof PlayersState = props.characterId === 'P1' ? 'P1' : 'P2';
 
+  const player = usePlayersStore((s: PlayersState) => s[key]);
 
-  try {
-    //Trataremos de obtener de localStorage las 4 imagenes de cada personaje, de lo contrario lo obtenemos de la carpeta public
-    setImagePaths(localStorage.getItem(`avatar-${props.characterId}`) ? JSON.parse(localStorage.getItem(`avatar-${props.characterId}`)!) : null);
-    if (!imagePaths()) {
-      localStorage.setItem(`avatar-${props.characterId}`, JSON.stringify({
-        normal: `/avatars/${props.characterId}/normal.png`,
-        blink: `/avatars/${props.characterId}/blink.png`,
-        talking: `/avatars/${props.characterId}/talking.png`,
-        blinkTalk: `/avatars/${props.characterId}/blinkTalk.png`,
-      }));
-      setImagePaths({
-        normal: `/avatars/${props.characterId}/normal.png`,
-        blink: `/avatars/${props.characterId}/blink.png`,
-        talking: `/avatars/${props.characterId}/talking.png`,
-        blinkTalk: `/avatars/${props.characterId}/blinkTalk.png`,
-      });
-    }
-  } catch (error) {
-    console.error("Error al acceder a localStorage", error);
-  }
+  const playerActions = usePlayersStore((s: PlayersActions) => s);
+
+  if (!player) return null;
 
   const getImagePath = () => {
-    if (props.eyesClosed && props.mouthOpen) return imagePaths()?.blinkTalk;
-    if (props.eyesClosed) return imagePaths()?.blink;
-    if (props.mouthOpen) return imagePaths()?.talking;
-    return imagePaths()?.normal;
+    if (props.eyesClosed && props.mouthOpen) return player.imagePaths?.blinkTalk;
+    if (props.eyesClosed) return player.imagePaths?.blink;
+    if (props.mouthOpen) return player.imagePaths?.talking;
+    return player.imagePaths?.normal;
   };
 
   return (
@@ -64,11 +37,11 @@ const Avatar: Component<AvatarProps> = (props) => {
       <div class="player-text">
         <span >{props.characterId ?? 'P1'}</span>
       </div>
-      <div class="player-background" 
-      style={{
-        // El background se coloreara segun las preferencias del usuario
-        'background-color': '#1a1a1a'
-      }}
+      <div class="player-background"
+        style={{
+          // El background se coloreara segun las preferencias del usuario
+          'background-color': '#1a1a1a'
+        }}
       />
       <div id={props.characterId == 'face1' ? 'P1' : 'P2'} class='avatar-display'>
         <div class="avatar">
@@ -95,7 +68,7 @@ const Avatar: Component<AvatarProps> = (props) => {
           }}
 
         >
-          {imagePaths() && (
+          {player.imagePaths && (
             <div style={{
               display: 'flex',
               gap: '8px',
@@ -104,7 +77,7 @@ const Avatar: Component<AvatarProps> = (props) => {
             }}>
               <label for="normal">Normal</label>
               <img
-                src={imagePaths()!.normal}
+                src={player.imagePaths!.normal}
                 alt="Avatar"
                 style={{
                   'object-fit': 'contain',
@@ -118,7 +91,7 @@ const Avatar: Component<AvatarProps> = (props) => {
               />
             </div>
           )}
-          {imagePaths() && (
+          {player.imagePaths && (
             <div style={{
               display: 'flex',
               gap: '8px',
@@ -127,7 +100,7 @@ const Avatar: Component<AvatarProps> = (props) => {
             }}>
               <label for="blink">Blink</label>
               <img
-                src={imagePaths()!.blink}
+                src={player.imagePaths!.blink}
                 alt="Avatar"
                 style={{
                   'object-fit': 'contain',
@@ -141,7 +114,7 @@ const Avatar: Component<AvatarProps> = (props) => {
               />
             </div>
           )}
-          {imagePaths() && (
+          {player.imagePaths && (
             <div style={{
               display: 'flex',
               gap: '8px',
@@ -150,7 +123,7 @@ const Avatar: Component<AvatarProps> = (props) => {
             }}>
               <label for="talking">Talking</label>
               <img
-                src={imagePaths()!.talking}
+                src={player.imagePaths!.talking}
                 alt="Avatar"
                 style={{
                   'object-fit': 'contain',
@@ -164,7 +137,7 @@ const Avatar: Component<AvatarProps> = (props) => {
               />
             </div>
           )}
-          {imagePaths() && (
+          {player.imagePaths && (
             <div style={{
               display: 'flex',
               gap: '8px',
@@ -173,7 +146,7 @@ const Avatar: Component<AvatarProps> = (props) => {
             }}>
               <label for="blinkTalk">Blink Talk</label>
               <img
-                src={imagePaths()!.blinkTalk}
+                src={player.imagePaths!.blinkTalk}
                 alt="Avatar"
                 style={{
                   'object-fit': 'contain',
@@ -206,8 +179,8 @@ const Avatar: Component<AvatarProps> = (props) => {
             min="0"
             max="1"
             step="0.01"
-            value={rateMouthOpen()}
-            onChange={(e) => setRateMouthOpen(parseFloat(e.target.value))}
+            value={player.rateMouthOpen}
+            onChange={(e) => playerActions.updatePlayers(key, { ...player, rateMouthOpen: parseFloat(e.target.value) })}
           />
           <label for="rateEyesClosed">Rate Eyes Closed:</label>
           <input id="rateEyesClosed"
@@ -215,19 +188,11 @@ const Avatar: Component<AvatarProps> = (props) => {
             min="0"
             max="1"
             step="0.01"
-            value={rateEyesClosed()}
-            onChange={(e) => setRateEyesClosed(parseFloat(e.target.value))}
+            value={player.rateEyesClosed}
+            onChange={(e) => playerActions.updatePlayers(key, { ...player, rateEyesClosed: parseFloat(e.target.value) })}
           />
         </div>
 
-        <Score
-          faceName={props.characterId!}
-          eyeBlinkLeftScore={props.eyeBlinkLeftScore}
-          eyeBlinkRightScore={props.eyeBlinkRightScore}
-          jawOpenScore={props.jawOpenScore}
-          rateEyesClosed={[rateEyesClosed, setRateEyesClosed]}
-          rateMouthOpen={[rateMouthOpen, setRateMouthOpen]}
-        />
       </div >
     </div>
   );
