@@ -28,8 +28,6 @@ const Params: Component<ParamsProps> = () => {
     return (
 
         <div style={{ display: 'grid' }} >
-            <p>{player()!.characterId}</p>
-            
             <div style={{
                 display: 'grid',
                 gap: '8px',
