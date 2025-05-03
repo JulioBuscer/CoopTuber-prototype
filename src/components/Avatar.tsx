@@ -1,5 +1,5 @@
 import { Component } from 'solid-js';
-import { players, setSelectedPlayer } from '../data/signals/player';
+import { playersConfig, playersStates, setSelectedPlayer } from '../data/signals/player';
 import ImageAvatar from './ImageAvatar';
 
 interface AvatarProps {
@@ -8,14 +8,14 @@ interface AvatarProps {
 
 const Avatar: Component<AvatarProps> = (props) => {
 
-  const player = players().find(p => p.characterId === props.characterId);
+  const sate = playersStates().find(p => p.characterId === props.characterId);
 
-  if (!player) return null;
+  if (!sate) return null;
 
 
   const handleClick = () => {
-    console.log('Selected player:', player.characterId);
-    setSelectedPlayer(player);
+    console.log('Selected player:', sate.characterId);
+    setSelectedPlayer(playersConfig().find(p => p.characterId === props.characterId) ?? null);
   };
   return (
     <div
@@ -33,7 +33,7 @@ const Avatar: Component<AvatarProps> = (props) => {
       />
       <div id={props.characterId == 'face1' ? 'P1' : 'P2'} class='avatar-display'>
         <div class="avatar">
-          <ImageAvatar player={player} />
+          <ImageAvatar player={playersConfig().find(p => p.characterId === props.characterId)!} />
         </div>
       </div>
     </div>

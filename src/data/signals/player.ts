@@ -1,28 +1,34 @@
 import { createEffect, createSignal } from "solid-js";
-import { Avatar, InitialAvatar } from "../types/avatar";
+import { AvatarConfig, AvatarState, InitialAvatarConfig, InitialAvatarState } from "../types/avatar";
 
-const [players, setPlayers] = createSignal<Avatar[]>(
-    [InitialAvatar('P1'),
-    InitialAvatar('P2')]
+const [playersConfig, setPlayersConfig] = createSignal<AvatarConfig[]>([
+    InitialAvatarConfig('P1'),
+    InitialAvatarConfig('P2')
+]);
+
+const [playersStates, setPlayersStates] = createSignal<AvatarState[]>(
+    [InitialAvatarState('P1'),
+    InitialAvatarState('P2')]
 );
 
-const [selectedPlayer, setSelectedPlayer] = createSignal<Avatar | null>(null);
-
-// Initialize selected player when players change
-createEffect(() => {
-    setSelectedPlayer(players()[0]);
-});
+const [selectedPlayer, setSelectedPlayer] = createSignal<AvatarConfig | null>(null);
 
 const usePlayers = () => {
-    return [players, setPlayers] as const;
+    return [playersConfig, setPlayersConfig, playersStates, setPlayersStates] as const;
 };
 
-const setPlayer = (characterId: string, player: Avatar) => {
-    setPlayers(prev => {
+const setPlayer = (characterId: string, player: AvatarConfig) => {
+    setPlayersConfig(prev => {
         return prev.map(p => p.characterId === characterId ? player : p);
     });
     localStorage.setItem(`avatar-${characterId}`, JSON.stringify(player));
 };
 
+const setPlayerState = (characterId: string, state: AvatarState) => {
+    setPlayersStates(prev => {
+        return prev.map(p => p.characterId === characterId ? state : p);
+    });
+};
+
 export default usePlayers;
-export {setPlayer, players, setPlayers, selectedPlayer, setSelectedPlayer };
+export { setPlayer, setPlayerState, playersConfig, setPlayersConfig, playersStates, setPlayersStates, selectedPlayer, setSelectedPlayer };

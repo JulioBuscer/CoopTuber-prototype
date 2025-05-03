@@ -1,19 +1,23 @@
-import { Component } from "solid-js";
-import { players } from "../data/signals/player";
-import { Avatar, imagePaths } from "../data/types/avatar";
-
+import { Component, createMemo } from "solid-js";
+import { AvatarConfig, AvatarState } from "../data/types/avatar";
+import { playersStates } from "../data/signals/player";
 
 interface ImageAvatarProps {
-    player: Avatar
+    player: AvatarConfig
 }
+
 const ImageAvatar: Component<ImageAvatarProps> = ({ player }) => {
+    const state = createMemo(() => {
+        return playersStates().find(p => p.characterId === player.characterId);
+    });
 
     const getImagePath = () => {
-        if (player.eyesClosed && player.mouthOpen) return player.imagePaths?.blinkTalk;
-        if (player.eyesClosed) return player.imagePaths?.blink;
-        if (player.mouthOpen) return player.imagePaths?.talking;
+        if (state()?.eyesClosed && state()?.mouthOpen) return player.imagePaths?.blinkTalk;
+        if (state()?.eyesClosed) return player.imagePaths?.blink;
+        if (state()?.mouthOpen) return player.imagePaths?.talking;
         return player.imagePaths?.normal;
     };
+
     return (
         <img
             src={getImagePath()}
