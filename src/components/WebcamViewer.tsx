@@ -2,8 +2,8 @@ import Avatar from "./Avatar";
 import { createSignal, onCleanup, onMount } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
 import Score from "./Score";
-import Params from "./Params";
-import { playersConfig, playersStates, selectedPlayer, setPlayerState } from "../data/signals/player";
+import { playersConfig, playersStates, setPlayerState } from "../data/signals/player";
+import Tools from "./tools/Tools";
 
 
 type BlendshapesCategory = {
@@ -16,20 +16,10 @@ const WebcamViewer = () => {
     const [player1, setPlayer1] = createSignal(playersConfig()[0]);
     const [player2, setPlayer2] = createSignal(playersConfig()[1]);
 
-    // No longer need this effect since we're using the global state directly
-    // createEffect(() => {
-    //     setPlayer1(playersConfig()[0]);
-    //     setPlayer2(playersConfig()[1]);
-    // });
-
     let videoRef: HTMLVideoElement | undefined;
     let canvasRef: HTMLCanvasElement | undefined;
     const [detector, setDetector] = createSignal<FaceLandmarkDetector | null>(null);
     let animationFrameId: number | undefined;
-
-    const handleToolClick = (tool: string) => {
-        console.log(`Seleccionado: ${tool}`);
-    };
 
     // Limpieza de recursos al desmontar el componente
     onCleanup(() => {
@@ -182,24 +172,7 @@ const WebcamViewer = () => {
                 <div class="players-container">
                     {playersConfig().map(player => <Avatar characterId={player.characterId} />)}
                 </div>
-                <div class="tools">
-                    <div class="tools-bar">
-                        {["Personaje", "Fondo", "Parametros", "Efectos", "Otros"].map((text) => (
-                            <button onClick={() => handleToolClick(text)}>{text}</button>
-                        ))}
-                    </div>
-                    <div class="tools-config">
-                        {
-                            selectedPlayer()?.characterId
-                        }
-
-                        {
-                            selectedPlayer() && (
-                                <Params />
-                            )
-                        }
-                    </div>
-                </div>
+                <Tools />
             </div>
         </div>
     );
