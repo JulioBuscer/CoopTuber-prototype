@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import { createSignal } from "solid-js";
 import { AvatarConfig, AvatarState, InitialAvatarConfig, InitialAvatarState } from "../types/avatar";
 
 const [playersConfig, setPlayersConfig] = createSignal<AvatarConfig[]>([
@@ -19,7 +19,7 @@ const usePlayers = () => {
     return [playersConfig, setPlayersConfig, playersStates, setPlayersStates] as const;
 };
 
-const setPlayer = (characterId: string, player: AvatarConfig) => {
+const setPlayerConfig = (characterId: string, player: AvatarConfig) => {
     setPlayersConfig(prev => {
         return prev.map(p => p.characterId === characterId ? player : p);
     });
@@ -33,4 +33,4 @@ const setPlayerState = (characterId: string, state: AvatarState) => {
 };
 
 export default usePlayers;
-export { setPlayer, setPlayerState, playersConfig, setPlayersConfig, playersStates, setPlayersStates, selectedPlayer, setSelectedPlayer };
+export { setPlayerConfig, setPlayerState, playersConfig, setPlayersConfig, playersStates, setPlayersStates, selectedPlayer, setSelectedPlayer };

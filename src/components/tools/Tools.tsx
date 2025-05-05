@@ -1,5 +1,6 @@
 import { setSelectedTool, selectedTool } from "../../data/signals/utils";
 import Params from "../Params";
+import Avatar from "./Avatar";
 
 
 const Tools = () => {
@@ -9,19 +10,20 @@ const Tools = () => {
     };
 
 
+
     return (
 
         <div class="tools">
             <div class="tools-bar">
-                {["Personaje", "Fondo", "Parametros", "Efectos", "Otros"].map((text) => (
+                {["Avatar", "Fondo", "Parametros", "Efectos", "Otros"].map((text) => (
                     <button class={selectedTool() === text ? "active" : ""} onClick={() => handleToolClick(text)}>{text}</button>
                 ))}
             </div>
             <div class="tools-config">
                 {
-                    selectedTool() === "Personaje" && (
+                    selectedTool() === "Avatar" && (
                         <div class="tools-player">
-                            <p>Configuración del Avatar</p>
+                            <Avatar />
                         </div>
                     )
                 }
