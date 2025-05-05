@@ -2,7 +2,7 @@ import Avatar from "./Avatar";
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
 import Score from "./score/Score";
-import { playersConfig, playersStates, setPlayerState } from "../data/signals/player";
+import { playersConfig, setPlayerState } from "../data/signals/player";
 import Tools from "./tools/Tools";
 
 
@@ -155,8 +155,6 @@ const WebcamViewer = () => {
         videoRef.muted = true;
         await videoRef.play();
     };
-
-    const players = [playersConfig().length > 1 ? playersConfig()[1] : null]
 
     return (
         <div class="layout-panel">
