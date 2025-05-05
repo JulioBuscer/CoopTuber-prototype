@@ -1,10 +1,8 @@
+import { setSelectedTool, selectedTool } from "../../data/signals/utils";
 import Params from "../Params";
-import { createSignal } from "solid-js";
 
 
 const Tools = () => {
-
-    const [selectedTool, setSelectedTool] = createSignal<string>("");
 
     const handleToolClick = (tool: string) => {
         setSelectedTool(tool);
@@ -16,7 +14,7 @@ const Tools = () => {
         <div class="tools">
             <div class="tools-bar">
                 {["Personaje", "Fondo", "Parametros", "Efectos", "Otros"].map((text) => (
-                    <button onClick={() => handleToolClick(text)}>{text}</button>
+                    <button class={selectedTool() === text ? "active" : ""} onClick={() => handleToolClick(text)}>{text}</button>
                 ))}
             </div>
             <div class="tools-config">

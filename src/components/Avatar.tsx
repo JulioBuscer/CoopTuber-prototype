@@ -1,29 +1,29 @@
 import { Component } from 'solid-js';
-import { playersConfig, playersStates, setSelectedPlayer } from '../data/signals/player';
+import { playersConfig, playersStates, selectedPlayer, setSelectedPlayer } from '../data/signals/player';
 import ImageAvatar from './ImageAvatar';
 
 interface AvatarProps {
   characterId: string;
 }
 
-const Avatar: Component<AvatarProps> = (props) => {
+const Avatar: Component<AvatarProps> = ({ characterId }) => {
 
-  const sate = playersStates().find(p => p.characterId === props.characterId);
+  const sate = playersStates().find(p => p.characterId === characterId);
 
   if (!sate) return null;
 
 
   const handleClick = () => {
     console.log('Selected player:', sate.characterId);
-    setSelectedPlayer(playersConfig().find(p => p.characterId === props.characterId) ?? null);
+    setSelectedPlayer(playersConfig().find(p => p.characterId === characterId) ?? null);
   };
   return (
     <div
-      class="player"
+      class={"player" + (selectedPlayer()!.characterId === characterId ? ' active' : '')}
       onClick={handleClick}
     >
       <div class="player-text">
-        <span >{props.characterId ?? 'P1'}</span>
+        <span >{characterId ?? 'P1'}</span>
       </div>
       <div class="player-background"
         style={{
@@ -31,9 +31,9 @@ const Avatar: Component<AvatarProps> = (props) => {
           'background-color': '#1a1a1a'
         }}
       />
-      <div id={props.characterId == 'face1' ? 'P1' : 'P2'} class='avatar-display'>
+      <div id={characterId == 'face1' ? 'P1' : 'P2'} class='avatar-display'>
         <div class="avatar">
-          <ImageAvatar player={playersConfig().find(p => p.characterId === props.characterId)!} />
+          <ImageAvatar player={playersConfig().find(p => p.characterId === characterId)!} />
         </div>
       </div>
     </div>
