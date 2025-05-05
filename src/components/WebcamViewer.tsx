@@ -1,7 +1,7 @@
 import Avatar from "./Avatar";
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
-import Score from "./Score";
+import Score from "./score/Score";
 import { playersConfig, playersStates, setPlayerState } from "../data/signals/player";
 import Tools from "./tools/Tools";
 
@@ -100,9 +100,6 @@ const WebcamViewer = () => {
 
                             const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player1().rateEyesClosed);
                             const mouthOpen = (jawOpen > player1().rateMouthOpen);
-                            console.log(player1().rateMouthOpen, mouthOpen);
-                            console.log(player1().rateEyesClosed, eyesClosed);
-
                             setPlayerState(player1().characterId, {
                                 ...player1(),
                                 eyeBlinkLeftScore: eyeBlinkLeft,
@@ -159,6 +156,8 @@ const WebcamViewer = () => {
         await videoRef.play();
     };
 
+    const players = [playersConfig().length > 1 ? playersConfig()[1] : null]
+
     return (
         <div class="layout-panel">
             <div class="webcam">
@@ -172,7 +171,7 @@ const WebcamViewer = () => {
                     />
                 </div>
                 <div>
-                    {playersConfig().map(player => <Score player={player} />)}
+                    {playersConfig().map(player => <Score characterId={player.characterId} />)}
                 </div>
             </div>
 
