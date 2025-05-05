@@ -1,24 +1,23 @@
-import { Component, createMemo } from "solid-js";
-import { AvatarConfig } from "../data/types/avatar";
-import { playersConfig, playersStates } from "../data/signals/player";
+import { createEffect, createMemo, createSignal } from "solid-js";
+import { playersConfig, playersStates } from "../../data/signals/player";
+import { AvatarConfig } from "../../data/types/avatar";
 
 interface ScoreProps {
-    player: AvatarConfig
+    characterId: string
 }
+const State = ({ characterId }: ScoreProps) => {
 
-const Score: Component<ScoreProps> = ({ player }) => {
     const state = createMemo(() => {
-        return playersStates().find(p => p.characterId === player.characterId);
+        return playersStates().find(p => p.characterId === characterId);
     });
 
+    const [playerConfig, setPlayerConfig] = createSignal<AvatarConfig | null>(playersConfig().find(p => p.characterId === characterId)!);
 
-    if (!state()) {
-        return <> Cargando estado para {player.characterId}...</>;
-    };
+    createEffect(() => {
+        setPlayerConfig(playersConfig().find(p => p.characterId === characterId)!);
+    });
 
-    const playerConfig = playersConfig().find(p => p.characterId === player.characterId);
-
-    const { rateEyesClosed, rateMouthOpen } = playerConfig!;
+    const { rateEyesClosed, rateMouthOpen } = playerConfig()!;
 
     const getPercentage = (score: number, rate: number) => {
         if (rate === 0) return 100;
@@ -27,10 +26,7 @@ const Score: Component<ScoreProps> = ({ player }) => {
     };
 
     return (
-        <div class="score-container" >
-            <div class="player-name">
-                <p>{player.characterId}</p>
-            </div>
+        <div class="state-container">
             <div class="state">
                 <p>Boca abierta: <span>{state()!.mouthOpen ? "Si" : "No"}</span></p>
 
@@ -39,7 +35,6 @@ const Score: Component<ScoreProps> = ({ player }) => {
                     <progress max={rateMouthOpen} value={state()!.jawOpenScore} > {state()!.jawOpenScore} </progress>
                 </div>
             </div>
-
             <div class="state">
                 <p>Ojos cerrados: <span>{state()!.eyesClosed ? "Si" : "No"}</span></p>
                 <div class="progress-container">
@@ -57,4 +52,4 @@ const Score: Component<ScoreProps> = ({ player }) => {
     );
 }
 
-export default Score;
+export default State;

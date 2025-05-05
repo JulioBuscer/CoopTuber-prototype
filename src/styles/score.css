@@ -4,10 +4,19 @@
     gap: 0.5rem;
     align-items: center;
     justify-content: center;
+    text-align: start;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 0.5rem;
 }
 
 .player-name {
-    text-align: center;
     padding: 0.5rem;
     width: 100%;
 }
@@ -17,8 +26,18 @@
     font-size: 1.5rem;
 }
 
+.state-container {
+    display: flex;
+    flex-direction: column;    
+    width: 100%;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #1a1a1a;
+    background-color: #242424;
+    border-radius: 0.5rem;
+}
+
 .state {
-    text-align: start;
     width: 100%;
 }
 
@@ -30,12 +49,20 @@
 
 .progress-container {
     display: flex;
-    flex-direction: row  ;
+    flex-direction: row;
     gap: 0.5rem;
     justify-content: center;
     align-items: center;
     width: 100%;
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
 }
+
+.progress {
+    width: 100%;
+}
+
 .progress p {
     margin: 0;
     text-align: center;
@@ -46,4 +73,28 @@
 .progress progress {
     width: 100%;
     height: 2rem;
+}
+
+
+.button {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    @media screen and (max-width: 768px) {
+        font-size: 0.8rem;
+    }
+}
+
+.button svg {
+    width: 24px;
+    height: 24px;    
 }
