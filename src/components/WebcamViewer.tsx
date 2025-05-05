@@ -1,5 +1,5 @@
 import Avatar from "./Avatar";
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
 import Score from "./Score";
 import { playersConfig, playersStates, setPlayerState } from "../data/signals/player";
@@ -15,6 +15,11 @@ const WebcamViewer = () => {
 
     const [player1, setPlayer1] = createSignal(playersConfig()[0]);
     const [player2, setPlayer2] = createSignal(playersConfig()[1]);
+
+    createEffect(() => {
+        setPlayer1(playersConfig()[0]);
+        setPlayer2(playersConfig()[1]);
+    });
 
     let videoRef: HTMLVideoElement | undefined;
     let canvasRef: HTMLCanvasElement | undefined;
@@ -92,17 +97,20 @@ const WebcamViewer = () => {
                             const eyeBlinkLeft = findScore("eyeBlinkLeft");
                             const eyeBlinkRight = findScore("eyeBlinkRight");
                             const jawOpen = findScore("jawOpen");
+
                             const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player1().rateEyesClosed);
                             const mouthOpen = (jawOpen > player1().rateMouthOpen);
+                            console.log(player1().rateMouthOpen, mouthOpen);
+                            console.log(player1().rateEyesClosed, eyesClosed);
+
                             setPlayerState(player1().characterId, {
-                                ...playersStates().find(p => p.characterId === player1().characterId)!,
+                                ...player1(),
                                 eyeBlinkLeftScore: eyeBlinkLeft,
                                 eyeBlinkRightScore: eyeBlinkRight,
                                 jawOpenScore: jawOpen,
                                 eyesClosed: eyesClosed,
                                 mouthOpen: mouthOpen
                             });
-                            console.log('Player 1:', playersStates().find(p => p.characterId === player1().characterId));
                         }
                         if (results.faceBlendshapes[1]) {
                             const blendshapes = results.faceBlendshapes[1];
@@ -117,7 +125,7 @@ const WebcamViewer = () => {
                             const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player2().rateEyesClosed);
                             const mouthOpen = (jawOpen > player2().rateMouthOpen);
                             setPlayerState(player2().characterId, {
-                                ...playersStates().find(p => p.characterId === player2().characterId)!,
+                                ...player2(),
                                 eyeBlinkLeftScore: eyeBlinkLeft,
                                 eyeBlinkRightScore: eyeBlinkRight,
                                 jawOpenScore: jawOpen,

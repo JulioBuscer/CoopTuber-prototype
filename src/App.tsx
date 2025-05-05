@@ -1,6 +1,6 @@
 import './App.css'
 import WebcamViewer from './components/WebcamViewer'
-import { Avatar, InitialAvatar } from './data/types/avatar';
+import './styles/score.css';
 
 function App() {
   return (
