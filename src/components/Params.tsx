@@ -4,24 +4,24 @@ import { selectedPlayer, setPlayer } from '../data/signals/player';
 type ParamsProps = {};
 
 const Params: Component<ParamsProps> = () => {
-    const [player, setPlayerState] = createSignal(selectedPlayer());
+    const [player, setPlayerConfig] = createSignal(selectedPlayer());
     
     createEffect(() => {
-        setPlayerState(selectedPlayer());
+        setPlayerConfig(selectedPlayer());
     });
 
     if (!player() ) return null;
 
     const handleChangeRateMouthOpen = (e: Event) => {
-        console.log('Rate Mouth Open:', (e.target as HTMLInputElement).value);
-
         const value = parseFloat((e.target as HTMLInputElement).value);
+        setPlayerConfig({ ...player()!, rateMouthOpen: value });
         setPlayer(player()!.characterId, { ...player()!, rateMouthOpen: value });
 
     };
 
     const handleChangeRateEyesClosed = (e: Event) => {
         const value = parseFloat((e.target as HTMLInputElement).value);
+        setPlayerConfig({ ...player()!, rateEyesClosed: value });
         setPlayer(player()!.characterId, { ...player()!, rateEyesClosed: value });
     };
 
