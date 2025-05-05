@@ -63,3 +63,4 @@ export const InitialAvatarConfig = (idAvatar?: string) => {
 
 export const InitialAvatarState = (idAvatar: string) => ({ ...defaultAvatarState, characterId: idAvatar });
 
+    
