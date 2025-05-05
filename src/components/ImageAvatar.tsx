@@ -1,21 +1,30 @@
-import { Component, createMemo } from "solid-js";
+import { Component, createSignal, createEffect } from "solid-js";
 import { AvatarConfig, AvatarState } from "../data/types/avatar";
-import { playersStates } from "../data/signals/player";
+import { playersConfig, playersStates } from "../data/signals/player";
 
 interface ImageAvatarProps {
     player: AvatarConfig
 }
 
 const ImageAvatar: Component<ImageAvatarProps> = ({ player }) => {
-    const state = createMemo(() => {
-        return playersStates().find(p => p.characterId === player.characterId);
+
+    const [playerState, setPlayerState] = createSignal<AvatarState | null>(
+        playersStates().find(p => p.characterId === player.characterId) ??  null
+    );
+
+    const [playerConfig, setPlayerConfig] = createSignal<AvatarConfig | null>(
+        playersConfig().find(p => p.characterId === player.characterId) ?? null
+    );
+    createEffect(() => {
+        setPlayerConfig(playersConfig().find(p => p.characterId === player.characterId) ?? null);
+        setPlayerState(playersStates().find(p => p.characterId === player.characterId) ?? null);
     });
 
     const getImagePath = () => {
-        if (state()?.eyesClosed && state()?.mouthOpen) return player.imagePaths?.blinkTalk;
-        if (state()?.eyesClosed) return player.imagePaths?.blink;
-        if (state()?.mouthOpen) return player.imagePaths?.talking;
-        return player.imagePaths?.normal;
+        if (playerState()?.eyesClosed && playerState()?.mouthOpen) return playerConfig()?.imagePaths?.blinkTalk;
+        if (playerState()?.eyesClosed) return playerConfig()?.imagePaths?.blink;
+        if (playerState()?.mouthOpen) return playerConfig()?.imagePaths?.talking;
+        return playerConfig()?.imagePaths?.normal;
     };
 
     return (

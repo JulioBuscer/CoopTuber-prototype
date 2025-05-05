@@ -1,6 +1,8 @@
 import './App.css'
-import WebcamViewer from './components/WebcamViewer'
 import './styles/score.css';
+import './styles/tools/avatar.css';
+import WebcamViewer from './components/WebcamViewer'
+
 
 function App() {
   return (
