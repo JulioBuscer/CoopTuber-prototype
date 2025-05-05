@@ -1,4 +1,3 @@
-import { selectedPlayer } from "../../data/signals/player";
 import Params from "../Params";
 import { createSignal } from "solid-js";
 

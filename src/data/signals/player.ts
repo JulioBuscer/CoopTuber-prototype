@@ -11,7 +11,9 @@ const [playersStates, setPlayersStates] = createSignal<AvatarState[]>(
     InitialAvatarState('P2')]
 );
 
-const [selectedPlayer, setSelectedPlayer] = createSignal<AvatarConfig | null>(null);
+const [selectedPlayer, setSelectedPlayer] = createSignal<AvatarConfig | null>(
+    playersConfig()[0]
+);
 
 const usePlayers = () => {
     return [playersConfig, setPlayersConfig, playersStates, setPlayersStates] as const;
