@@ -16,3 +16,4 @@ export const setShowState = (playerId: string) => {
     return playerStates.get(playerId)![1];
 };
 
+export const [selectedTool, setSelectedTool] = createSignal<string>("");
