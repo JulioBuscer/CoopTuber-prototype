@@ -1,6 +1,7 @@
 import { setSelectedTool, selectedTool } from "../../data/signals/utils";
 import Params from "../Params";
 import Avatar from "./Avatar";
+import Background from "./Background";
 
 
 const Tools = () => {
@@ -31,7 +32,7 @@ const Tools = () => {
                 {
                     selectedTool() === "Fondo" && (
                         <div class="tools-background">
-                            <p>Configuración del Fondo</p>
+                            <Background />
                         </div>
                     )
                 }
