@@ -5,6 +5,7 @@ export interface imagePaths {
     'blink': string;
     'talking': string;
     'blinkTalk': string;
+    backgroundImage: string;
 }
 
 export interface AvatarConfig {
@@ -12,6 +13,10 @@ export interface AvatarConfig {
     rateEyesClosed: number;
     rateMouthOpen: number;
     imagePaths: imagePaths;
+    useChroma: boolean;
+    useBackgroundImage: boolean;
+    backgroundColor: string;
+    color: string;
 }
 
 export interface AvatarState {
@@ -27,11 +32,16 @@ export const defaultAvatarConfig: AvatarConfig = {
     characterId: "",
     rateEyesClosed: 0.5,
     rateMouthOpen: 0.5,
+    useChroma: true,
+    useBackgroundImage: false,
+    backgroundColor: '#00FF00',//'#1a1a1a',
+    color: '#fff',
     imagePaths: {
         'normal': '/avatars/default/normal.png',
         'blink': '/avatars/default/blink.png',
         'talking': '/avatars/default/talking.png',
-        'blinkTalk': '/avatars/default/blinkTalk.png'
+        'blinkTalk': '/avatars/default/blinkTalk.png',
+        'backgroundImage': ''
     }
 }
 
