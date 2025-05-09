@@ -215,3 +215,42 @@ button.active {
 }
 
 
+.switch-button{
+  display: inline-flex;
+  height: 1.5rem;
+  width: 2.75rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 99rem;
+  border: 0.05rem solid #444;
+  padding: 0;
+  transition: all 0.3s ease-out allow-discrete;
+
+}
+.switch-button[aria-checked="true"] {
+  background-color: #646cffaa;
+  color: #fff;
+
+}
+
+.switch-button[aria-checked="false"] {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.switch-button-icon {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 99rem;
+  background-color: #fff;
+  color: #fff;
+  transition: all 0.3s ease-out allow-discrete;
+}
+
+.switch-button[aria-checked="true"] .switch-button-icon {
+  transform: translateX(1.25rem);
+  background-color: #fff;
+  color: #fff;
+}

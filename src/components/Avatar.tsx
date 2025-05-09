@@ -9,13 +9,15 @@ interface AvatarProps {
 const Avatar: Component<AvatarProps> = ({ characterId }) => {
 
   const sate = playersStates().find(p => p.characterId === characterId);
+  const player = playersConfig().find(p => p.characterId === characterId);
 
-  if (!sate) return null;
+
+  if (!sate || !player) return null;
 
 
   const handleClick = () => {
     console.log('Selected player:', sate.characterId);
-    setSelectedPlayer(playersConfig().find(p => p.characterId === characterId) ?? null);
+    setSelectedPlayer(player);
   };
   return (
     <div
@@ -27,13 +29,20 @@ const Avatar: Component<AvatarProps> = ({ characterId }) => {
       </div>
       <div class="player-background"
         style={{
-          // El background se coloreara segun las preferencias del usuario
-          'background-color': '#1a1a1a'
+          'background-color': player.useChroma ?
+            '#00FF00'
+            : player.backgroundColor ?? '#00FF00',
+          'background-image': !player.useChroma && player.useBackgroundImage ?
+            `url(${player.imagePaths.backgroundImage})`
+            : 'none',
+          'background-size': 'cover',
+          'background-position': 'center',
+          'background-repeat': 'no-repeat'
         }}
       />
       <div id={characterId == 'face1' ? 'P1' : 'P2'} class='avatar-display'>
         <div class="avatar">
-          <ImageAvatar player={playersConfig().find(p => p.characterId === characterId)!} />
+          <ImageAvatar player={player} />
         </div>
       </div>
     </div>
