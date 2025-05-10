@@ -150,27 +150,6 @@ main {
   object-fit: contain;
 }
 
-.tools {
-  width: 100%;
-}
-
-.tools-bar {
-  width: 100%;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  display: grid;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 0.2rem;
-  background-color: #1a1a1a;
-}
-
-.tools-bar button {
-  border-radius: calc(.5rem -2px);
-}
-
-.tools-config {
-  margin-top: 1rem;
-}
 
 
 

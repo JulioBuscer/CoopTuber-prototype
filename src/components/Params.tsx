@@ -15,14 +15,14 @@ const Params: Component<ParamsProps> = () => {
     if (!player()) return null;
 
     const handleChangeRateMouthOpen = (e: Event) => {
-        const value = parseFloat((e.target as HTMLInputElement).value);
+        const value = parseFloat((e.target as HTMLInputElement).value) / 100;
         setPlayersConfig(prev => {
             return prev.map(p => p.characterId === player()!.characterId ? { ...p, rateMouthOpen: value } : p);
         });
     };
 
     const handleChangeRateEyesClosed = (e: Event) => {
-        const value = parseFloat((e.target as HTMLInputElement).value);
+        const value = parseFloat((e.target as HTMLInputElement).value) / 100;
         setPlayersConfig(prev => {
             return prev.map(p => p.characterId === player()!.characterId ? { ...p, rateEyesClosed: value } : p);
         });
@@ -30,32 +30,49 @@ const Params: Component<ParamsProps> = () => {
 
     return (
 
-        <div style={{ display: 'grid' }} >
-            <div style={{
-                display: 'grid',
-                gap: '8px',
-                'grid-template-columns': '20ch 10ch',
-                'align-items': 'start',
-                'justify-content': 'start',
-                'width': '100%',
-                'text-align': 'end'
-            }}>
-                <label for="rateMouthOpen">Rate Mouth Open:</label>
+        <div class="tools-params-container" >
+            <div class="tools-params-container-item">
+                <div class="tools-params-container-item-label">
+                    <label for="rateMouthOpen">Hablar:</label>
+                    <input id="rateMouthOpen"
+                        type="number"
+                        min="1"
+                        max="100"
+                        step="1"
+                        value={player()!.rateMouthOpen * 100}
+
+                        onChange={handleChangeRateMouthOpen}
+                    />
+                    <span>%</span>
+                </div>
                 <input id="rateMouthOpen"
-                    type="number"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value={player()!.rateMouthOpen}
+                    type="range"
+                    min="1"
+                    max="100"
+                    step="1"
+                    value={player()!.rateMouthOpen * 100}
                     onChange={handleChangeRateMouthOpen}
                 />
-                <label for="rateEyesClosed">Rate Eyes Closed:</label>
+            </div>
+            <div class="tools-params-container-item">
+                <div class="tools-params-container-item-label">
+                    <label for="rateEyesClosed">Papadear:</label>
+                    <input id="rateEyesClosed"
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value={player()!.rateEyesClosed * 100}
+                        onChange={handleChangeRateEyesClosed}
+                    />
+                    <span>%</span>
+                </div>
                 <input id="rateEyesClosed"
-                    type="number"
+                    type="range"
                     min="0"
-                    max="1"
-                    step="0.01"
-                    value={player()!.rateEyesClosed}
+                    max="100"
+                    step="1"
+                    value={player()!.rateEyesClosed * 100}
                     onChange={handleChangeRateEyesClosed}
                 />
             </div>
