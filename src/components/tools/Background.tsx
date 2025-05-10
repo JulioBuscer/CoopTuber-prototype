@@ -71,7 +71,8 @@ const Background: Component = () => {
                             </div>
                             <div>
                                 <label>Color de fondo </label>
-                                <input type="color"
+                                <input 
+                                    type="color"
                                     value={player()!.backgroundColor}
                                     onChange={(e) => setPlayerConfig(selectedPlayer()!.characterId, { ...player()!, backgroundColor: e.target.value })} />
                             </div>
@@ -81,8 +82,9 @@ const Background: Component = () => {
                             <div class={"tools-background-content-selector-image-preview" + (player()!.useBackgroundImage ? ' active' : '')}
                                 onClick={() => handleUseBackgroundImage(true)}>
                                 <img
+                                
                                     src={player()!.imagePaths.backgroundImage}
-                                    alt="background"
+                                    alt="Sube una Imagen"
                                 />
                             </div>
                             <div>
