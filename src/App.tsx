@@ -1,7 +1,10 @@
 import './App.css'
 import './styles/score.css';
+import './styles/tools.css';
 import './styles/tools/avatar.css';
 import './styles/tools/background.css';
+import './styles/tools/params.css';
+
 import WebcamViewer from './components/WebcamViewer'
 
 

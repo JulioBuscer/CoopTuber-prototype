@@ -61,8 +61,6 @@ const Avatar = () => {
 
     return (
         <div class="avatar-tools" >
-            seleccion de frames para el avatar {player()?.characterId}
-
             <div class="avatar-tools-display">
                 <img
                     class="avatar-tools-display-image"
