@@ -16,8 +16,11 @@ const Tools = () => {
         <div class="tools">
             <div class="tools-bar">
                 {["Avatar", "Fondo", "Parametros", "Efectos", "Otros"].map((text) => (
-                    <button class={selectedTool() === text ? "active" : ""} onClick={() => handleToolClick(text)}>{text}: {selectedPlayer()?.characterId}</button>
+                    <button class={selectedTool() === text ? "active" : ""} onClick={() => handleToolClick(text)}>{text}</button>
                 ))}
+            </div>
+            <div class="tools-player-name">
+                {selectedPlayer()?.characterId}
             </div>
             <div class="tools-config">
                 {
