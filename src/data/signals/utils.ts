@@ -18,4 +18,4 @@ export const setShowState = (playerId: string) => {
 
 export const [selectedTool, setSelectedTool] = createSignal<string>("");
 
-export const [isDebugMode, setIsDebugMode] = createSignal(false);
+export const [isDebugMode, setIsDebugMode] = createSignal(true);
