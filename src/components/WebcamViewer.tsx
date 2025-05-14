@@ -76,8 +76,8 @@ const WebcamViewer = () => {
         if (videoRef) {
             debugLog("Video paused:", videoRef.paused);
             if (videoRef.paused) {
+                // Si no hay detector, inicializarlo
                 if (!detector()) {
-                    // Si no hay detector, inicializarlo
                     const canvas = canvasRef!;
                     canvas.width = videoRef.videoWidth;
                     canvas.height = videoRef.videoHeight;
@@ -88,24 +88,16 @@ const WebcamViewer = () => {
                     });
 
                     const landmarkDetector = new FaceLandmarkDetector(canvas);
-                    landmarkDetector.initialize().then(() => {
-                        setDetector(landmarkDetector);
-                        videoRef!.play().catch(error => {
-                            debugError(new Error("Error al reproducir el video"), error);
-                        });
-                        // Iniciar la detección de landmarks
-                        processFrame();
-                    }).catch(error => {
-                        debugError(new Error("Error al inicializar el detector"), error);
-                    });
-                } else {
-                    // Si ya hay detector, solo reproducir el video
-                    videoRef.play().catch(error => {
-                        debugError(new Error("Error al reproducir el video"), error);
-                    });
-                    // Iniciar la detección de landmarks
-                    processFrame();
+                    setDetector(landmarkDetector);
                 }
+
+                // Reproducir el video
+                videoRef.play().catch(error => {
+                    debugError(new Error("Error al reproducir el video"), error);
+                });
+
+                // Iniciar la detección de landmarks
+                processFrame();
             } else {
                 videoRef.pause();
                 // Detener la detección de landmarks cuando se pausa
@@ -184,102 +176,14 @@ const WebcamViewer = () => {
                     left: "0",
                 });
 
-                const landmarkDetector = new FaceLandmarkDetector(canvas);
-                await landmarkDetector.initialize();
-                setDetector(landmarkDetector);
+                if (!detector()) {
+                    const landmarkDetector = new FaceLandmarkDetector(canvas);
+                    setDetector(landmarkDetector);
+                }
 
                 debugLog("Iniciando detección de landmarks...");
                 // Iniciar la detección de landmarks
-                const processFrame = async () => {
-                    const det = detector();
-                    if (!det) {
-                        debugError(new Error("Detector no está disponible"));
-                        return;
-                    }
-                    try {
-                        debugLog("Detectando landmarks...");
-                        const results = await det.detect(videoRef!);
-                        debugLog("Resultados de detección:", results);
-
-                        if (
-                            results &&
-                            results.faceLandmarks &&
-                            results.faceBlendshapes
-                        ) {
-                            debugLog("Landmarks detectados!");
-                            det.drawResults(results);
-
-                            // Procesar blendshapes para cada jugador
-                            if (results.faceBlendshapes[0]) {
-                                const blendshapes = results.faceBlendshapes[0];
-                                const findScore = (name: string) =>
-                                    blendshapes.categories.find(
-                                        (c: BlendshapesCategory) => c.categoryName === name
-                                    )?.score ?? 0;
-
-                                const eyeBlinkLeft = findScore("eyeBlinkLeft");
-                                const eyeBlinkRight = findScore("eyeBlinkRight");
-                                const jawOpen = findScore("jawOpen");
-
-                                const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player1().rateEyesClosed);
-                                const mouthOpen = (jawOpen > player1().rateMouthOpen);
-                                debugLog("Player 1 scores:", {
-                                    eyeBlinkLeft,
-                                    eyeBlinkRight,
-                                    jawOpen,
-                                    eyesClosed,
-                                    mouthOpen
-                                });
-
-                                setPlayerState(player1().characterId, {
-                                    ...player1(),
-                                    eyeBlinkLeftScore: eyeBlinkLeft,
-                                    eyeBlinkRightScore: eyeBlinkRight,
-                                    jawOpenScore: jawOpen,
-                                    eyesClosed: eyesClosed,
-                                    mouthOpen: mouthOpen
-                                });
-                            }
-                            if (results.faceBlendshapes[1]) {
-                                const blendshapes = results.faceBlendshapes[1];
-                                const findScore = (name: string) =>
-                                    blendshapes.categories.find(
-                                        (c: BlendshapesCategory) => c.categoryName === name
-                                    )?.score ?? 0;
-
-                                const eyeBlinkLeft = findScore("eyeBlinkLeft");
-                                const eyeBlinkRight = findScore("eyeBlinkRight");
-                                const jawOpen = findScore("jawOpen");
-                                const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player2().rateEyesClosed);
-                                const mouthOpen = (jawOpen > player2().rateMouthOpen);
-                                debugLog("Player 2 scores:", {
-                                    eyeBlinkLeft,
-                                    eyeBlinkRight,
-                                    jawOpen,
-                                    eyesClosed,
-                                    mouthOpen
-                                });
-
-                                setPlayerState(player2().characterId, {
-                                    ...player2(),
-                                    eyeBlinkLeftScore: eyeBlinkLeft,
-                                    eyeBlinkRightScore: eyeBlinkRight,
-                                    jawOpenScore: jawOpen,
-                                    eyesClosed,
-                                    mouthOpen
-                                });
-                            }
-                        } else {
-                            debugLog("No se detectaron landmarks en este frame");
-                        }
-                    } catch (error) {
-                        debugError(error as Error, "Error al detectar landmarks");
-                    }
-                    animationFrameId = requestAnimationFrame(processFrame);
-                };
-
                 processFrame();
-
             } catch (error) {
                 debugError(error as Error, "Error al acceder a la cámara");
                 setIsCameraOn(false);
@@ -412,6 +316,22 @@ const WebcamViewer = () => {
                         width={1920}
                         height={1080}
                     />
+                    <div classList={{
+                        "video-control-container": true,
+                        "playing": isVideoPlaying()
+                    }}
+                        >
+                        <span
+                            class="video-control-button"
+                            onClick={handleVideoClick}
+                            style={{
+                                display: isCameraOn() ? "none" : "block",
+                            }}
+                        >
+                            {isVideoPlaying() ? "⏸️" : "▶️"}
+                        </span>
+                    </div>
+
                 </div>
                 <div class="content-flex">
                     <div class="flex-item">
@@ -428,23 +348,17 @@ const WebcamViewer = () => {
                         <label>{isCameraOn() ? "Desactivar Cámara" : "Activar Cámara"}</label>
 
                         <button
+                            class="switch-button"
                             type="button"
-                            aria-checked={isVideoPlaying()}
-                            onClick={handleVideoClick}
-                            disabled={isCameraOn()}
-                            value="on"
-                        >
-                            <label>{isVideoPlaying() ? "⏸️ Pausar Video" : "▶️ Reproducir Video"} </label>
-                        </button>
-                        <button
-                            type="button"
-                            aria-checked={isVideoHidden()}
+                            role="switch"
+                            aria-checked={!isVideoHidden()}
                             onClick={() => { setIsVideoHidden(!isVideoHidden()) }}
                             disabled={isCameraOn()}
                             value="on"
                         >
-                            <label>{isVideoHidden() ? "Mostrar Video" : "Ocultar Video"} </label>
+                            <span class="switch-button-icon" />
                         </button>
+                        <label>{isVideoHidden() ? "Mostrar " : "Ocultar "} {isCameraOn() ? "Cámara" : "Video"}</label>
 
                     </div>
                 </div>
@@ -460,7 +374,7 @@ const WebcamViewer = () => {
                 </div>
                 <Tools />
             </div>
-        </div>
+        </div >
     );
 };
 
