@@ -61,7 +61,18 @@ const Avatar = () => {
 
     return (
         <div class="avatar-tools" >
-            <div class="avatar-tools-display">
+            <div class="avatar-tools-display"
+                style={{
+                    'background-color': player()!.useChroma ?
+                        '#00FF00'
+                        : player()!.backgroundColor ?? '#00FF00',
+                    'background-image': !player()!.useChroma && player()!.useBackgroundImage ?
+                        `url(${player()!.imagePaths.backgroundImage})`
+                        : 'none',
+                    'background-size': 'cover',
+                    'background-position': 'center',
+                    'background-repeat': 'no-repeat'
+                }}>
                 <img
                     class="avatar-tools-display-image"
                     src={player()!.imagePaths[imageTypes[selectedImage()]]!}
