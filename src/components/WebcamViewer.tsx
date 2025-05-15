@@ -352,8 +352,12 @@ const WebcamViewer = () => {
                                 display: isCameraOn() ? "none" : "flex",
                                 opacity: isVideoPlaying() ? 0 : 1,
                             }}
+                            title="Cargar video"
                         >
                             <HiOutlineFilm/>
+                            <span>
+                                Cargar video
+                            </span>
                         </button>
                     </div>
 

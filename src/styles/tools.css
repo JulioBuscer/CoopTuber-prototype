@@ -1,33 +1,63 @@
 .tools {
-    width: 100%;
+  width: 100%;
+}
+
+.tools-bar {
+  width: 100%;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  display: grid;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.2rem;
+  background-color: #1a1a1a;
+}
+
+.tools-bar button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(.5rem -2px);
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.tools-bar button span {
+  width: 0%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.3s ease-out;
+}
+
+.tools-bar button svg {
+  transition: all 0.3s ease-out;
+}
+
+.tools-bar button.active,
+.tools-bar button:hover {
+  span {
+    width: fit-content;
+    opacity: 1;
+    transform: translateX(0);
   }
-  
-  .tools-bar {
-    width: 100%;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    display: grid;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 0.2rem;
-    background-color: #1a1a1a;
+  svg {
+    transform: translateX(-3px);
   }
-  
-  .tools-bar button {
-    border-radius: calc(.5rem -2px);
-  }
-  
-  .tools-config {
-    border-width: 0px 1px 1px 1px;
-    border-style: solid;
-    border-color: #444;
-    border-radius: 0.2rem;
-    padding: 1rem;
-  }
-  
-  .tools-player-name {
-    padding: 0.2rem;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #fff;
-  }
+}
+
+.tools-config {
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: #444;
+  border-radius: 0.2rem;
+  padding: 1rem;
+}
+
+.tools-player-name {
+  padding: 0.2rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #fff;
+}

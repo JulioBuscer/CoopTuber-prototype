@@ -10,37 +10,41 @@ const Tools = () => {
         setSelectedTool(tool);
     };
 
-const tools=[
-    {
-        name: "Avatar",
-        icon: <HiOutlineUser />
-    },
-    {
-        name: "Fondo",
-        icon: <HiOutlinePhoto />
-    },
-    {
-        name: "Parametros",
-        icon: <HiOutlineAdjustmentsHorizontal />
-    },
-    {
-        name: "Efectos",
-        icon: <HiOutlineSparkles />
-    },
-    {
-        name: "Otros",
-        icon: <HiOutlineSparkles />
-    }
-]
+    const tools = [
+        {
+            name: "Avatar",
+            icon: <HiOutlineUser />
+        },
+        {
+            name: "Fondo",
+            icon: <HiOutlinePhoto />
+        },
+        {
+            name: "Parametros",
+            icon: <HiOutlineAdjustmentsHorizontal />
+        },
+        {
+            name: "Efectos",
+            icon: <HiOutlineSparkles />
+        },
+        {
+            name: "Otros",
+            icon: <HiOutlineSparkles />
+        }
+    ]
 
     return (
 
         <div class="tools">
             <div class="tools-bar">
                 {tools.map((tool) => (
-                    <button class={selectedTool() === tool.name ? "active" : ""} onClick={() => handleToolClick(tool.name)}>
+                    <button
+                        classList={{
+                            "active": selectedTool() === tool.name
+                        }}
+                        onClick={() => handleToolClick(tool.name)}>
                         {tool.icon}
-                        {tool.name}
+                        <span>{tool.name}</span>
                     </button>
                 ))}
             </div>
