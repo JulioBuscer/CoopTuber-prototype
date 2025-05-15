@@ -17,6 +17,7 @@ export interface AvatarConfig {
     useBackgroundImage: boolean;
     backgroundColor: string;
     color: string;
+    
 }
 
 export interface AvatarState {

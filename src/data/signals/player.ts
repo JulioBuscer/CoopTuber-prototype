@@ -15,6 +15,8 @@ const [selectedPlayer, setSelectedPlayer] = createSignal<AvatarConfig | null>(
     playersConfig()[0]
 );
 
+const [videoSource, setVideoSource] = createSignal<string>("/video.mp4");
+
 const usePlayers = () => {
     return [playersConfig, setPlayersConfig, playersStates, setPlayersStates] as const;
 };
@@ -33,4 +35,4 @@ const setPlayerState = (characterId: string, state: AvatarState) => {
 };
 
 export default usePlayers;
-export { setPlayerConfig, setPlayerState, playersConfig, setPlayersConfig, playersStates, setPlayersStates, selectedPlayer, setSelectedPlayer };
+export { setPlayerConfig, setPlayerState, playersConfig, setPlayersConfig, playersStates, setPlayersStates, selectedPlayer, setSelectedPlayer, videoSource, setVideoSource };
