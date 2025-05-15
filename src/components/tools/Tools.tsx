@@ -1,3 +1,4 @@
+import { HiOutlineAdjustmentsHorizontal, HiOutlinePhoto, HiOutlineSparkles, HiOutlineUser } from "solid-icons/hi";
 import { selectedPlayer } from "../../data/signals/player";
 import { setSelectedTool, selectedTool } from "../../data/signals/utils";
 import Params from "../Params";
@@ -9,20 +10,45 @@ const Tools = () => {
         setSelectedTool(tool);
     };
 
-
+const tools=[
+    {
+        name: "Avatar",
+        icon: <HiOutlineUser />
+    },
+    {
+        name: "Fondo",
+        icon: <HiOutlinePhoto />
+    },
+    {
+        name: "Parametros",
+        icon: <HiOutlineAdjustmentsHorizontal />
+    },
+    {
+        name: "Efectos",
+        icon: <HiOutlineSparkles />
+    },
+    {
+        name: "Otros",
+        icon: <HiOutlineSparkles />
+    }
+]
 
     return (
 
         <div class="tools">
             <div class="tools-bar">
-                {["Avatar", "Fondo", "Parametros", "Efectos", "Otros"].map((text) => (
-                    <button class={selectedTool() === text ? "active" : ""} onClick={() => handleToolClick(text)}>{text}</button>
+                {tools.map((tool) => (
+                    <button class={selectedTool() === tool.name ? "active" : ""} onClick={() => handleToolClick(tool.name)}>
+                        {tool.icon}
+                        {tool.name}
+                    </button>
                 ))}
             </div>
-            <div class="tools-player-name">
-                {selectedPlayer()?.characterId}
-            </div>
             <div class="tools-config">
+
+                <div class="tools-player-name">
+                    {selectedPlayer()?.characterId}
+                </div>
                 {
                     selectedTool() === "Avatar" && (
                         <div class="tools-player">
