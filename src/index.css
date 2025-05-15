@@ -138,8 +138,8 @@ video {
 .video-control-button {
   cursor: pointer;
   z-index: 3;
-  width: 2.5rem;
-  height: 2.5rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -147,13 +147,31 @@ video {
   border-radius: 999px;
   transition: background-color 0.3s;
   font-size: 1.2rem;
+
   &:hover {
     background-color: #646cffaa;
+    span {
+      display: block;
+      width: fit-content;
+      opacity: 1;
+      transform: translateX(0);
+    }
+    width: fit-content;
   }
+
   &.file {
     position: absolute;
-    top:1rem;
-    right:1rem;
+    top: 1rem;
+    right: 1rem;
   }
-}
 
+  span {
+    display: none;
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s ease-out;
+    pointer-events: none;
+  }
+
+
+}
