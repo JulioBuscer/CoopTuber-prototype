@@ -17,11 +17,15 @@
   }
   
   .tools-config {
-    margin-top: 1rem;
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    border-color: #444;
+    border-radius: 0.2rem;
+    padding: 1rem;
   }
   
   .tools-player-name {
-    margin-top: 1rem;
+    padding: 0.2rem;
     text-align: center;
     font-weight: bold;
     font-size: 1.2rem;

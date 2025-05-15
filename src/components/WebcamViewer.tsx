@@ -2,10 +2,10 @@ import Avatar from "./Avatar";
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
 import Score from "./score/Score";
-import { playersConfig, setPlayerState } from "../data/signals/player";
+import { playersConfig, setPlayerState, videoSource, setVideoSource } from "../data/signals/player";
 import Tools from "./tools/Tools";
-import { debuglog } from "util";
 import { debugError, debugLog } from "../utils/utils";
+import { HiOutlineFilm, HiOutlinePause, HiOutlinePlay } from "solid-icons/hi";
 
 type BlendshapesCategory = {
     categoryName: string;
@@ -28,6 +28,7 @@ const WebcamViewer = () => {
     // Referencias a elementos
     let videoRef: HTMLVideoElement | undefined;
     let canvasRef: HTMLCanvasElement | undefined;
+    let fileInputRef: HTMLInputElement | undefined;
 
     // Estado del detector
     const [detector, setDetector] = createSignal<FaceLandmarkDetector | null>(null);
@@ -39,7 +40,7 @@ const WebcamViewer = () => {
     let mediaStream: MediaStream | null = null;
 
     // Ocultar video en Zindex
-    const [isVideoHidden, setIsVideoHidden] = createSignal(true);
+    const [isVideoHidden, setIsVideoHidden] = createSignal(false);
 
     // Limpieza de recursos
     onCleanup(() => {
@@ -133,7 +134,7 @@ const WebcamViewer = () => {
                 }
 
                 // Configurar el video
-                videoRef.autoplay = true;
+                videoRef.autoplay = false;
                 videoRef.muted = true;
                 videoRef.playsInline = true;
 
@@ -306,30 +307,54 @@ const WebcamViewer = () => {
                         }}
                         width={1920}
                         height={1080}
-                        src="/video.mp4"
+                        src={videoSource()}
+                        playsinline
                         autoplay={false}
                         muted
-                        playsinline
                     />
                     <canvas
                         ref={el => (canvasRef = el!)}
                         width={1920}
                         height={1080}
                     />
-                    <div classList={{
-                        "video-control-container": true,
-                        "playing": isVideoPlaying()
-                    }}
-                        >
+                    <input
+                        type="file"
+                        accept="video/*"
+                        style={{ display: 'none' }}
+                        ref={el => (fileInputRef = el!)}
+                        onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                                const url = URL.createObjectURL(file);
+                                setVideoSource(url);
+                                videoRef?.pause();
+                            }
+                        }}
+                    />
+                    <div
+                        classList={{
+                            "video-control-container": true,
+                            "playing": isVideoPlaying()
+                        }}>
                         <span
                             class="video-control-button"
                             onClick={handleVideoClick}
                             style={{
-                                display: isCameraOn() ? "none" : "block",
+                                display: isCameraOn() ? "none" : "flex",
                             }}
                         >
-                            {isVideoPlaying() ? "⏸️" : "▶️"}
+                            {isVideoPlaying() ? <HiOutlinePause /> : <HiOutlinePlay />}
                         </span>
+                        <button
+                            onClick={() => fileInputRef?.click()}
+                            class="video-control-button file"
+                            style={{
+                                display: isCameraOn() ? "none" : "flex",
+                                opacity: isVideoPlaying() ? 0 : 1,
+                            }}
+                        >
+                            <HiOutlineFilm/>
+                        </button>
                     </div>
 
                 </div>
