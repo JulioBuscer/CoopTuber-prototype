@@ -48,38 +48,26 @@ export class FaceLandmarkDetector {
         this.faceLandmarker = null;
     }
 
-    drawResults(results: { faceLandmarks?: Array<any>, faceBlendshapes?: Array<any> }) {
+    drawResults(results: { faceLandmarks?: Array<any>, faceBlendshapes?: Array<any> }, playersColor?: Array<string>) {
         const ctx = this.canvas.getContext('2d')!;
         ctx.save();
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         if (results.faceLandmarks && results.faceBlendshapes) {
-            // results.faceBlendshapes.forEach((blendshapes, index) => {
-            //     //console.log(blendshapes.categories)
-            //     const eyeBlinkLeft = blendshapes.categories.find((c: blendshapesCategory) => c.categoryName === 'eyeBlinkLeft').score;
-            //     const eyeBlinkRight = blendshapes.categories.find((c: blendshapesCategory) => c.categoryName === 'eyeBlinkRight').score;
-            //     const jawOpen = blendshapes.categories.find((c: blendshapesCategory) => c.categoryName === 'jawOpen').score;
-
-            //     // const eyesClosed = (eyeBlinkLeft + eyeBlinkRight) / 2 > 0.5;
-            //     // const mouthOpen = jawOpen > 0.3;
-
-            //     // console.log(`Cara ${index + 1} detectada:`);
-            //     // console.log(`Estado: ${eyesClosed ? 'Ojos Cerrados' : 'Ojos Abiertos'}, ${mouthOpen ? 'Boca Abierta' : 'Boca Cerrada'}`);
-            // });
-
+            let index = 0;
             for (const landmarks of results.faceLandmarks) {
                 // Dibujar la malla facial
                 this.drawingUtils.drawConnectors(
                     landmarks,
                     FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-                    { color: '#C0C0C0', lineWidth: 1 }
+                    { color: playersColor?.[index] ??'#C0C0C0', lineWidth: 1 }
                 );
 
                 // Dibujar los contornos faciales
                 this.drawingUtils.drawConnectors(
                     landmarks,
                     FaceLandmarker.FACE_LANDMARKS_FACE_OVAL,
-                    { color: '#E0E0E0', lineWidth: 2 }
+                    { color: playersColor?.[index] ??'#E0E0E0', lineWidth: 4}
                 );
 
                 // Dibujar los puntos de los ojos
@@ -112,6 +100,7 @@ export class FaceLandmarkDetector {
                     FaceLandmarker.FACE_LANDMARKS_RIGHT_EYEBROW,
                     { color: '#30FF30', lineWidth: 1 }
                 );
+                index++;
             }
         } else {
             console.log("No landmarks");

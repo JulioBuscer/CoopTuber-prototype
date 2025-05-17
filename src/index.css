@@ -11,16 +11,20 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --player-color: #646cff;
+  --player-color-active: #646cffaa;
+  --player-color-hover: #646cff22;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--player-color);
   text-decoration: inherit;
 }
 
 a:hover {
-  color: #535bf2;
+  color: var(--player-color-hover);
 }
 
 body {
@@ -40,13 +44,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--player-color);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
 button:hover {
-  border-color: #646cff;
+  border-color: var(--player-color-hover);
 }
 
 button:focus,
@@ -61,7 +65,7 @@ button:focus-visible {
   }
 
   a:hover {
-    color: #747bff;
+    color: var(--player-color-hover);
   }
 
   button {
@@ -149,13 +153,15 @@ video {
   font-size: 1.2rem;
 
   &:hover {
-    background-color: #646cffaa;
+    background-color: var(--player-color-hover);
+
     span {
       display: block;
       width: fit-content;
       opacity: 1;
       transform: translateX(0);
     }
+
     width: fit-content;
   }
 

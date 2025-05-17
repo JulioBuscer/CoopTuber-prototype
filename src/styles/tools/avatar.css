@@ -53,8 +53,8 @@
     align-items: center;
     justify-content: center;
     &.active {
-        border: 0.25rem solid #646cffaa;
-        background-color: #646cff22;
+        border: 0.25rem solid var(--player-color-active);
+        background-color: var(--player-color-hover);
     }
     border-radius: 0.5rem;
 }
@@ -84,7 +84,7 @@
     transition: background-color 0.3s ease;
 
     &:hover {
-        background-color: #646cffaa;
+        background-color: var(--player-color-active);
     }
 }
 
