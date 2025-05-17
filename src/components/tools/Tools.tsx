@@ -4,6 +4,8 @@ import { setSelectedTool, selectedTool } from "../../data/signals/utils";
 import Params from "../Params";
 import Avatar from "./Avatar";
 import Background from "./Background";
+import { VsSymbolColor } from "solid-icons/vs";
+import Color from "./Color";
 const Tools = () => {
 
     const handleToolClick = (tool: string) => {
@@ -28,8 +30,8 @@ const Tools = () => {
             icon: <HiOutlineSparkles />
         },
         {
-            name: "Otros",
-            icon: <HiOutlineSparkles />
+            name: "Color",
+            icon: <VsSymbolColor />
         }
     ]
 
@@ -49,10 +51,6 @@ const Tools = () => {
                 ))}
             </div>
             <div class="tools-config">
-
-                <div class="tools-player-name">
-                    {selectedPlayer()?.characterId}
-                </div>
                 {
                     selectedTool() === "Avatar" && (
                         <div class="tools-player">
@@ -86,9 +84,9 @@ const Tools = () => {
                 }
 
                 {
-                    selectedTool() === "Otros" && (
-                        <div class="tools-others">
-                            <p>Configuración de los Otros</p>
+                    selectedTool() === "Color" && (
+                        <div class="tools-color">
+                            <Color />
                         </div>
                     )
                 }

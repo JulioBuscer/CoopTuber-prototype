@@ -1,26 +1,14 @@
 import Avatar from "./Avatar";
-import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
 import Score from "./score/Score";
 import { playersConfig, setPlayerState, videoSource, setVideoSource } from "../data/signals/player";
 import Tools from "./tools/Tools";
-import { debugError, debugLog } from "../utils/utils";
+import { debugError, debugLog, sanitizedColor } from "../utils/utils";
 import { HiOutlineFilm, HiOutlinePause, HiOutlinePlay } from "solid-icons/hi";
-
-type BlendshapesCategory = {
-    categoryName: string;
-    score: number;
-};
 
 const WebcamViewer = () => {
 
-    const [player1, setPlayer1] = createSignal(playersConfig()[0]);
-    const [player2, setPlayer2] = createSignal(playersConfig()[1]);
-
-    createEffect(() => {
-        setPlayer1(playersConfig()[0]);
-        setPlayer2(playersConfig()[1]);
-    });
     // Estados
     const [isCameraOn, setIsCameraOn] = createSignal(false);
     const [isVideoPlaying, setIsVideoPlaying] = createSignal(false);
@@ -111,6 +99,7 @@ const WebcamViewer = () => {
             debugError(new Error("No se encontró el elemento video"));
         }
     };
+
     const toggleCamera = async () => {
         if (isCameraOn()) {
             debugLog("Deteniendo la cámara...");
@@ -209,24 +198,29 @@ const WebcamViewer = () => {
             ) {
                 debugLog("Landmarks detectados!");
 
+                const colors = playersConfig().map(p => sanitizedColor(p.color));
+                console.log("colors", colors);
                 // Dibujar landmarks en el canvas
-                det.drawResults(results);
+                det.drawResults(results, colors);
 
                 // Procesar blendshapes para cada jugador
-                if (results.faceBlendshapes[0]) {
-                    const blendshapes = results.faceBlendshapes[0];
-                    const findScore = (name: string) =>
-                        blendshapes.categories.find(
-                            (c: BlendshapesCategory) => c.categoryName === name
-                        )?.score ?? 0;
+                const players = playersConfig();
+                results.faceBlendshapes.forEach((blendShapes, index) => {
+                    if (!blendShapes) return;
+
+                    const player = players[index];
+                    if (!player) return;
+
+                    const findScore = (names: string) => blendShapes.categories.find(category => category.categoryName === names)?.score ?? 0;
 
                     const eyeBlinkLeft = findScore("eyeBlinkLeft");
                     const eyeBlinkRight = findScore("eyeBlinkRight");
                     const jawOpen = findScore("jawOpen");
+                    const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player.rateEyesClosed);
+                    const mouthOpen = (jawOpen > player.rateMouthOpen);
 
-                    const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player1().rateEyesClosed);
-                    const mouthOpen = (jawOpen > player1().rateMouthOpen);
-                    debugLog("Player 1 scores:", {
+
+                    debugLog(`Player ${player.characterId} scores:`, {
                         eyeBlinkLeft,
                         eyeBlinkRight,
                         jawOpen,
@@ -234,44 +228,15 @@ const WebcamViewer = () => {
                         mouthOpen
                     });
 
-                    setPlayerState(player1().characterId, {
-                        ...player1(),
+                    setPlayerState(player.characterId, {
+                        ...player,
                         eyeBlinkLeftScore: eyeBlinkLeft,
                         eyeBlinkRightScore: eyeBlinkRight,
                         jawOpenScore: jawOpen,
                         eyesClosed: eyesClosed,
                         mouthOpen: mouthOpen
                     });
-                }
-                if (results.faceBlendshapes[1]) {
-                    const blendshapes = results.faceBlendshapes[1];
-                    const findScore = (name: string) =>
-                        blendshapes.categories.find(
-                            (c: BlendshapesCategory) => c.categoryName === name
-                        )?.score ?? 0;
-
-                    const eyeBlinkLeft = findScore("eyeBlinkLeft");
-                    const eyeBlinkRight = findScore("eyeBlinkRight");
-                    const jawOpen = findScore("jawOpen");
-                    const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player2().rateEyesClosed);
-                    const mouthOpen = (jawOpen > player2().rateMouthOpen);
-                    debugLog("Player 2 scores:", {
-                        eyeBlinkLeft,
-                        eyeBlinkRight,
-                        jawOpen,
-                        eyesClosed,
-                        mouthOpen
-                    });
-
-                    setPlayerState(player2().characterId, {
-                        ...player2(),
-                        eyeBlinkLeftScore: eyeBlinkLeft,
-                        eyeBlinkRightScore: eyeBlinkRight,
-                        jawOpenScore: jawOpen,
-                        eyesClosed,
-                        mouthOpen
-                    });
-                }
+                })
             } else {
                 debugLog("No se detectaron landmarks en este frame");
             }
@@ -354,7 +319,7 @@ const WebcamViewer = () => {
                             }}
                             title="Cargar video"
                         >
-                            <HiOutlineFilm/>
+                            <HiOutlineFilm />
                             <span>
                                 Cargar video
                             </span>
