@@ -4,6 +4,7 @@ import './styles/tools.css';
 import './styles/tools/avatar.css';
 import './styles/tools/background.css';
 import './styles/tools/params.css';
+import './styles/tools/color.css';
 
 import WebcamViewer from './components/WebcamViewer'
 

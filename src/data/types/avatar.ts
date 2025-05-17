@@ -36,7 +36,7 @@ export const defaultAvatarConfig: AvatarConfig = {
     useChroma: true,
     useBackgroundImage: false,
     backgroundColor: '#00FF00',//'#1a1a1a',
-    color: '#fff',
+    color: '#646cff',
     imagePaths: {
         'normal': '/avatars/default/normal.png',
         'blink': '/avatars/default/blink.png',

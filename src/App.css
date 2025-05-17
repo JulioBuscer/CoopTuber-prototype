@@ -46,7 +46,7 @@ main {
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em var(--player-color-hover));
 }
 
 .logo.solid:hover {
@@ -95,26 +95,26 @@ main {
 }
 
 .players-container {
-  aspect-ratio: 16/9;
-  border-radius: 0.5rem;
   padding: 1rem;
-
   display: grid;
-
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 
 }
 
-.player {
+.player-container {
   position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.player {
   overflow: hidden;
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .player-text {
-  position: absolute;
   top: 0.5rem;
   left: 0.5rem;
   z-index: 1;
@@ -178,19 +178,19 @@ button svg {
 }
 
 button:hover {
-  background-color: #646cffaa;
+  background-color: var(--player-color-hover);
 }
 
 button.active {
-  background-color: #646cffaa;
+  background-color: var(--player-color-active);
 }
 
 .player:hover{
-  box-shadow: 0 0 0 0.25rem #646cff55;
+  box-shadow: 0 0 0 0.25rem var(--player-color-active);
 }
 
 .player.active {
-  box-shadow: 0 0 0 0.25rem #646cffaa;
+  box-shadow: 0 0 0 0.25rem var(--player-color-active);
 }
 
 
@@ -208,7 +208,7 @@ button.active {
 
 }
 .switch-button[aria-checked="true"] {
-  background-color: #646cffaa;
+  background-color: var(--player-color-active);
   color: #fff;
 
 }
