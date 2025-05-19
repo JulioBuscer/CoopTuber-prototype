@@ -15,6 +15,7 @@
   --player-color: #646cff;
   --player-color-active: #646cffaa;
   --player-color-hover: #646cff22;
+  --player-text-color: #fff;
 }
 
 a {
@@ -154,6 +155,7 @@ video {
 
   &:hover {
     background-color: var(--player-color-hover);
+    color: var(--player-text-color);
 
     span {
       display: block;

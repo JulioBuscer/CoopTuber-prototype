@@ -5,6 +5,7 @@
     align-items: center;
     justify-content: center;
     text-align: start;
+    margin-bottom: 0.5rem;
 }
 
 .player-info {
@@ -18,17 +19,20 @@
 
 .player-name {
     padding: 0.5rem;
-    width: 100%;
+    border-radius: 999px;
+    background-color: var(--player-color-active);
+    color: var(--player-text-color);
 }
+
 .player-name p {
-    margin: 0;    
+    margin: 0;
     font-weight: bold;
     font-size: 1.5rem;
 }
 
 .state-container {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
     width: 100%;
     gap: 0.5rem;
     padding: 0.5rem;
@@ -54,6 +58,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+
     @media screen and (max-width: 768px) {
         flex-direction: column;
     }
@@ -72,5 +77,24 @@
 
 .progress progress {
     width: 100%;
-    height: 2rem;
+    height: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: var(--player-color-hover);
+    accent-color: var(--player-color);
+
+    /* Resetear estilos nativos (IMPORTANTE para Chromium) */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+}
+
+progress::-webkit-progress-bar,
+progress::-moz-progress-bakr {
+    background-color: var(--player-color) !important;
+}
+
+progress::-webkit-progress-value,
+progress::-moz-progress-value {
+    background-color: var(--player-color) !important;
 }

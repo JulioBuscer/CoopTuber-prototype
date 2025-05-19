@@ -1,4 +1,5 @@
 import { FaceLandmarker, DrawingUtils, FilesetResolver } from "@mediapipe/tasks-vision";
+import { getColorHover } from "../utils/utils";
 
 export class FaceLandmarkDetector {
     private faceLandmarker: FaceLandmarker | null = null; // Inicializar como null
@@ -60,7 +61,7 @@ export class FaceLandmarkDetector {
                 this.drawingUtils.drawConnectors(
                     landmarks,
                     FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-                    { color: playersColor?.[index] ??'#C0C0C0', lineWidth: 1 }
+                    { color: getColorHover(playersColor?.[index] ??'#C0C0C0'), lineWidth: 1 }
                 );
 
                 // Dibujar los contornos faciales
@@ -86,7 +87,7 @@ export class FaceLandmarkDetector {
                 this.drawingUtils.drawConnectors(
                     landmarks,
                     FaceLandmarker.FACE_LANDMARKS_LIPS,
-                    { color: '#816AF7', lineWidth: 1 }
+                    { color: '#30FF30', lineWidth: 1 }
                 );
 
                 // Dibujar los puntos de la mandíbula
