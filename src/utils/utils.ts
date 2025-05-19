@@ -23,10 +23,11 @@ export function sanitizedColor(color: string, isPlain?: boolean) {
             : color.length > 7 ? color.slice(0, 7) : color;
     return return_color;
 }
+
 export function getBestTextColor(color: string) {
     let contrast = 0;
-    
-    if (color.length < 7) {
+    console.log("color", color);
+    if (color.length === 7) {
         const r = parseInt(color.slice(1, 3), 16);
         const g = parseInt(color.slice(3, 5), 16);
         const b = parseInt(color.slice(5, 7), 16);
@@ -37,7 +38,8 @@ export function getBestTextColor(color: string) {
         const a = parseInt(color.slice(7, 9), 16) / 255;
         contrast = (a >= 0.5) ? 1 : 7.1;
     }
-    return (contrast >= 4.5) ? '#000' : '#fff';
+    console.log("contrast", contrast);
+    return (contrast >= 4.5) ? '#fff' : '#000';
 }
 
 export function getColorActive(color: string) {
@@ -45,14 +47,16 @@ export function getColorActive(color: string) {
 }
 
 export function getColorHover(color: string) {
-    return sanitizedColor(color) + "22";
+    return sanitizedColor(color) + "55";
 }
 
 export function setColors(player_color: string) {
     const color = sanitizedColor(player_color);
     const colorActive = getColorActive(color);
     const colorHover = getColorHover(color);
+    const textColor = getBestTextColor(color);
     document.documentElement.style.setProperty('--player-color-hover', colorHover);
     document.documentElement.style.setProperty('--player-color-active', colorActive);
     document.documentElement.style.setProperty('--player-color', player_color);
+    document.documentElement.style.setProperty('--player-text-color', textColor);
 }

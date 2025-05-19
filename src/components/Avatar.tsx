@@ -26,8 +26,8 @@ const Avatar: Component<AvatarProps> = ({ characterId }) => {
     <div id={characterId}
       class={"player" + (selectedPlayer()!.characterId === characterId ? ' active' : '')}
       style={{
-        "background-color": getColorHover(player.color),
-        "color": getBestTextColor(sanitizedColor(player.color))
+        "background-color": getColorActive(player.color),
+        "color": getBestTextColor(sanitizedColor(player.color)),
       }}
       onClick={handleClick}
     >

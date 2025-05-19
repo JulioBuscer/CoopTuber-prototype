@@ -1,6 +1,7 @@
 import { createEffect, createMemo, createSignal } from "solid-js";
 import { playersConfig, playersStates } from "../../data/signals/player";
 import { AvatarConfig } from "../../data/types/avatar";
+import { getColorHover, sanitizedColor } from "../../utils/utils";
 
 interface ScoreProps {
     characterId: string
@@ -32,7 +33,6 @@ const State = ({ characterId }: ScoreProps) => {
         return Number(percentage);
     };
 
-
     return (
         <div class="state-container">
             <div class="state">
@@ -40,7 +40,12 @@ const State = ({ characterId }: ScoreProps) => {
 
                 <div class="progress">
                     <p>{getPercentage(state()!.jawOpenScore)}%</p>
-                    <progress max={1} value={state()!.jawOpenScore} > {state()!.jawOpenScore} </progress>
+                    <div class="custom-progress-container">
+                        <div class="custom-progress-bar">
+                            <div class="custom-progress-fill"
+                                style={{ width: `${getPercentage(state()!.jawOpenScore)}%` }}></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="state">
@@ -48,11 +53,21 @@ const State = ({ characterId }: ScoreProps) => {
                 <div class="progress-container">
                     <div class="progress">
                         <p> Izquierdo: {getPercentage(state()!.eyeBlinkLeftScore)}% </p>
-                        <progress max={1} value={state()!.eyeBlinkLeftScore} > {state()!.eyeBlinkLeftScore} </progress>
+                        <div class="custom-progress-container">
+                            <div class="custom-progress-bar">
+                                <div class="custom-progress-fill"
+                                    style={{ width: `${getPercentage(state()!.eyeBlinkLeftScore)}%` }}></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="progress">
                         <p> Derecho: {getPercentage(state()!.eyeBlinkRightScore)}% </p>
-                        <progress max={1} value={state()!.eyeBlinkRightScore} > {state()!.eyeBlinkRightScore} </progress>
+                        <div class="custom-progress-container">
+                            <div class="custom-progress-bar">
+                                <div class="custom-progress-fill"
+                                    style={{ width: `${getPercentage(state()!.eyeBlinkRightScore)}%` }}></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

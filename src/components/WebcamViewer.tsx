@@ -4,7 +4,7 @@ import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
 import Score from "./score/Score";
 import { playersConfig, setPlayerState, videoSource, setVideoSource } from "../data/signals/player";
 import Tools from "./tools/Tools";
-import { debugError, debugLog, sanitizedColor } from "../utils/utils";
+import { debugError, debugLog, sanitizedColor, setColors } from "../utils/utils";
 import { HiOutlineFilm, HiOutlinePause, HiOutlinePlay } from "solid-icons/hi";
 
 const WebcamViewer = () => {
@@ -199,7 +199,6 @@ const WebcamViewer = () => {
                 debugLog("Landmarks detectados!");
 
                 const colors = playersConfig().map(p => sanitizedColor(p.color));
-                console.log("colors", colors);
                 // Dibujar landmarks en el canvas
                 det.drawResults(results, colors);
 
@@ -248,6 +247,7 @@ const WebcamViewer = () => {
     onMount(async () => {
         // Inicializar la cámara cuando el componente se monta
         toggleCamera();
+        setColors(playersConfig()[0].color);
     });
 
     return (
@@ -358,7 +358,7 @@ const WebcamViewer = () => {
                 </div>
 
                 <div>
-                    {playersConfig().map(player => <Score characterId={player.characterId} />)}
+                    {playersConfig().map(player => <Score characterId={player.characterId} color={player.color} />)}
                 </div>
             </div>
 
