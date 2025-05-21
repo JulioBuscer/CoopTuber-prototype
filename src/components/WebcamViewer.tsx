@@ -180,12 +180,40 @@ const WebcamViewer = () => {
             }
         }
     };
+    const [currentFPS, setCurrentFPS] = createSignal(0);
+    const [frameCount, setFrameCount] = createSignal(0);
+    const [lastFPSUpdate, setLastFPSUpdate] = createSignal(Date.now());
+
+    const updateFPS = () => {
+        const now = Date.now();
+        const timeDiff = now - lastFPSUpdate();
+        const frames = frameCount();
+
+        if (timeDiff >= 1000) { // Cada segundo
+            setCurrentFPS(frames);
+            setFrameCount(0);
+            setLastFPSUpdate(now);
+        } else {
+            setFrameCount(frames + 1);
+        }
+    };
+
     const processFrame = async () => {
         const det = detector();
         if (!det) {
             debugError(new Error("Detector no está disponible"));
             return;
         }
+        updateFPS();
+        //   // Calcular el tiempo mínimo entre frames basado en la tasa de refresco
+        //   const minFrameTime = 1000 / frameRate();
+        //   const currentTime = Date.now();
+
+        //   // Solo procesar si ha pasado suficiente tiempo
+        //   if (currentTime - lastFrameTime() < minFrameTime) {
+        //       return;
+        //   }
+
         try {
             debugLog("Detectando landmarks...");
             const results = await det.detect(videoRef!);
@@ -309,6 +337,9 @@ const WebcamViewer = () => {
                             }}
                         >
                             {isVideoPlaying() ? <HiOutlinePause /> : <HiOutlinePlay />}
+                        </span>
+                        <span style={{ top: "0.5rem", left: "0.5rem", position: "absolute" }}>
+                            {currentFPS()} FPS
                         </span>
                         <button
                             onClick={() => fileInputRef?.click()}
