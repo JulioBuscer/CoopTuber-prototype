@@ -57,6 +57,10 @@ const WebcamViewer = () => {
     };
 
     const handleVideoClick = () => {
+        if (!videoSource()) {
+            debugLog("No hay video cargado");
+            return;
+        }
         debugLog("Video button clicked - isVideoPlaying:", isVideoPlaying());
         toggleVideo();
     };
@@ -65,17 +69,19 @@ const WebcamViewer = () => {
         if (videoRef) {
             debugLog("Video paused:", videoRef.paused);
             if (videoRef.paused) {
-                // Si no hay detector, inicializarlo
+                // Si no hay detector o fue destruido, inicializarlo
                 if (!detector()) {
                     const canvas = canvasRef!;
-                    canvas.width = videoRef.videoWidth;
-                    canvas.height = videoRef.videoHeight;
+                    // Asegurarse de que las dimensiones sean correctas
+                    canvas.width = videoRef.videoWidth || 1920;
+                    canvas.height = videoRef.videoHeight || 1080;
                     Object.assign(canvas.style, {
                         position: "absolute",
                         top: "0",
                         left: "0",
                     });
 
+                    debugLog("Inicializando nuevo detector...");
                     const landmarkDetector = new FaceLandmarkDetector(canvas);
                     setDetector(landmarkDetector);
                 }
@@ -92,6 +98,7 @@ const WebcamViewer = () => {
                 // Detener la detección de landmarks cuando se pausa
                 if (animationFrameId) {
                     cancelAnimationFrame(animationFrameId);
+                    animationFrameId = undefined;
                 }
             }
             setIsVideoPlaying(!videoRef.paused);
@@ -111,6 +118,15 @@ const WebcamViewer = () => {
             if (videoRef) {
                 videoRef.srcObject = null;
                 videoRef.pause();
+            }
+            // Agregar estas líneas para limpiar el detector
+            if (detector()) {
+                detector()?.destroy();
+                setDetector(null);
+            }
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = undefined;
             }
             setIsVideoPlaying(false);
             setIsCameraOn(false);
@@ -302,7 +318,7 @@ const WebcamViewer = () => {
                         height={1080}
                         src={videoSource()}
                         playsinline
-                        autoplay={false}
+                        loop
                         muted
                     />
                     <canvas
@@ -378,7 +394,6 @@ const WebcamViewer = () => {
                             role="switch"
                             aria-checked={!isVideoHidden()}
                             onClick={() => { setIsVideoHidden(!isVideoHidden()) }}
-                            disabled={isCameraOn()}
                             value="on"
                         >
                             <span class="switch-button-icon" />

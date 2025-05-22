@@ -15,7 +15,7 @@ const [selectedPlayer, setSelectedPlayer] = createSignal<AvatarConfig | null>(
     playersConfig()[0]
 );
 
-const [videoSource, setVideoSource] = createSignal<string>("/video.mp4");
+const [videoSource, setVideoSource] = createSignal<string>();
 
 const usePlayers = () => {
     return [playersConfig, setPlayersConfig, playersStates, setPlayersStates] as const;
