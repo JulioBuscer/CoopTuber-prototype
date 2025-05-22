@@ -1,137 +1,173 @@
-# CoopTuber - Streaming en Pareja
+# 🎥 CoopTuber - Streaming en Pareja / Co-streaming Solution
 
 [![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Estrellas GitHub](https://img.shields.io/github/stars/JulioBuscer/CoopTuber-prototype.svg?style=social)](https://github.com/JulioBuscer/CoopTuber-prototype/stargazers)
+[![Contribuciones Bienvenidas](https://img.shields.io/badge/contribuciones-bienvenidas-brightgreen.svg)](CONTRIBUTING.md)
 
-CoopTuber es una solución de código abierto que permite a dos personas transmitir en streaming usando una sola cámara web. ¡Perfecto para parejas, amigos o equipos que quieren transmitir juntos sin necesidad de múltiples cámaras!
+🇲🇽 / 🇺🇸
 
-## Características
+### 📄 Descripción / Description
 
-- Detección facial en tiempo real
-- Avatares personalizables para cada usuario
-- Procesamiento acelerado por GPU
-- Compatibilidad multiplataforma
-- Integración fluida con video
-- Soporte para dos usuarios por cámara
-- Monitoreo de rendimiento
+|||
+| --- | --- |
+|🇲🇽|CoopTuber es una solución de código abierto diseñada para parejas, amigos y equipos que desean transmitir juntos usando una sola cámara web. Esta herramienta permite la creación de avatares PNG personalizados que se integran perfectamente con OBS y otras plataformas de streaming. |
+| 🇺🇸 |CoopTuber is an open-source solution designed for couples, friends, and teams who want to stream together using a single webcam. This tool allows the creation of custom PNG avatars that integrate perfectly with OBS and other streaming platforms. |
 
-## ¿Cómo Funciona?
+## 📹 Demostración / Demonstration
 
-CoopTuber utiliza tecnología avanzada de reconocimiento facial para rastrear múltiples rostros en tiempo real usando una sola cámara web. Cada usuario puede personalizar su propio avatar, y el sistema cambia automáticamente entre ellos según quién esté activo frente a la cámara.
+<p align="center">
+ <img src="https://raw.githubusercontent.com/JulioBuscer/CoopTuber-prototype/main/assets/demo.gif" alt="CoopTuber Demo" width="400">
+</p>
 
-## Empezando
+![CoopTuber Demo](https://raw.githubusercontent.com/JulioBuscer/CoopTuber-prototype/main/assets/demo.gif)
 
-### Requisitos Previos
+## 🎯 Características Principales / Main Features
 
-- Node.js 16+ o superior
-- npm o yarn como gestor de paquetes
-- Navegador moderno con soporte WebRTC
+###
 
-### Instalación
+#### 🥸 **Detección facial en tiempo real** / **Real-time Face Detection**
 
-```bash
-# Clonar el repositorio
-git clone https://github.com/JulioBuscer/CoopTuber-prototype.git
+|| 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+|👀| Rastreo preciso de múltiples rostros | Accurate tracking of multiple faces |
+|⚡| Optimizado para rendimiento con GPU | GPU-optimized performance |
+|⏱️| Actualización en tiempo real | Real-time updates |
 
-cd CoopTuber-prototype
+#### 🎨 **Personalización de Avatares** / **Avatar Customization**
 
-# Instalar dependencias
-npm install
-# o
-yarn install
-```
+|| 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+|🖼️|Soporte para imágenes PNG y WebP | Support for PNG and WebP images |
+|🎥|Integración con OBS mediante captura de ventana | OBS integration via window capture |
 
-### Ejecutando la Aplicación
+#### 🛠️ **Herramientas de Edición** / **Editing Tools**
 
-```bash
-# Modo desarrollo
-npm run dev
-# o
-yarn dev
+|  | 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+|🖼️ | Ajuste de fondo | Background adjustment |
+|🎨 | Personalización de colores | Color customization |
+|⚙️ | Configuración de parámetros | Parameter configuration |
+|🛡️ | Opción para ocultar visualización de cámara/video | Option to hide camera/video visualization |
+|🔁 | Soporte para video en bucle | Loop video support |
 
-# Abrir navegador y navegar a http://localhost:5173
-```
+#### 📱 **Compatibilidad** / **Compatibility**
 
-## Estructura del Proyecto
+|  | 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+|🖥️| Funciona en Windows, macOS y Linux | Works on Windows, macOS, and Linux |
+|📱| Optimizado para diferentes resoluciones | Optimized for different resolutions |
+|📸| Soporte para una cámara a la vez | Support for one camera at a time |
 
-```
-src/
-├── components/      # Componentes UI reutilizables
-├── lib/            # Funcionalidad principal
-├── utils/          # Funciones auxiliares
-├── workers/        # Web workers para cálculos pesados
-└── data/          # Gestión de estado
-```
+## 🛠️ Configuración / Setup
 
-## Rendimiento
+|  | 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+| 1. 📸| Configura tu cámara web o video en bucle | Configure your webcam or loop video |
+| 2. 🎨| Personaliza los avatares | Customize avatars |
+| 3. ⚙️| Ajusta los parámetros según tus necesidades | Adjust parameters according to your needs |
+| 4. 🎥| Integra con OBS usando la fuente de imagen PNG | Integrate with OBS using PNG image source |
+| 5. 🛡️| Activa la opción de ocultar visualización para mayor privacidad | Enable the option to hide visualization for enhanced privacy |
 
-CoopTuber incluye monitoreo de FPS integrado para mantener el mejor rendimiento durante el streaming. El sistema se ajusta automáticamente a las capacidades de tu hardware manteniendo una operación fluida.
+## 🤝 Contribuciones / Contributions
 
-## Contribuyendo
+|||
+| --- | --- |
+| 🇲🇽 | ¡Las contribuciones son bienvenidas! Por favor, lee nuestro [📄 Guía de Contribución](CONTRIBUTING.md) para más detalles. |
+| 🇺🇸 | Contributions are welcome! Please read our [📄 Contribution Guide](CONTRIBUTING.md) for more details. |
 
-¡Bienvenidas las contribuciones de la comunidad! Por favor lee nuestras [Guías de Contribución](CONTRIBUTING.md) antes de enviar pull requests.
+## 📦 **Instalación** / **Installation**
 
-## Licencia
+|  | 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+| 1. 📦| Clona el repositorio: | Clone the repository: |
 
-Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
+ ```bash
+ git clone <https://github.com/JulioBuscer/CoopTuber-prototype.git>
+ ```
 
-## Agradecimientos
+|  | 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+| 2. 📦| Instala las dependencias: | Install dependencies: |  
 
-- Agradecimientos especiales al equipo MediaPipe por su tecnología de detección facial
-- Inspirado por el amor y la colaboración entre streamers y sus parejas
-- Construido con ❤️ por la comunidad CoopTuber
+ ```bash
+ cd CoopTuber-prototype
+ npm install
+ ```
 
-## Soporte
+|  | 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+| 3. 📦| Inicia la aplicación: | Start the application: |
 
-Para soporte:
+ ```bash
+ npm run dev
+ ```
 
-- Abre un issue en GitHub
-- Únete a nuestra comunidad en Discord
-- Consulta nuestra documentación
+## 🖥️ **Requisitos del Sistema** / **System Requirements**
 
-## Documentación
+### 🖥️ Sistema Operativo/ Operating System
 
-Documentación detallada disponible en nuestro [Wiki](https://github.com/JulioBuscer/CoopTuber-prototype/wiki).
+|||
+|---|---|
+| 🐧| Linux|
+| 🍏| macOS|
+| 🪟| Windows|
 
-## Personalización
+#### 🖥️ **Requisitos de Hardware/Software** / **Hardware & Software Requirements**
 
-Los usuarios pueden personalizar:
-- Colores y estilos de avatares
-- Sensibilidad de detección
-- Ajustes de video
-- Umbral de rendimiento
+|  | 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+| 🌐 | Navegadores compatibles: Chrome ≥89, Firefox ≥88, Safari ≥14, Edge ≥89 | Supported browsers: Chrome ≥89, Firefox ≥88, Safari ≥14, Edge ≥89 |
+| ⚙️ | APIs necesarias: WebAssembly, WebGL 2.0, getUserMedia, Canvas API | Required APIs: WebAssembly, WebGL 2.0, getUserMedia, Canvas API |
+| 🔐 | Configuración obligatoria: Conexión HTTPS y permisos de cámara | Mandatory setup: HTTPS connection and camera permissions |
+| 🖥️ | Hardware PC: CPU 4 núcleos, 4GB RAM, WebGL 2.0, cámara 720p | Desktop hardware: 4-core CPU, 4GB RAM, WebGL 2.0, 720p camera |
+| 📱 | Móvil: Procesador 64 bits (Snapdragon 670/A11+), 3GB RAM | Mobile: 64-bit processor (Snapdragon 670/A11+), 3GB RAM |
+| 📝 | Nota: Dispositivos antiguos (<2017) pueden tener baja performance | Note: Older devices (<2017) may experience low performance |
 
-## Compatibilidad Móvil
+## 📜 Licencia / License
 
-CoopTuber está optimizado para dispositivos móviles, permitiendo a los streamers usar sus teléfonos como cámaras web mientras mantienen un rendimiento óptimo.
+|||
+| --- | --- |
+| 🇲🇽 | Este proyecto está bajo la Licencia MIT. Consulta el archivo [📄 LICENSE](LICENSE) para más detalles. Puedes encontrar más información sobre la licencia en [🌐 Licencia](https://opensource.org/licenses/MIT). |
+| 🇺🇸 | This project is under the MIT License. Check the [📄 LICENSE](LICENSE) file for more details. You can find more information about the license at [🌐 License](https://opensource.org/licenses/MIT). |
 
-## Integración con Streaming
+## 🚫 Código de Conducta / Code of Conduct
 
-Integración fácil con plataformas de streaming populares manteniendo una salida de calidad profesional.
+|||
+| --- | --- |
+| 🇲🇽 | Este proyecto se rige por el [📄 Código de Conducta](CODE_OF_CONDUCT.md). Por favor, lee y entiende estos términos antes de contribuir. |
+| 🇺🇸 | This project is governed by the [📄 Code of Conduct](CODE_OF_CONDUCT.md). Please read and understand these terms before contributing. |
 
-## Desarrollo Futuro
+## 🙏 Agradecimientos / Acknowledgements
 
-Características planificadas:
-- Soporte para más de 2 usuarios
-- Personalización avanzada de avatares
-- Optimización mejorada del rendimiento
-- Características adicionales de reconocimiento facial
+|||
+| --- | --- |
+| 🇲🇽 | A mi 💖 Esposa 💖 ya que amo el tiempo que pasamos juntos y fue la inspiración para crear CoopTuber UwU |
+| 🇺🇸 | To my 💖 Wife 💖, who I love spending time with and was the inspiration for creating CoopTuber UwU |
 
-## Comunidad
+## 📝 Nota Especial / Special Note
 
-Únete a nuestra comunidad en:
-- [Discord](https://discord.com/invite/cooptuber)
-- Twitter (@CoopTuber)
-- Discusiones de GitHub
+|||
+| --- | --- |
+| 🇲🇽 | Este proyecto es una herramienta gratuita y de código abierto, creada con amor para facilitar la transmisión en pareja. ¡Esperamos que lo disfrutes tanto como nosotros al crearlo! |
+| 🇺🇸 | This project is a free and open-source tool, created with love to facilitate couple streaming. We hope you enjoy it as much as we did creating it! |
 
-## Guías de Contribución
+## 🚀 Características Futuras Planificadas / Planned Future Features
 
-1. Haz un fork del repositorio
-2. Crea tu rama de características (`git checkout -b feature/amazing-feature`)
-3. Comitea tus cambios (`git commit -m 'Añade una característica increíble'`)
-4. Sube a la rama (`git push origin feature/amazing-feature`)
-5. Abre un Pull Request
+|  | 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+| 📊 | Control de calidad de imagen (compresión a WebP) | Image quality control (WebP compression) |
+| 📸 | Soporte para múltiples cámaras | Multiple camera support |
+| 🎨 | Personalización avanzada de avatares | Advanced avatar customization |
+| ⚡ | Optimización mejorada del rendimiento | Improved performance optimization |
+| 💾 | Cache de modelos con IndexedDB para cargas futuras | Model caching with IndexedDB for future loads |
+| 📉 | Reducir resolución a 480p en dispositivos lentos | Reduce resolution to 480p on low-end devices |
+| 🎮 | Limitar procesamiento a 24-30 FPS | Throttle processing to 24-30 FPS |
+| 🧵 | Usar Web Workers para tareas paralelas | Use Web Workers for parallel tasks |
 
-## Código de Conducta
+## ⚠️ **Limitaciones Conocidas** / **Known Limitations**
 
-Por favor ten en cuenta que este proyecto se publica con un [Código de Conducta para Contribuidores](CODE_OF_CONDUCT.md). Al participar en este proyecto, aceptas cumplir con sus términos.
+|  | 🇲🇽 | 🇺🇸 |
+| --- | --- | --- |
+| 🔌 | No funciona sin HTTPS o con firewalls restrictivos | Won't work without HTTPS or restrictive firewalls |
+| 🐌 | Rendimiento reducido en CPUs de 32 bits o GPUs antiguas | Reduced performance on 32-bit CPUs or legacy GPUs |
+| 👥 | Máximo 2 rostros detectados simultáneamente | Max 2 faces detected simultaneously |
