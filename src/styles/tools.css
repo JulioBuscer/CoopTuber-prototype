@@ -40,6 +40,10 @@
     width: fit-content;
     opacity: 1;
     transform: translateX(0);
+    
+    @media screen and (max-width: 768px) {
+      display: none;
+    } 
   }
   svg {
     transform: translateX(-3px);
