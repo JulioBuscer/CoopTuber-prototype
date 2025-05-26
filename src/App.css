@@ -48,6 +48,7 @@ main {
     max-width: 80rem;
     margin: 0 auto;
     padding: 1rem;
+    margin-top: 5rem;
 }
 
 /**
@@ -76,20 +77,6 @@ main {
             "webcam"
             "players";
     }
-}
-
-/**
- * Logo
- * - Altura
- * - Padding
- * - Transición suave
- * - Efecto hover
- */
-.logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
 }
 
 /**

@@ -33,6 +33,9 @@
     --player-color-active: #646cffaa;
     --player-color-hover: #646cff22;
     --player-text-color: #fff;
+
+    --page-main-color: #333;
+    --page-accent-color: #646cff;
 }
 
 /**

@@ -17,37 +17,50 @@ import './styles/tools/avatar.css'
 import './styles/tools/background.css'
 import './styles/tools/params.css'
 import './styles/tools/color.css'
+import './styles/header.css'
+import './styles/footer.css'
+import './styles/markdown.css'
 
 // Importación de componentes
 import WebcamViewer from './components/WebcamViewer'
+import Footer from './components/Footer'
+import { Router, Route } from '@solidjs/router';
+import LegalPages from './components/LegalPages'
+import Header from './components/Header'
 
-/**
- * Componente principal de la aplicación
- * 
- * Este componente:
- * - Muestra el título de la aplicación
- * - Contiene el componente WebcamViewer
- * - Mantiene la estructura visual de la aplicación
- * 
- * @returns {JSX.Element} Interfaz principal de la aplicación
- */
+
+const Layout = (props: { children?: any }) => (
+  <div class='app-container'>
+    <Header />
+    <main>
+      {props.children}
+    </main>
+    <Footer />
+  </div>
+);
+
+const Home = () => (
+  <div class='main-content'>
+    <h2>En desarrollo...</h2>
+  </div>
+);
+
+const AppView = () => (
+  <div class='main-content'>
+    <WebcamViewer />
+  </div>
+);
+
 function App() {
   return (
-    <div class='app-container'>
-      {/* Encabezado de la aplicación */}
-      <header>
-        <h1>CoopTuber</h1>
-      </header>
-
-      {/* Contenido principal */}
-      <main>
-        <div class='main-content'>
-          {/* Componente principal de la webcam */}
-          <WebcamViewer />
-        </div>
-      </main>
-    </div>
-  )
+    <Router root={Layout}>
+      <Route path="/" component={Home} />
+      <Route path="/app" component={AppView} />
+      <Route path="/terms" component={() => <LegalPages path="/docs/terms.md" />} />
+      <Route path="/privacy" component={() => <LegalPages path="/docs/privacy.md" />} />
+      <Route path="/cookies" component={() => <LegalPages path="/docs/cookies.md" />} />
+    </Router>
+  );
 }
 
-export default App
+export default App;
