@@ -1,8 +1,33 @@
+/**
+ * @file background.css
+ * Estilos para el componente de configuración de fondo
+ * 
+ * Este archivo contiene los estilos para:
+ * - Contenido principal de fondo
+ * - Contenedor de selección de chroma
+ * - Contenedor de selección de color
+ * - Previsualización de color
+ * - Contenedor de selección de imagen
+ * - Previsualización de imagen
+ */
+
+/**
+ * Contenido principal de fondo
+ * - Margen superior
+ * - Alineación al inicio
+ */
 .tools-background-content {
     margin-top: 0.75rem;
     justify-content: flex-start;
 }
 
+/**
+ * Contenedor de selección de chroma
+ * - Margen inferior
+ * - Flex container
+ * - Alineación central
+ * - Padding
+ */
 .tools-background-use-chroma-content {
     margin-bottom: 0.5rem;
     display: flex;
@@ -10,53 +35,97 @@
     padding: 0.5rem;
 }
 
-.tools-background-use-chroma{
+/**
+ * Contenedor de selección de chroma
+ * - Flex container
+ * - Alineación central
+ * - Espaciado uniforme
+ */
+.tools-background-use-chroma {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-
-.tools-background-content-selector{
+/**
+ * Contenedor de selección de fondo
+ * - Grid layout con 2 columnas
+ * - Espaciado uniforme
+ */
+.tools-background-content-selector {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
 }
 
-.tools-background-content-selector-color{
+/**
+ * Contenedor de selección de color
+ * - Flex container en columna
+ * - Espaciado mayor
+ */
+.tools-background-content-selector-color {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.tools-background-content-selector-color-preview{
+/**
+ * Previsualización de color
+ * - Flex container
+ * - Alineación central
+ * - Espaciado uniforme
+ * - Efectos de selección y hover
+ */
+.tools-background-content-selector-color-preview {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    &.active{
+
+    &.active {
         box-shadow: 0 0 0 0.25rem var(--player-color-active);
     }
+
     box-shadow: 0 0 0 0.25rem #444;
-    &:hover{
+
+    &:hover {
         cursor: pointer;
         box-shadow: 0 0 0 0.25rem var(--player-color-hover);
     }
 }
 
-.tools-background-content-selector-color-preview-background{
+/**
+ * Fondo de previsualización de color
+ * - Ancho completo
+ * - Ratio 16:9
+ */
+.tools-background-content-selector-color-preview-background {
     width: 100%;
     aspect-ratio: 16/9;
-
 }
 
-.tools-background-content-selector-image{
+/**
+ * Contenedor de selección de imagen
+ * - Flex container en columna
+ * - Espaciado mayor
+ */
+.tools-background-content-selector-image {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.tools-background-content-selector-image-preview{
+/**
+ * Previsualización de imagen
+ * - Flex container
+ * - Alineación central
+ * - Espaciado uniforme
+ * - Ancho completo
+ * - Altura completa
+ * - Ratio 16:9
+ * - Efectos de selección y hover
+ */
+.tools-background-content-selector-image-preview {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,17 +133,30 @@
     width: 100%;
     height: 100%;
     aspect-ratio: 16/9;
-    &.active{
+
+    &.active {
         box-shadow: 0 0 0 0.25rem var(--player-color-active);
     }
+
     box-shadow: 0 0 0 0.25rem #444;
-    &:hover{
+
+    &:hover {
         cursor: pointer;
         box-shadow: 0 0 0 0.25rem var(--player-color-hover);
     }
 }
 
-.tools-background-content-selector-image-preview img{
+/**
+ * Imagen en la previsualización
+ * - Ancho completo
+ * - Altura completa
+ * - Ratio 16:9
+ * - Ajuste de contenido
+ * - Posición centrada
+ * - Flex container
+ * - Alineación central
+ */
+.tools-background-content-selector-image-preview img {
     width: 100%;
     height: 100%;
     aspect-ratio: 16/9;

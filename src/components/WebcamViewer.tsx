@@ -1,3 +1,15 @@
+/**
+ * @file WebcamViewer.tsx
+ * Componente principal que maneja la detección facial y animación de avatares
+ * 
+ * Este componente es el corazón de la aplicación CoopTuber, encargándose de:
+ * - Gestión de la cámara web
+ * - Detección de puntos de referencia faciales
+ * - Animación de avatares basada en expresiones faciales
+ * - Control de video y FPS
+ * - Interfaz de usuario para configuración
+ */
+
 import Avatar from "./Avatar";
 import { createSignal, onCleanup, onMount } from "solid-js";
 import { FaceLandmarkDetector } from "../lib/FaceLandmarker";
@@ -7,30 +19,34 @@ import Tools from "./tools/Tools";
 import { debugError, debugLog, sanitizedColor, setColors } from "../utils/utils";
 import { HiOutlineFilm, HiOutlinePause, HiOutlinePlay } from "solid-icons/hi";
 
+/**
+ * Componente principal que maneja la detección facial y animación de avatares
+ * @returns {JSX.Element} Componente de React con la interfaz de la cámara y control de avatares
+ */
 const WebcamViewer = () => {
-
-    // Estados
+    // Estados para control de cámara y video
     const [isCameraOn, setIsCameraOn] = createSignal(false);
     const [isVideoPlaying, setIsVideoPlaying] = createSignal(false);
+    const [isVideoHidden, setIsVideoHidden] = createSignal(false);
 
-    // Referencias a elementos
+    // Referencias a elementos del DOM
     let videoRef: HTMLVideoElement | undefined;
     let canvasRef: HTMLCanvasElement | undefined;
     let fileInputRef: HTMLInputElement | undefined;
 
-    // Estado del detector
+    // Estado del detector facial y animación
     const [detector, setDetector] = createSignal<FaceLandmarkDetector | null>(null);
-
-    // ID para cancelar la animación
     let animationFrameId: number | undefined;
-
-    // Stream de la cámara
     let mediaStream: MediaStream | null = null;
 
-    // Ocultar video en Zindex
-    const [isVideoHidden, setIsVideoHidden] = createSignal(false);
+    // Estados para medición de FPS
+    const [currentFPS, setCurrentFPS] = createSignal(0);
+    const [frameCount, setFrameCount] = createSignal(0);
+    const [lastFPSUpdate, setLastFPSUpdate] = createSignal(Date.now());
 
-    // Limpieza de recursos
+    /**
+     * Limpieza de recursos cuando el componente se desmonta
+     */
     onCleanup(() => {
         // Cancelar animación
         if (animationFrameId) {
@@ -51,11 +67,17 @@ const WebcamViewer = () => {
         mediaStream = null;
     });
 
+    /**
+     * Manejador para el botón de cámara
+     */
     const handleCameraClick = () => {
         debugLog("Camera button clicked - isCameraOn:", isCameraOn());
         toggleCamera();
     };
 
+    /**
+     * Manejador para el botón de video
+     */
     const handleVideoClick = () => {
         if (!videoSource()) {
             debugLog("No hay video cargado");
@@ -65,41 +87,16 @@ const WebcamViewer = () => {
         toggleVideo();
     };
 
+    /**
+     * Alternar estado del video
+     */
     const toggleVideo = () => {
         if (videoRef) {
             debugLog("Video paused:", videoRef.paused);
             if (videoRef.paused) {
-                // Si no hay detector o fue destruido, inicializarlo
-                if (!detector()) {
-                    const canvas = canvasRef!;
-                    // Asegurarse de que las dimensiones sean correctas
-                    canvas.width = videoRef.videoWidth || 1920;
-                    canvas.height = videoRef.videoHeight || 1080;
-                    Object.assign(canvas.style, {
-                        position: "absolute",
-                        top: "0",
-                        left: "0",
-                    });
-
-                    debugLog("Inicializando nuevo detector...");
-                    const landmarkDetector = new FaceLandmarkDetector(canvas);
-                    setDetector(landmarkDetector);
-                }
-
-                // Reproducir el video
-                videoRef.play().catch(error => {
-                    debugError(new Error("Error al reproducir el video"), error);
-                });
-
-                // Iniciar la detección de landmarks
-                processFrame();
+                initializeDetectorAndPlay();
             } else {
-                videoRef.pause();
-                // Detener la detección de landmarks cuando se pausa
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
-                    animationFrameId = undefined;
-                }
+                pauseVideo();
             }
             setIsVideoPlaying(!videoRef.paused);
         } else {
@@ -107,99 +104,181 @@ const WebcamViewer = () => {
         }
     };
 
-    const toggleCamera = async () => {
-        if (isCameraOn()) {
-            debugLog("Deteniendo la cámara...");
-            // Detener la cámara
-            if (mediaStream) {
-                mediaStream.getTracks().forEach(track => track.stop());
-                mediaStream = null;
-            }
-            if (videoRef) {
-                videoRef.srcObject = null;
-                videoRef.pause();
-            }
-            // Agregar estas líneas para limpiar el detector
-            if (detector()) {
-                detector()?.destroy();
-                setDetector(null);
-            }
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-                animationFrameId = undefined;
-            }
-            setIsVideoPlaying(false);
-            setIsCameraOn(false);
-        } else {
-            debugLog("Iniciando la cámara...");
-            try {
-                if (!videoRef) {
-                    debugError(new Error("Video element no está disponible"));
-                    return;
-                }
+    /**
+     * Inicializar detector y reproducir video
+     */
+    const initializeDetectorAndPlay = () => {
+        if (!detector()) {
+            const canvas = canvasRef!;
+            canvas.width = videoRef!.videoWidth || 1920;
+            canvas.height = videoRef!.videoHeight || 1080;
+            setupCanvasStyle(canvas);
+            
+            debugLog("Inicializando nuevo detector...");
+            const landmarkDetector = new FaceLandmarkDetector(canvas);
+            setDetector(landmarkDetector);
+        }
+        
+        videoRef!.play().catch(error => {
+            debugError(new Error("Error al reproducir el video"), error);
+        });
+        processFrame();
+    };
 
-                // Configurar el video
-                videoRef.autoplay = false;
-                videoRef.muted = true;
-                videoRef.playsInline = true;
+    /**
+     * Configurar el estilo del canvas
+     * @param {HTMLCanvasElement} canvas - Elemento canvas a configurar
+     */
+    const setupCanvasStyle = (canvas: HTMLCanvasElement) => {
+        Object.assign(canvas.style, {
+            position: "absolute",
+            top: "0",
+            left: "0",
+        });
+    };
 
-                mediaStream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        width: 1920,
-                        height: 1080,
-                        facingMode: "user",
-                        aspectRatio: 16 / 9,
-                    }
-                });
-                videoRef.srcObject = mediaStream;
-                setIsCameraOn(true);
-                setIsVideoPlaying(true);
-
-                debugLog("Esperando que el video esté listo...");
-                // Esperar a que el video esté listo
-                await new Promise((resolve) => {
-                    videoRef!.onloadedmetadata = () => {
-                        debugLog("Video metadata cargado");
-                        resolve(true);
-                    };
-                });
-
-                debugLog("Reproduciendo video...");
-                // Reproducir el video
-                await videoRef.play().catch(error => {
-                    debugError(new Error("Error al reproducir el video"), error);
-                    setIsVideoPlaying(false);
-                });
-
-                debugLog("Inicializando detector...");
-                // Inicializar el detector después de que el video esté listo
-                const canvas = canvasRef!;
-                canvas.width = videoRef.videoWidth;
-                canvas.height = videoRef.videoHeight;
-                Object.assign(canvas.style, {
-                    position: "absolute",
-                    top: "0",
-                    left: "0",
-                });
-
-                if (!detector()) {
-                    const landmarkDetector = new FaceLandmarkDetector(canvas);
-                    setDetector(landmarkDetector);
-                }
-
-                debugLog("Iniciando detección de landmarks...");
-                // Iniciar la detección de landmarks
-                processFrame();
-            } catch (error) {
-                debugError(error as Error, "Error al acceder a la cámara");
-                setIsCameraOn(false);
-            }
+    /**
+     * Pausar video y detener detección
+     */
+    const pauseVideo = () => {
+        videoRef!.pause();
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = undefined;
         }
     };
-    const [currentFPS, setCurrentFPS] = createSignal(0);
-    const [frameCount, setFrameCount] = createSignal(0);
-    const [lastFPSUpdate, setLastFPSUpdate] = createSignal(Date.now());
 
+    /**
+     * Alternar estado de la cámara
+     */
+    const toggleCamera = async () => {
+        if (isCameraOn()) {
+            stopCamera();
+        } else {
+            await startCamera();
+        }
+    };
+
+    /**
+     * Detener la cámara y limpiar recursos
+     */
+    const stopCamera = () => {
+        debugLog("Deteniendo la cámara...");
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+            mediaStream = null;
+        }
+        if (videoRef) {
+            videoRef.srcObject = null;
+            videoRef.pause();
+        }
+        cleanupDetector();
+        setIsVideoPlaying(false);
+        setIsCameraOn(false);
+    };
+
+    /**
+     * Limpiar recursos del detector
+     */
+    const cleanupDetector = () => {
+        if (detector()) {
+            detector()?.destroy();
+            setDetector(null);
+        }
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = undefined;
+        }
+    };
+
+    /**
+     * Iniciar la cámara
+     */
+    const startCamera = async () => {
+        debugLog("Iniciando la cámara...");
+        try {
+            if (!videoRef) {
+                debugError(new Error("Video element no está disponible"));
+                return;
+            }
+
+            setupVideoConfig();
+            await setupCameraStream();
+            await setupVideoPlayback();
+            initializeDetector();
+        } catch (error) {
+            debugError(error as Error, "Error al acceder a la cámara");
+            setIsCameraOn(false);
+        }
+    };
+
+    /**
+     * Configurar opciones del video
+     */
+    const setupVideoConfig = () => {
+        videoRef!.autoplay = false;
+        videoRef!.muted = true;
+        videoRef!.playsInline = true;
+        videoRef!.src="/video.mp4";
+    };
+    
+    /**
+     * Obtener stream de la cámara
+ */
+    const setupCameraStream = async () => {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                width: 1920,
+                height: 1080,
+                facingMode: "user",
+                aspectRatio: 16 / 9,
+            }
+        });
+        videoRef!.srcObject = mediaStream;
+    };
+
+    /**
+     * Configurar reproducción del video
+     */
+    const setupVideoPlayback = async () => {
+        await waitForVideoMetadata();
+        await videoRef!.play().catch(error => {
+            debugError(new Error("Error al reproducir el video"), error);
+            setIsVideoPlaying(false);
+        });
+    };
+
+    /**
+     * Esperar a que el video cargue sus metadatos
+     */
+    const waitForVideoMetadata = () => {
+        return new Promise((resolve) => {
+            videoRef!.onloadedmetadata = () => {
+                debugLog("Video metadata cargado");
+                resolve(true);
+            };
+        });
+    };
+
+    /**
+     * Inicializar detector de puntos de referencia faciales
+     */
+    const initializeDetector = () => {
+        const canvas = canvasRef!;
+        canvas.width = videoRef?.videoWidth ?? 1920;
+        canvas.height = videoRef?.videoHeight ?? 1080;
+        setupCanvasStyle(canvas);
+
+        if (!detector()) {
+            const landmarkDetector = new FaceLandmarkDetector(canvas);
+            setDetector(landmarkDetector);
+        }
+        processFrame();
+    };
+
+    /**
+     * Actualizar contador de FPS
+     */
     const updateFPS = () => {
         const now = Date.now();
         const timeDiff = now - lastFPSUpdate();
@@ -214,82 +293,97 @@ const WebcamViewer = () => {
         }
     };
 
+    /**
+     * Procesar el frame actual y detectar puntos de referencia faciales
+     */
     const processFrame = async () => {
         const det = detector();
         if (!det) {
             debugError(new Error("Detector no está disponible"));
             return;
         }
-        updateFPS();
-        //   // Calcular el tiempo mínimo entre frames basado en la tasa de refresco
-        //   const minFrameTime = 1000 / frameRate();
-        //   const currentTime = Date.now();
-
-        //   // Solo procesar si ha pasado suficiente tiempo
-        //   if (currentTime - lastFrameTime() < minFrameTime) {
-        //       return;
-        //   }
 
         try {
-            debugLog("Detectando landmarks...");
+            updateFPS();
             const results = await det.detect(videoRef!);
             debugLog("Resultados de detección:", results);
 
-            if (
-                results &&
-                results.faceLandmarks &&
-                results.faceBlendshapes
-            ) {
+            if (results?.faceLandmarks && results.faceBlendshapes) {
                 debugLog("Landmarks detectados!");
-
-                const colors = playersConfig().map(p => sanitizedColor(p.color));
-                // Dibujar landmarks en el canvas
-                det.drawResults(results, colors);
-
-                // Procesar blendshapes para cada jugador
-                const players = playersConfig();
-                results.faceBlendshapes.forEach((blendShapes, index) => {
-                    if (!blendShapes) return;
-
-                    const player = players[index];
-                    if (!player) return;
-
-                    const findScore = (names: string) => blendShapes.categories.find(category => category.categoryName === names)?.score ?? 0;
-
-                    const eyeBlinkLeft = findScore("eyeBlinkLeft");
-                    const eyeBlinkRight = findScore("eyeBlinkRight");
-                    const jawOpen = findScore("jawOpen");
-                    const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player.rateEyesClosed);
-                    const mouthOpen = (jawOpen > player.rateMouthOpen);
-
-
-                    debugLog(`Player ${player.characterId} scores:`, {
-                        eyeBlinkLeft,
-                        eyeBlinkRight,
-                        jawOpen,
-                        eyesClosed,
-                        mouthOpen
-                    });
-
-                    setPlayerState(player.characterId, {
-                        ...player,
-                        eyeBlinkLeftScore: eyeBlinkLeft,
-                        eyeBlinkRightScore: eyeBlinkRight,
-                        jawOpenScore: jawOpen,
-                        eyesClosed: eyesClosed,
-                        mouthOpen: mouthOpen
-                    });
-                })
+                processDetectionResults(det, results);
             } else {
                 debugLog("No se detectaron landmarks en este frame");
             }
         } catch (error) {
             debugError(error as Error, "Error al detectar landmarks");
         }
+
         animationFrameId = requestAnimationFrame(processFrame);
     };
+
+    /**
+     * Procesar los resultados de la detección facial
+     * @param {FaceLandmarkDetector} detector - Detector de landmarks
+     * @param {any} results - Resultados de la detección facial
+     */
+    const processDetectionResults = (detector: FaceLandmarkDetector, results: any) => {
+        const colors = playersConfig().map(p => sanitizedColor(p.color));
+        detector.drawResults(results, colors);
+
+        processBlendshapes(results.faceBlendshapes);
+    };
+
+    /**
+     * Procesar los blendshapes para cada jugador
+     * @param {any[]} blendshapes - Arreglo de blendshapes detectados
+     */
+    const processBlendshapes = (blendshapes: any[]) => {
+        const players = playersConfig();
+        blendshapes.forEach((blendShapes, index) => {
+            if (!blendShapes) return;
+
+            const player = players[index];
+            if (!player) return;
+
+            const findScore = (names: string) => blendShapes.categories.find((category: any) => category.categoryName === names)?.score ?? 0;
+            const eyeBlinkLeft = findScore("eyeBlinkLeft");
+            const eyeBlinkRight = findScore("eyeBlinkRight");
+            const jawOpen = findScore("jawOpen");
+            const eyesClosed = ((eyeBlinkLeft + eyeBlinkRight) / 2 > player.rateEyesClosed);
+            const mouthOpen = (jawOpen > player.rateMouthOpen);
+
+            debugLog(`Player ${player.characterId} scores:`, {
+                eyeBlinkLeft,
+                eyeBlinkRight,
+                jawOpen,
+                eyesClosed,
+                mouthOpen
+            });
+
+            updatePlayerState(player, {
+                eyeBlinkLeftScore: eyeBlinkLeft,
+                eyeBlinkRightScore: eyeBlinkRight,
+                jawOpenScore: jawOpen,
+                eyesClosed,
+                mouthOpen
+            });
+        });
+    };
+
+    /**
+     * Actualizar el estado de un jugador
+     * @param {any} player - Configuración del jugador
+     * @param {any} state - Nuevo estado del jugador
+     */
+    const updatePlayerState = (player: any, state: any) => {
+        setPlayerState(player.characterId, {
+            ...player,
+            ...state
+        });
+    };
+
+    // Inicializar la cámara cuando el componente se monta
     onMount(async () => {
-        // Inicializar la cámara cuando el componente se monta
         toggleCamera();
         setColors(playersConfig()[0].color);
     });
@@ -297,15 +391,13 @@ const WebcamViewer = () => {
     return (
         <div class="layout-panel">
             <div class="webcam">
-                <div class="card webcam-container ">
+                <div class="card webcam-container">
                     <video
                         style={{
                             "z-index": isVideoHidden() ? -1 : 0
                         }}
                         ref={el => {
-                            console.log("Video ref set");
                             videoRef = el!;
-                            // Controlar la reproducción basado en el estado
                             if (isVideoPlaying()) {
                                 el.play().catch(error => {
                                     debugError(error as Error, "Error al reproducir video");
@@ -340,11 +432,10 @@ const WebcamViewer = () => {
                             }
                         }}
                     />
-                    <div
-                        classList={{
-                            "video-control-container": true,
-                            "playing": isVideoPlaying()
-                        }}>
+                    <div classList={{
+                        "video-control-container": true,
+                        "playing": isVideoPlaying()
+                    }}>
                         <span
                             class="video-control-button"
                             onClick={handleVideoClick}
@@ -367,12 +458,9 @@ const WebcamViewer = () => {
                             title="Cargar video"
                         >
                             <HiOutlineFilm />
-                            <span>
-                                Cargar video
-                            </span>
+                            <span>Cargar video</span>
                         </button>
                     </div>
-
                 </div>
                 <div class="content-flex">
                     <div class="flex-item">
@@ -387,7 +475,6 @@ const WebcamViewer = () => {
                             <span class="switch-button-icon" />
                         </button>
                         <label>{isCameraOn() ? "Desactivar Cámara" : "Activar Cámara"}</label>
-
                         <button
                             class="switch-button"
                             type="button"
@@ -399,22 +486,19 @@ const WebcamViewer = () => {
                             <span class="switch-button-icon" />
                         </button>
                         <label>{isVideoHidden() ? "Mostrar " : "Ocultar "} {isCameraOn() ? "Cámara" : "Video"}</label>
-
                     </div>
                 </div>
-
                 <div>
                     {playersConfig().map(player => <Score characterId={player.characterId} color={player.color} />)}
                 </div>
             </div>
-
             <div class="players">
                 <div class="players-container">
                     {playersConfig().map(player => <Avatar characterId={player.characterId} />)}
                 </div>
                 <Tools />
             </div>
-        </div >
+        </div>
     );
 };
 

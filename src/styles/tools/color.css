@@ -1,5 +1,29 @@
-.tools-color {}
+/**
+ * @file color.css
+ * Estilos para el componente de selección de color
+ * 
+ * Este archivo contiene los estilos para:
+ * - Contenedor principal de color
+ * - Contenido de color
+ * - Selector de color
+ * - Input de color
+ * - Previsualización de color
+ */
 
+/**
+ * Contenedor principal de color
+ */
+.tools-color {
+}
+
+/**
+ * Contenido de color
+ * - Margen superior
+ * - Flex container
+ * - Alineación central
+ * - Justificación al inicio
+ * - Espaciado uniforme
+ */
 .tools-color-content {
     margin-top: 0.75rem;
     display: flex;
@@ -8,16 +32,30 @@
     gap: 0.5rem;
 }
 
-
+/**
+ * Selector de color
+ * - Posición relativa
+ * - Dimensiones fijas
+ * - Bordes redondeados
+ * - Cursor pointer
+ * - Color del jugador
+ */
 .tools-color-selector {
     position: relative;
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
     cursor: pointer;
-    background-color: var(--player-color);   
+    background-color: var(--player-color);
 }
 
+/**
+ * Input de color
+ * - Posición absoluta
+ * - Bordes redondeados
+ * - Opacidad 0
+ * - Cursor pointer
+ */
 .tools-color-selector input[type="color"] {
     position: absolute;
     top: 0;
@@ -29,10 +67,16 @@
     cursor: pointer;
 }
 
+/**
+ * Previsualización de color
+ * - Posición absoluta
+ * - Cursor pointer
+ * - Color del jugador
+ */
 .tools-color-preview-color {
     position: absolute;
     top: 0;
     left: 0;
     cursor: pointer;
-    background-color: var(--player-color);   
+    background-color: var(--player-color);
 }

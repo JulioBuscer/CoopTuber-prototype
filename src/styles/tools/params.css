@@ -1,14 +1,42 @@
+/**
+ * @file params.css
+ * Estilos para el componente de parámetros
+ * 
+ * Este archivo contiene los estilos para:
+ * - Contenedor principal de parámetros
+ * - Contenedor de parámetros
+ * - Elemento de parámetros
+ * - Etiqueta de parámetros
+ */
+
+/**
+ * Contenedor principal de parámetros
+ * - Margen superior
+ */
 .tools-params {
     margin-top: 1rem;
-
 }
 
+/**
+ * Contenedor de parámetros
+ * - Grid layout con 2 columnas
+ * - Espaciado uniforme
+ */
 .tools-params-container {
     display: grid;
     gap: 0.5rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/**
+ * Elemento de parámetros
+ * - Grid layout
+ * - Bordes
+ * - Bordes redondeados
+ * - Padding
+ * - Espaciado uniforme
+ * - Alineación de texto
+ */
 .tools-params-container-item {
     display: grid;
     border: 0.25rem solid #444;
@@ -18,12 +46,23 @@
     text-align: start;
 }
 
+/**
+ * Etiqueta de parámetros
+ * - Flex container
+ * - Alineación central
+ * - Espaciado uniforme
+ * - Ancho completo
+ * - Flex 1
+ * - Alineación de texto
+ * - Negrita
+ */
 .tools-params-container-item-label {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     width: 100%;
     flex: 1;
+
     .label {
         flex: 1;
         text-align: center;

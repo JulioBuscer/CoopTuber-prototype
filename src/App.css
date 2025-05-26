@@ -1,279 +1,535 @@
+/**
+ * @file App.css
+ * Estilos globales de la aplicación
+ * 
+ * Este archivo contiene los estilos para:
+ * - Layout principal
+ * - Grid layout
+ * - Logo
+ * - Tarjetas
+ * - Contenedores
+ * - Responsive design
+ */
+
+/**
+ * Root container
+ * - Altura mínima 100vh
+ * - Ancho auto
+ * - Alineación central
+ * - Flex container en columna
+ */
 #root {
-  min-height: 100vh;
-  width: auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
+    min-height: 100vh;
+    width: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
+/**
+ * Contenedor principal
+ * - Flex 1
+ * - Padding
+ * - Espaciado uniforme
+ */
 main {
-  flex: 1 1 0%;
-  padding: 1.5rem;
-  gap: 1.5rem;
+    flex: 1 1 0%;
+    padding: 1.5rem;
+    gap: 1.5rem;
 }
 
+/**
+ * Contenido principal
+ * - Ancho máximo
+ * - Margen auto
+ * - Padding
+ */
 .main-content {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 1rem;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 1rem;
 }
 
+/**
+ * Panel de layout
+ * - Ancho completo
+ * - Grid layout
+ * - Espaciado uniforme
+ * - Areas de grid
+ * - Responsive design
+ */
 .layout-panel {
-  width: 100%;
-  display: grid;
-  gap: 16px 16px;
-  grid-auto-flow: row;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: auto;
-  grid-template-areas:
-    "players players webcam";
-
-  @media screen and (max-width: 768px) {
-    grid-auto-flow: column;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    width: 100%;
+    display: grid;
+    gap: 16px 16px;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto;
     grid-template-areas:
-      "webcam"
-      "players";
-  }
+        "players players webcam";
+
+    @media screen and (max-width: 768px) {
+        grid-auto-flow: column;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "webcam"
+            "players";
+    }
 }
 
+/**
+ * Logo
+ * - Altura
+ * - Padding
+ * - Transición suave
+ * - Efecto hover
+ */
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
 }
 
+/**
+ * Efecto hover del logo
+ * - Drop shadow con color hover
+ */
 .logo:hover {
-  filter: drop-shadow(0 0 2em var(--player-color-hover));
+    filter: drop-shadow(0 0 2em var(--player-color-hover));
 }
 
+/**
+ * Efecto hover del logo sólido
+ * - Drop shadow específico
+ */
 .logo.solid:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+    filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/**
+ * Tarjeta
+ * - Padding
+ * - Bordes redondeados
+ * - Borde
+ * - Fondo oscuro
+ * - Sombra suave
+ */
 .card {
-  padding: 2em;
-  border-radius: 10px;
-  border: 1px solid #444;
-  background-color: #242424;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2em;
+    border-radius: 10px;
+    border: 1px solid #444;
+    background-color: #242424;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/**
+ * Texto de documentación
+ * - Color gris
+ */
 .read-the-docs {
-  color: #888;
+    color: #888;
 }
 
+/**
+ * Contenedor de avatar
+ * - Flex container
+ * - Columna
+ * - Espaciado uniforme
+ * - Alineación central
+ * - Justificación central
+ */
 .avatar-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
 }
 
-
+/**
+ * Estilos comunes para jugadores y webcam
+ * - Borde
+ * - Padding
+ * - Bordes redondeados
+ */
 .players,
 .webcam {
-  border: 1px solid #444;
-  padding: 1rem;
-  border-radius: 0.5rem;
+    border: 1px solid #444;
+    padding: 1rem;
+    border-radius: 0.5rem;
 }
 
+/**
+ * Área de webcam
+ * - Grid area específica
+ */
 .webcam {
-  grid-area: webcam;
+    grid-area: webcam;
 }
 
+/**
+ * Área de título
+ * - Grid area específica
+ */
 .title {
-  grid-area: title;
+    grid-area: title;
 }
 
+/**
+ * Área de jugadores
+ * - Grid area específica
+ * - Padding
+ */
 .players {
-  grid-area: players;
-  padding: 1.5rem;
+    grid-area: players;
+    padding: 1.5rem;
 }
 
+/**
+ * Contenedor de jugadores
+ * - Padding
+ * - Grid layout
+ * - Columnas
+ * - Espaciado
+ */
 .players-container {
-  padding: 1rem;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
 }
 
+/**
+ * Contenedor de jugador
+ * - Posición relativa
+ * - Aspect ratio 16/9
+ * - Overflow oculto
+ */
 .player-container {
-  position: relative;
-  aspect-ratio: 16/9;
-  overflow: hidden;
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
 }
 
+/**
+ * Jugador
+ * - Overflow oculto
+ * - Bordes redondeados
+ * - Padding
+ */
 .player {
-  overflow: hidden;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
 }
 
+/**
+ * Texto del jugador
+ * - Posición absoluta
+ * - Top y left
+ * - Z-index
+ */
 .player-text {
-  top: 0.5rem;
-  left: 0.5rem;
-  z-index: 1;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 1;
 }
 
+/**
+ * Fondo del jugador
+ * - Posición absoluta
+ * - Inset
+ * - Fondo oscuro
+ */
 .player-background {
-  position: absolute;
-  inset: 0;
-  /* background-color: #1a1a1a #00FF00; */
+    position: absolute;
+    inset: 0;
+    /* background-color: #1a1a1a #00FF00; */
 }
 
+/**
+ * Contenedor de avatar
+ * - Posición relativa
+ * - Flex container
+ * - Columna
+ * - Alineación central
+ * - Justificación central
+ */
 .avatar-display {
-  position: relative;
-  display: flex;
-  height: 100%;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
 }
 
+/**
+ * Avatar
+ * - Posición relativa
+ * - Ancho y alto
+ * - Overflow oculto
+ */
 .avatar {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
+/**
+ * Imagen del avatar
+ * - Display block
+ * - Ancho máximo
+ * - Ancho y alto
+ * - Object fit
+ */
 .avatar img {
-  display: block;
-  max-width: 100%;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-
-
-
+/**
+ * Botón
+ * - Flex container
+ * - Row
+ * - Espaciado
+ * - Alineación central
+ * - Justificación central
+ * - Padding
+ * - Bordes redondeados
+ * - Fondo oscuro
+ * - Color blanco
+ * - Cursor pointer
+ * - Transición suave
+ */
 button {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  background-color: #1a1a1a;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
 
-  @media screen and (max-width: 768px) {
-    font-size: 0.8rem;
-  }
+    @media screen and (max-width: 768px) {
+        font-size: 0.8rem;
+    }
 }
 
+/**
+ * SVG del botón
+ * - Ancho y alto
+ */
 button svg {
-  width: 24px;
-  height: 24px;
+    width: 24px;
+    height: 24px;
 }
 
+/**
+ * Efecto hover del botón
+ * - Fondo con color hover
+ * - Color texto
+ */
 button:hover {
-  background-color: var(--player-color-active);
-  color: var(--player-text-color);}
+    background-color: var(--player-color-active);
+    color: var(--player-text-color);
+}
 
+/**
+ * Botón activo
+ * - Fondo con color hover
+ * - Color texto
+ */
 button.active {
-  background-color: var(--player-color-active);
-  color: var(--player-text-color);
+    background-color: var(--player-color-active);
+    color: var(--player-text-color);
 }
 
-.player:hover{
-  box-shadow: 0 0 0 0.25rem var(--player-color);
+/**
+ * Efecto hover del jugador
+ * - Sombra con color hover
+ */
+.player:hover {
+    box-shadow: 0 0 0 0.25rem var(--player-color);
 }
 
+/**
+ * Jugador activo
+ * - Sombra con color hover
+ */
 .player.active {
-  box-shadow: 0 0 0 0.25rem var(--player-color);
+    box-shadow: 0 0 0 0.25rem var(--player-color);
 }
 
-
-.switch-button{
-  display: inline-flex;
-  height: 1.5rem;
-  width: 2.75rem;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: flex-start;
-  border-radius: 99rem;
-  border: 0.05rem solid #444;
-  padding: 0;
-  transition: all 0.3s ease-out allow-discrete;
-
+/**
+ * Botón de switch
+ * - Flex container
+ * - Row
+ * - Espaciado
+ * - Alineación central
+ * - Justificación central
+ * - Padding
+ * - Bordes redondeados
+ * - Fondo oscuro
+ * - Color blanco
+ * - Cursor pointer
+ * - Transición suave
+ */
+.switch-button {
+    display: inline-flex;
+    height: 1.5rem;
+    width: 2.75rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 99rem;
+    border: 0.05rem solid #444;
+    padding: 0;
+    transition: all 0.3s ease-out allow-discrete;
 }
+
+/**
+ * Botón de switch activo
+ * - Fondo con color hover
+ */
 .switch-button[aria-checked="true"] {
-  background-color: var(--player-color-active);
+    background-color: var(--player-color-active);
 }
 
+/**
+ * Botón de switch inactivo
+ * - Fondo oscuro
+ */
 .switch-button[aria-checked="false"] {
-  background-color: #1a1a1a;
+    background-color: #1a1a1a;
 }
 
+/**
+ * Ícono del botón de switch
+ * - Display block
+ * - Ancho y alto
+ * - Bordes redondeados
+ * - Fondo blanco
+ * - Transición suave
+ */
 .switch-button-icon {
-  display: block;
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 99rem;
-  background-color: #FFF;
-  transition: all 0.3s ease-out allow-discrete;
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 99rem;
+    background-color: #FFF;
+    transition: all 0.3s ease-out allow-discrete;
 }
 
+/**
+ * Ícono del botón de switch activo
+ * - Transformación
+ * - Fondo blanco
+ */
 .switch-button[aria-checked="true"] .switch-button-icon {
-  transform: translateX(1.25rem);
-  background-color: #FFF;
+    transform: translateX(1.25rem);
+    background-color: #FFF;
 }
 
-
+/**
+ * Contenedor de contenido flexible
+ * - Margin bottom
+ * - Flex container
+ * - Alineación central
+ * - Padding
+ */
 .content-flex {
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
 }
 
-.flex-item { 
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+/**
+ * Elemento flexible
+ * - Flex container
+ * - Alineación central
+ * - Espaciado
+ */
+.flex-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
+/**
+ * Rango de entrada
+ * - Color
+ * - Color de acento
+ */
 input[type="range"] {
-  color: var(--player-color);
-  accent-color: var(--player-color);
+    color: var(--player-color);
+    accent-color: var(--player-color);
 }
 
-
+/**
+ * Contenedor de progreso personalizado
+ * - Ancho completo
+ */
 .custom-progress-container {
-  width: 100%;
+    width: 100%;
 }
 
+/**
+ * Barra de progreso personalizada
+ * - Fondo con color hover
+ * - Alto
+ * - Bordes redondeados
+ * - Overflow oculto
+ * - Posición relativa
+ */
 .custom-progress-bar {
-  background-color: var(--player-color-hover);
-  height: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
+    background-color: var(--player-color-hover);
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
 }
 
+/**
+ * Relleno de progreso personalizado
+ * - Fondo con color hover
+ * - Alto completo
+ * - Ancho variable
+ * - Transición suave
+ * - Bordes redondeados
+ */
 .custom-progress-fill {
-  background: var(--player-color-active);
-  height: 100%;
-  width: 0%;
-  transition: width 0.01s ease, background-color 0.3s;
-  border-radius: 10px;
+    background: var(--player-color-active);
+    height: 100%;
+    width: 0%;
+    transition: width 0.01s ease, background-color 0.3s;
+    border-radius: 10px;
 }
 
+/**
+ * Texto de progreso personalizado
+ * - Display block
+ * - Alineación central
+ * - Margen top
+ * - Familia de fuente
+ * - Color gris
+ */
 .custom-progress-text {
-  display: block;
-  text-align: center;
-  margin-top: 5px;
-  font-family: Arial, sans-serif;
-  color: #666;
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+    font-family: Arial, sans-serif;
+    color: #666;
 }
