@@ -33,9 +33,8 @@
  * - Espaciado uniforme
  */
 main {
-    flex: 1 1 0%;
-    padding: 1.5rem;
-    gap: 1.5rem;
+  flex: 1 1 0%;
+  gap: 1.5rem;
 }
 
 /**
@@ -182,10 +181,14 @@ main {
  * - Espaciado
  */
 .players-container {
-    padding: 1rem;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  } 
+
 }
 
 /**

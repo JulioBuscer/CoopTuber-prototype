@@ -83,14 +83,18 @@
  */
 .tools-bar button.active,
 .tools-bar button:hover {
-    span {
-        width: fit-content;
-        opacity: 1;
-        transform: translateX(0);
-    }
-    svg {
-        transform: translateX(-3px);
-    }
+  span {
+    width: fit-content;
+    opacity: 1;
+    transform: translateX(0);
+    
+    @media screen and (max-width: 768px) {
+      display: none;
+    } 
+  }
+  svg {
+    transform: translateX(-3px);
+  }
 }
 
 /**
