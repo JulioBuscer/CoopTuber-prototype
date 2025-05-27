@@ -46,9 +46,9 @@ main {
 .main-content {
     max-width: 80rem;
     margin: 0 auto;
-    padding: 1rem;
-    margin-top: 5rem;
     min-height: 80vh;
+
+    padding: 5rem 1rem;
 }
 
 /**

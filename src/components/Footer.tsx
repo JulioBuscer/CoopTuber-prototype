@@ -32,7 +32,7 @@ const Footer: Component<FooterProps> = () => {
                         <li><a href="/terms" target="_blank" rel="noopener noreferrer"><HiOutlineDocumentText /> Términos y Condiciones</a></li>
                         <li><a href="/privacy" target="_blank" rel="noopener noreferrer"><FiShield /> Política de Privacidad</a></li>
                         <li><a href="/cookies" target="_blank" rel="noopener noreferrer"><BiRegularCookie /> Aviso de Cookies</a></li>
-                        <li><a href="https://github.com/JulioBuscer/CoopTuber-prototype" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+                        <li><a href="https://github.com/JulioBuscer/CoopTuber-prototype" target="_blank" rel="noopener noreferrer"> <SiGithub /> GitHub Repository</a></li>
                     </ul>
                 </div>
 
@@ -48,7 +48,7 @@ const Footer: Component<FooterProps> = () => {
                 </div >
             </div >
             <div class="footer-bottom">
-                <p>&copy; {new Date().getFullYear()} Julio Buscer. Todos los derechos reservados.</p>
+                <p>&copy; {new Date().getFullYear()} Julio Buscer</p>
             </div>
         </footer >
     );

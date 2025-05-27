@@ -11,6 +11,7 @@
 
 // Importaciones de estilos
 import './App.css'
+import './styles/landing/landing.css'
 import './styles/score.css'
 import './styles/tools.css'
 import './styles/tools/avatar.css'
@@ -27,6 +28,7 @@ import Footer from './components/Footer'
 import { Router, Route } from '@solidjs/router';
 import LegalPages from './components/LegalPages'
 import Header from './components/Header'
+import LandingPage from './components/landing/Landing'
 
 
 const Layout = (props: { children?: any }) => (
@@ -40,9 +42,7 @@ const Layout = (props: { children?: any }) => (
 );
 
 const Home = () => (
-  <div class='main-content'>
-    <h2>En desarrollo...</h2>
-  </div>
+    <LandingPage />
 );
 
 const AppView = () => (
