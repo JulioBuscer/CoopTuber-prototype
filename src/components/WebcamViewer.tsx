@@ -201,11 +201,16 @@ const WebcamViewer = () => {
                 debugError(new Error("Video element no está disponible"));
                 return;
             }
-
+    
+            // Limpiar cualquier video previo
+            setVideoSource("");
+            videoRef.srcObject = null;
+            
             setupVideoConfig();
             await setupCameraStream();
             await setupVideoPlayback();
             initializeDetector();
+            setIsCameraOn(true);
         } catch (error) {
             debugError(error as Error, "Error al acceder a la cámara");
             setIsCameraOn(false);
@@ -219,13 +224,16 @@ const WebcamViewer = () => {
         videoRef!.autoplay = false;
         videoRef!.muted = true;
         videoRef!.playsInline = true;
-        videoRef!.src="/video.mp4";
     };
     
     /**
      * Obtener stream de la cámara
  */
     const setupCameraStream = async () => {
+        if (!navigator.mediaDevices?.getUserMedia) {
+            throw new Error("getUserMedia no está soportado en este navegador o el sitio no está en HTTPS/localhost");
+        }
+
         mediaStream = await navigator.mediaDevices.getUserMedia({
             video: {
                 width: 1920,
@@ -426,8 +434,13 @@ const WebcamViewer = () => {
                         onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
+                                // Detener la cámara si está activa
+                                if (isCameraOn()) {
+                                    stopCamera();
+                                }
                                 const url = URL.createObjectURL(file);
                                 setVideoSource(url);
+                                setIsVideoPlaying(false);
                                 videoRef?.pause();
                             }
                         }}
