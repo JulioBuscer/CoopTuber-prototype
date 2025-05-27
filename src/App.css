@@ -48,6 +48,7 @@ main {
     margin: 0 auto;
     padding: 1rem;
     margin-top: 5rem;
+    min-height: 80vh;
 }
 
 /**
@@ -212,7 +213,7 @@ main {
 .player {
     overflow: hidden;
     border-radius: 0.5rem;
-    padding: 0.5rem;
+    
 }
 
 /**

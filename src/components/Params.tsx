@@ -107,7 +107,7 @@ const Params: Component<ParamsProps> = () => {
             {/* Control para ajustar el umbral de parpadeo */}
             <div class="tools-params-container-item">
                 <div class="tools-params-container-item-label">
-                    <label for="rateEyesClosed">Papadear:</label>
+                    <label for="rateEyesClosed">Parpadeo:</label>
                     <input 
                         id="rateEyesClosed"
                         type="number"
