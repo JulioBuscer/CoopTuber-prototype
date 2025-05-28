@@ -30,13 +30,13 @@
 }
 
 .footer-section a {
-  color: #fff;
+  color: var(--color-gray-50);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer-section a:hover {
-  color: var(--page-accent-color) !important;
+  color: var(--color-primary) ;
 }
 
 .social-links {
@@ -53,7 +53,7 @@
   text-align: center;
   margin-top: 2rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--page-main-color) !important;
+  border-top: 1px solid var(--color-gray-700) ;
   p {
     font-size: 0.875rem;
     color: var(--color-gray-400);

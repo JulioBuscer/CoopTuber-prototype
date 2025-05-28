@@ -29,7 +29,7 @@ const Header: Component = () => {
         </nav>
         <nav class="header-nav">
           <A href="/app" class="nav-link">Probar ahora</A>
-          <A href="https://github.com/JulioBuscer/CoopTuber-prototype" class="nav-link github-link" target="_blank">
+          <A href="https://github.com/JulioBuscer/CoopTuber-prototype" class="nav-link btn btn-outline" target="_blank">
             <VsGithub class="icon" />  GitHub
           </A>
         </nav>

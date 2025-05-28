@@ -1,3 +1,5 @@
+
+import '../../styles/landing/openSource.css'
 const OpenSourceSection = () => {
     return (
         
@@ -13,7 +15,7 @@ const OpenSourceSection = () => {
                     <p class="opensource-text">
                         Puedes contribuir en GitHub, proponer mejoras o ayudar a llevar CoopTuber al siguiente nivel.
                     </p>
-                    <div class="opensource-highlight">
+                    <div style={{ display: 'none' }} class="opensource-highlight">
                         <p>👉 ¿Te gustaría una versión en la nube para que no dependa de tu PC?</p>
                         <p>¡Apóyanos y llegaremos juntos!</p>
                     </div>

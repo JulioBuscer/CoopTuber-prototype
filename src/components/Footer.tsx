@@ -3,7 +3,7 @@ import { SiGithub, SiLinkedin, SiNetlify } from 'solid-icons/si';
 import { FiShield } from 'solid-icons/fi';
 import { BiRegularCookie } from 'solid-icons/bi';
 import { HiOutlineDocumentText } from 'solid-icons/hi';
-
+import '../styles/footer.css'
 interface FooterProps { }
 
 const Footer: Component<FooterProps> = () => {

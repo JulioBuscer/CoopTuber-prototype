@@ -5,6 +5,7 @@ import HeroSection from "./HeroSection";
 import HowToSection from "./HowToSection";
 import OpenSourceSection from "./OpenSourceSection";
 
+import '../../styles/landing/landing.css'
 export default function LandingPage() {
     return (
         <div class="landing-page">

@@ -1,0 +1,44 @@
+/* Steps */
+.steps-container {
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.step-number {
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--color-purple-600);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.step-number.success {
+    background-color: var(--color-green-600);
+}
+
+.step-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.step-content p {
+    color: var(--color-gray-400);
+}
+
+.steps-features {
+    display: grid;
+    gap: 1rem;
+    margin-top: 3rem;
+}

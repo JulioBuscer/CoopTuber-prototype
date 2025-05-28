@@ -1,0 +1,50 @@
+/* Benefits */
+.benefits-grid {
+    display: grid;
+    gap: 2rem;
+}
+
+.benefit-card {
+    text-align: center;
+}
+
+.benefit-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+}
+.benefit-icons-trinity {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    line-break: 0;
+    white-space: wrap;
+    gap: 0 0.6rem;     
+}
+
+.benefit-icon.blue {
+    background-color: var(--color-blue-600);
+}
+
+.benefit-icon.yellow {
+    background-color: var(--color-yellow-600);
+}
+
+.benefit-icon.green {
+    background-color: var(--color-green-600);
+}
+
+.benefit-icon.purple {
+    background-color: var(--color-purple-600);
+}
+
+.benefit-icon.pink {
+    background-color: var(--color-pink-600);
+}

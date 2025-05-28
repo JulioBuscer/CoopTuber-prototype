@@ -1,3 +1,4 @@
+import '../../styles/landing/features.css'
 const FeaturesSection = () => {
     return (
         <section id="features" class="section section-alt">

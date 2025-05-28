@@ -11,7 +11,6 @@
 
 // Importaciones de estilos
 import './App.css'
-import './styles/landing/landing.css'
 import './styles/score.css'
 import './styles/tools.css'
 import './styles/tools/avatar.css'
@@ -19,7 +18,6 @@ import './styles/tools/background.css'
 import './styles/tools/params.css'
 import './styles/tools/color.css'
 import './styles/header.css'
-import './styles/footer.css'
 import './styles/markdown.css'
 
 // Importación de componentes
