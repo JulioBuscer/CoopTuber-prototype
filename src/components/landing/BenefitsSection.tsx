@@ -69,7 +69,7 @@ const BenefitsSection = () => {
                                     <OcPeople2 class="icon-lg" />
                                 </div>
                                 <h3 class="feature-title">Para todos</h3>
-                                <p class="feature-description">Ideal para streamers, amigos o equipos creativos</p>
+                                <p class="feature-description">Ideal para streamers, parejas, amigos o equipos creativos</p>
                             </div>
                         </div>
                     </div>
