@@ -1,14 +1,30 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CoopTuber</title>
-    <script type="module" crossorigin src="./assets/index-B5IJSFhF.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-D4ajlTPg.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoopTuber</title>
+
+
+  <!-- Cargar MediaPipe desde CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.12/wasm/vision_wasm_internal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1675466124"></script>
+  <!-- Configuración WASM -->
+  <script>
+    window.__mediapipe__ = window.__mediapipe__ || {};
+    window.__mediapipe__.setWasmPaths = (paths) => {
+      if (!paths.wasmFolder) return;
+      window.__mediapipe__.wasmFolder = paths.wasmFolder;
+    };
+  </script>
+  <script type="module" crossorigin src="./assets/index-DYfX-RiY.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-D4ajlTPg.css">
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
 </html>
