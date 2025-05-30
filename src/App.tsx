@@ -28,7 +28,6 @@ import LegalPages from './components/LegalPages'
 import Header from './components/Header'
 import LandingPage from './components/landing/Landing'
 
-
 const Layout = (props: { children?: any }) => (
   <div class='app-container'>
     <Header />
@@ -49,9 +48,10 @@ const AppView = () => (
   </div>
 );
 
+
 function App() {
   return (
-    <Router root={Layout}>
+    <Router root={Layout} base={import.meta.env.BASE_URL}>
       <Route path="/" component={Home} />
       <Route path="/app" component={AppView} />
       <Route path="/terms" component={() => <LegalPages path="/docs/terms.md" />} />
