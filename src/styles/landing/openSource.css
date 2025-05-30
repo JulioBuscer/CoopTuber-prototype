@@ -1,0 +1,31 @@
+/* Open Source Section */
+.opensource-content {
+    max-width: 64rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.opensource-text {
+    font-size: 1.125rem;
+    color: var(--color-gray-300);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.opensource-highlight {
+    background: linear-gradient(to right, rgba(88, 28, 135, 0.2), rgba(131, 24, 67, 0.2));
+    border-radius: 0.5rem;
+    padding: 2rem;
+    border: 1px solid var(--color-gray-800);
+    margin-top: 2rem;
+}
+
+.opensource-highlight p:first-child {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.opensource-highlight p:last-child {
+    color: var(--color-purple-400);
+}

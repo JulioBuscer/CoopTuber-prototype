@@ -1,15 +1,58 @@
+/**
+ * @file FaceLandmarker.ts
+ * Clase que maneja la detección de puntos de referencia faciales usando MediaPipe
+ * 
+ * Esta clase:
+ * - Inicializa el detector de puntos faciales de MediaPipe
+ * - Dibuja los puntos de referencia faciales en el canvas
+ * - Maneja la detección de múltiples caras
+ * - Implementa limpieza de recursos
+ */
+
 import { FaceLandmarker, DrawingUtils, FilesetResolver } from "@mediapipe/tasks-vision";
 import { getColorHover } from "../utils/utils";
 
+/**
+ * Clase que implementa la detección de puntos de referencia faciales
+ * 
+ * Esta clase proporciona métodos para:
+ * - Inicializar el detector de puntos faciales
+ * - Detectar puntos faciales en video en tiempo real
+ * - Dibujar los puntos detectados en el canvas
+ * - Manejar la limpieza de recursos
+ */
 export class FaceLandmarkDetector {
-    private faceLandmarker: FaceLandmarker | null = null; // Inicializar como null
+    /**
+     * Instancia del detector de puntos faciales
+     * @type {FaceLandmarker | null}
+     */
+    private faceLandmarker: FaceLandmarker | null = null;
+
+    /**
+     * Utilidad para dibujar los puntos detectados
+     * @type {DrawingUtils}
+     */
     private drawingUtils!: DrawingUtils;
+
+    /**
+     * Tiempo del último frame procesado
+     * @type {number}
+     */
     private lastVideoTime = -1;
 
+    /**
+     * Constructor de la clase FaceLandmarkDetector
+     * @param {HTMLCanvasElement} canvas - Canvas donde se dibujarán los puntos
+     */
     constructor(private canvas: HTMLCanvasElement) {
         this.initialize();
     }
 
+    /**
+     * Inicializa el detector de puntos faciales
+     * @async
+     * @throws {Error} Si hay un error durante la inicialización
+     */
     async initialize() {
         try {
             const vision = await FilesetResolver.forVisionTasks(
@@ -34,6 +77,13 @@ export class FaceLandmarkDetector {
         }
     }
 
+    /**
+     * Detecta puntos faciales en el video
+     * @async
+     * @param {HTMLVideoElement} video - Elemento de video a procesar
+     * @returns {Promise<any | null>} Resultados de la detección o null si no hay cambios
+     * @throws {Error} Si el detector no está inicializado
+     */
     async detect(video: HTMLVideoElement) {
         if (!this.faceLandmarker) throw new Error("Detector no inicializado");
 
@@ -43,12 +93,21 @@ export class FaceLandmarkDetector {
         return this.faceLandmarker.detectForVideo(video, performance.now());
     }
 
-    // Añadir método de limpieza
+    /**
+     * Limpia los recursos del detector
+     */
     destroy() {
         this.faceLandmarker?.close();
         this.faceLandmarker = null;
     }
 
+    /**
+     * Dibuja los resultados de la detección en el canvas
+     * @param {Object} results - Resultados de la detección
+     * @param {Array<any>} results.faceLandmarks - Puntos de referencia faciales
+     * @param {Array<any>} results.faceBlendshapes - Formas de expresión facial
+     * @param {Array<string>} [playersColor] - Colores de los jugadores
+     */
     drawResults(results: { faceLandmarks?: Array<any>, faceBlendshapes?: Array<any> }, playersColor?: Array<string>) {
         const ctx = this.canvas.getContext('2d')!;
         ctx.save();
@@ -101,13 +160,10 @@ export class FaceLandmarkDetector {
                     FaceLandmarker.FACE_LANDMARKS_RIGHT_EYEBROW,
                     { color: '#30FF30', lineWidth: 1 }
                 );
+
                 index++;
             }
-        } else {
-            console.log("No landmarks");
         }
         ctx.restore();
     }
-
-
 }

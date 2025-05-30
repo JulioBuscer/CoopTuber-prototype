@@ -1,3 +1,25 @@
+/**
+ * @file avatar.css
+ * Estilos para el componente de configuración de avatar
+ * 
+ * Este archivo contiene los estilos para:
+ * - Contenedor principal de herramientas de avatar
+ * - Visualización del avatar
+ * - Contenido de herramientas de avatar
+ * - Contenedor de selección de avatar
+ * - Selector de imagen de avatar
+ * - Botones de carga
+ */
+
+/**
+ * Contenedor principal de herramientas de avatar
+ * - Flex container en columna
+ * - Espaciado uniforme
+ * - Box-sizing border-box
+ * - Ancho completo
+ * - Bordes
+ * - Alineación central
+ */
 .avatar-tools {
     display: flex;
     flex-direction: column;
@@ -9,9 +31,16 @@
     border-color: #444;
     justify-content: center;
     align-items: center;
-
 }
 
+/**
+ * Contenedor de visualización del avatar
+ * - Ancho 50%
+ * - Ratio 16:9
+ * - Flex container
+ * - Alineación central
+ * - Espaciado uniforme
+ */
 .avatar-tools-display {
     width: 50%;
     aspect-ratio: 16/9;
@@ -21,12 +50,25 @@
     gap: 0.5rem;
 }
 
+/**
+ * Imagen del avatar en la visualización
+ * - Ancho completo
+ * - Ratio 16:9
+ * - Ajuste de contenido
+ */
 .avatar-tools-display-image {
     width: 100%;
     aspect-ratio: 16/9;
     object-fit: contain;
 }
 
+/**
+ * Contenido de herramientas de avatar
+ * - Flex container
+ * - Alineación central
+ * - Espaciado mayor
+ * - Ancho y altura completos
+ */
 .avatars-tools-content {
     display: flex;
     align-items: center;
@@ -40,6 +82,13 @@
     }
 }
 
+/**
+ * Contenedor de selección de avatar
+ * - Grid layout con 4 columnas
+ * - Espaciado uniforme
+ * - Fondo gris oscuro
+ * - Bordes redondeados
+ */
 .avatars-tools-container {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -48,17 +97,34 @@
     border-radius: 0.5rem;
 }
 
+/**
+ * Selector de imagen de avatar
+ * - Flex container
+ * - Alineación central
+ * - Estilos activos
+ * - Bordes redondeados
+ */
 .avatar-tool-image-picker {
     display: flex;
     align-items: center;
     justify-content: center;
+
     &.active {
         border: 0.25rem solid var(--player-color-active);
         background-color: var(--player-color-hover);
     }
+
     border-radius: 0.5rem;
 }
 
+/**
+ * Imagen en el selector de avatar
+ * - Ancho máximo
+ * - Altura completa
+ * - Ancho fijo
+ * - Ajuste de contenido
+ * - Ratio 1:1
+ */
 .avatar-tool-image-picker img {
     max-width: 100%;
     height: 100%;
@@ -66,14 +132,16 @@
     object-fit: contain;
     aspect-ratio: 1/1;
 }
-.avatar-tool-image{
-    
-}
 
-.avatar-tools-buttons {
-    
-}
-
+/**
+ * Botones de carga
+ * - Padding
+ * - Bordes redondeados
+ * - Fondo oscuro
+ * - Color blanco
+ * - Cursor pointer
+ * - Transición suave
+ */
 .upload-button {
     display: inline-block;
     padding: 0.5rem;
@@ -87,8 +155,3 @@
         background-color: var(--player-color-active);
     }
 }
-
-
-
-
-    

@@ -1,185 +1,345 @@
+/**
+ * @file index.css
+ * Estilos globales de la aplicación
+ * 
+ * Este archivo contiene:
+ * - Variables de diseño
+ * - Estilos base
+ * - Estilos de componentes
+ * - Media queries
+ */
+
+/**
+ * Variables de diseño
+ * - Colores del jugador
+ * - Ajustes de tipografía
+ * - Ajustes de sistema
+ */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #333;
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #333;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-  --player-color: #646cff;
-  --player-color-active: #646cffaa;
-  --player-color-hover: #646cff22;
-  --player-text-color: #fff;
+    --player-color: #646cff;
+    --player-color-active: #646cffaa;
+    --player-color-hover: #646cff22;
+    --player-text-color: #fff;
+
+    --page-main-color: #333;
+    --page-accent-color: #5145cd/*#646cff*/;
+
+
+    --color-primary: #646cff;
+    --color-primary-dark: #5145cd;
+    --color-secondary: #ec4899;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    --color-gray-950: #030712;
+    --color-purple-400: #a855f7;
+    --color-purple-600: #9333ea;
+    --color-purple-700: #7c3aed;
+    --color-purple-900: #581c87;
+    --color-pink-400: #f472b6;
+    --color-pink-600: #db2777;
+    --color-pink-900: #831843;
+    --color-green-400: #4ade80;
+    --color-green-500: #22c55e;
+    --color-green-600: #16a34a;
+    --color-blue-400: #60a5fa;
+    --color-blue-600: #2563eb;
+    --color-yellow-400: #facc15;
+    --color-yellow-600: #ca8a04;
+    --color-teal-400: #2dd4bf;
+    --color-teal-600: #0d9488;
 }
 
+/**
+ * Estilos de enlaces
+ * - Color del jugador
+ * - Decoración de texto
+ */
 a {
-  font-weight: 500;
-  color: var(--player-color);
-  text-decoration: inherit;
+    font-weight: 500;
+    color: var(--player-color);
+    text-decoration: inherit;
 }
 
+/**
+ * Efecto hover de enlaces
+ * - Color hover del jugador
+ */
 a:hover {
-  color: var(--player-color-hover);
+    color: var(--player-color-hover);
 }
 
+/**
+ * Estilos base del cuerpo
+ * - Margen 0
+ * - Altura mínima 100vh
+ */
 body {
-  margin: 0;
-  min-height: 100vh;
+    margin: 0;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+    line-height: 1.6;
+    color: white;
+    background-color: var(--color-gray-950);
+    /*box-sizing: border-box;*/    
 }
 
+/**
+ * Estilos de encabezados
+ * - Tamaño de fuente
+ * - Espaciado de línea
+ */
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+    font-size: 3.2em;
+    line-height: 1.1;
 }
 
+/**
+ * Estilos de botones
+ * - Bordes redondeados
+ * - Padding
+ * - Tamaño de fuente
+ * - Color del jugador
+ * - Cursor pointer
+ * - Transición suave
+ */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--player-color);
-  cursor: pointer;
-  transition: border-color 0.25s;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: var(--player-color);
+    cursor: pointer;
+    transition: border-color 0.25s;
 }
 
+/**
+ * Efecto hover de botones
+ * - Color hover del borde
+ */
 button:hover {
-  border-color: var(--player-color-hover);
+    border-color: var(--player-color-hover);
 }
 
+/**
+ * Enfoque de botones
+ * - Contorno de enfoque
+ */
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+    outline: 4px auto -webkit-focus-ring-color;
 }
 
+/**
+ * Media query para esquema claro
+ * - Ajustes de colores
+ * - Ajustes de botones
+ */
 @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
+    :root {
+        color: #213547;
+        background-color: #ffffff;
+    }
 
-  a:hover {
-    color: var(--player-color-hover);
-  }
+    a:hover {
+        color: var(--player-color-hover);
+    }
 
-  button {
-    background-color: #f9f9f9;
-  }
+    button {
+        background-color: #f9f9f9;
+    }
 }
 
+/**
+ * Contenedor de la aplicación
+ * - Altura mínima 100vh
+ * - Ancho auto
+ * - Alineación central
+ * - Flex container
+ * - Columna
+ */
 .app-container {
-  min-height: 100vh;
-  width: auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
+    min-height: 100vh;
+    width: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
+/**
+ * Contenedor de webcam
+ * - Posición relativa
+ * - Ratio 16/9
+ */
 .webcam-container {
-  position: relative;
-  aspect-ratio: 16/9;
+    position: relative;
+    aspect-ratio: 16/9;
 }
 
+/**
+ * Canvas de webcam
+ * - Posición absoluta
+ * - Top y left
+ * - Ancho y alto completos
+ * - Z-index
+ * - Transformación
+ */
 canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  transform: scaleX(-1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    transform: scaleX(-1);
 }
 
+/**
+ * Video de webcam
+ * - Posición absoluta
+ * - Top y left
+ * - Ancho y alto completos
+ * - Z-index
+ */
 video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform: scaleX(-1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transform: scaleX(-1);
 }
 
+/**
+ * Estado de la aplicación
+ * - Posición absoluta
+ * - Bottom y left
+ * - Fondo oscuro
+ * - Color blanco
+ * - Padding
+ * - Bordes redondeados
+ * - Tamaño de fuente
+ */
 .status {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 0.9rem;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
 }
 
+/**
+ * Contenedor de controles de video
+ * - Posición absoluta
+ * - Top y left
+ * - Ancho y alto completos
+ * - Flex container
+ * - Alineación central
+ * - Z-index
+ * - Transición suave
+ */
 .video-control-container {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3;
-  transition: opacity 0.3s ease;
-  opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    transition: opacity 0.3s ease;
+    opacity: 1;
 
-  &.playing {
-    opacity: 0;
+    &.playing {
+        opacity: 0;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+/**
+ * Botón de control de video
+ * - Cursor pointer
+ * - Z-index
+ * - Ancho y alto mínimos
+ * - Flex container
+ * - Alineación central
+ * - Fondo oscuro
+ * - Bordes redondeados
+ * - Tamaño de fuente
+ * - Transición suave
+ */
+.video-control-button {
+    cursor: pointer;
+    z-index: 3;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #444444aa;
+    border-radius: 999px;
+    transition: background-color 0.3s;
+    font-size: 1.2rem;
 
     &:hover {
-      opacity: 1;
+        background-color: var(--player-color-hover);
+        color: var(--player-text-color);
+
+        span {
+            display: block;
+            width: fit-content;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        width: fit-content;
     }
-  }
-}
 
-.video-control-button {
-  cursor: pointer;
-  z-index: 3;
-  min-width: 2.5rem;
-  min-height: 2.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #444444aa;
-  border-radius: 999px;
-  transition: background-color 0.3s;
-  font-size: 1.2rem;
-
-  &:hover {
-    background-color: var(--player-color-hover);
-    color: var(--player-text-color);
+    &.file {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
 
     span {
-      display: block;
-      width: fit-content;
-      opacity: 1;
-      transform: translateX(0);
+        display: none;
+        opacity: 0;
+        transform: translateX(-5px);
+        transition: all 0.3s ease-out;
+        pointer-events: none;
     }
-
-    width: fit-content;
-  }
-
-  &.file {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-  }
-
-  span {
-    display: none;
-    opacity: 0;
-    transform: translateX(-5px);
-    transition: all 0.3s ease-out;
-    pointer-events: none;
-  }
-
-
 }

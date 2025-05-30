@@ -11,8 +11,10 @@
   "dependencies": {
     "@mediapipe/drawing_utils": "^0.3.1675466124",
     "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
+    "@solidjs/router": "^0.15.3",
     "@tensorflow/tfjs-core": "^4.22.0",
     "@ungap/event-target": "^0.2.4",
+    "marked": "^15.0.12",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.9.5",
     "zustand": "^5.0.3"

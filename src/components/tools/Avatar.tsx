@@ -1,24 +1,60 @@
+/**
+ * @file Avatar.tsx
+ * Componente que maneja la configuración de imágenes del avatar
+ * 
+ * Este componente permite:
+ * - Seleccionar diferentes estados de animación del avatar
+ * - Cargar nuevas imágenes para cada estado
+ * - Previsualizar los cambios antes de aplicarlos
+ */
+
 import { createEffect, createSignal } from "solid-js";
 import { AvatarConfig } from "../../data/types/avatar";
 import { playersConfig, selectedPlayer, setPlayerConfig } from "../../data/signals/player";
 
+/**
+ * Componente que maneja la configuración de imágenes del avatar
+ * 
+ * Este componente:
+ * - Muestra las diferentes imágenes del avatar
+ * - Permite navegar entre los estados de animación
+ * - Permite cargar nuevas imágenes para cada estado
+ * - Muestra una vista previa de los cambios
+ * 
+ * @returns {JSX.Element} Interfaz de configuración de imágenes del avatar
+ */
 const Avatar = () => {
+    // Estado local del jugador seleccionado
     const [player, setPlayer] = createSignal<AvatarConfig | null>(
         playersConfig().find(p => p.characterId === selectedPlayer()!.characterId) ?? null
     );
+
+    /**
+     * Efecto que se ejecuta cuando cambia el jugador seleccionado
+     * Actualiza el estado local del jugador
+     */
     createEffect(() => {
         setPlayer(playersConfig().find(p => p.characterId === selectedPlayer()!.characterId) ?? null);
     });
 
+    // Tipos de imágenes disponibles para el avatar
     const imageTypes: (keyof AvatarConfig['imagePaths'])[] = ['normal', 'blink', 'talking', 'blinkTalk'];
 
+    // Estado para la imagen seleccionada
     const [selectedImage, setSelectedImage] = createSignal(0);
 
+    /**
+     * Manejador para el clic en una imagen
+     * @param {number} index - Índice de la imagen seleccionada
+     */
     const handleImageClick = (index: number) => {
         console.log('Selected image:', imageTypes[index], " - index:", index);
         setSelectedImage(index);
     };
 
+    /**
+     * Manejador para la imagen anterior
+     */
     const handlePrevImage = () => {
         setSelectedImage(prev => {
             if (prev === 0) return imageTypes.length - 1;
@@ -26,13 +62,20 @@ const Avatar = () => {
         });
     };
 
+    /**
+     * Manejador para la imagen siguiente
+     */
     const handleNextImage = () => {
         setSelectedImage(prev => {
             if (prev === imageTypes.length - 1) return 0;
-            return Math.min(imageTypes.length - 1, prev + 1)
+            return Math.min(imageTypes.length - 1, prev + 1);
         });
     };
 
+    /**
+     * Manejador para el cambio de imagen
+     * @param {Event} e - Evento del input de archivo
+     */
     const handleImageChange = (e: Event) => {
         e.preventDefault();
         const target = e.target as HTMLInputElement;
@@ -60,7 +103,8 @@ const Avatar = () => {
     };
 
     return (
-        <div class="avatar-tools" >
+        <div class="avatar-tools">
+            {/* Contenedor de la vista previa */}
             <div class="avatar-tools-display"
                 style={{
                     'background-color': player()!.useChroma ?
@@ -80,30 +124,36 @@ const Avatar = () => {
                 />
             </div>
 
+            {/* Contenedor de selección de imágenes */}
             <div class="avatars-tools-content">
                 <button onClick={handlePrevImage}> {"<"} </button>
                 <div class="avatars-tools-container">
                     {imageTypes.map((type, index) => (
-                        <div class={"avatar-tool-image-picker" + (index === selectedImage() ? ' active' : '')}>
+                        <div class={`avatar-tool-image-picker${index === selectedImage() ? ' active' : ''}`}>
                             <img
                                 class="avatar-tool-image"
                                 src={player()!.imagePaths[type]!}
                                 alt={type}
-
                                 onClick={() => handleImageClick(index)}
                             />
                         </div>
                     ))}
                 </div>
-                <button onClick={handleNextImage} > {">"} </button>
-            </div>
-            <div class="avatar-tools-buttons">
-                <label class="upload-button">
-                    <input type="file" onChange={handleImageChange} accept="image/*" hidden />
-                    Subir imagen
-                </label>
+                <button onClick={handleNextImage}> {">"} </button>
             </div>
 
+            {/* Botones de carga de imágenes */}
+            <div class="avatar-tools-buttons">
+                <label class="upload-button">
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        style={{ display: 'none' }}
+                    />
+                    Cargar imagen
+                </label>
+            </div>
         </div>
     );
 };

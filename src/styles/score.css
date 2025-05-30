@@ -1,3 +1,25 @@
+/**
+ * @file score.css
+ * Estilos para el componente de puntuación
+ * 
+ * Este archivo contiene los estilos para:
+ * - Contenedor de puntuación
+ * - Información del jugador
+ * - Nombre del jugador
+ * - Contenedor de estados
+ * - Estados individuales
+ * - Contenedor de progreso
+ * - Barra de progreso
+ * - Reset de estilos nativos
+ */
+
+/**
+ * Contenedor principal de la puntuación
+ * - Flex container en columna
+ * - Espaciado uniforme
+ * - Alineación central
+ * - Margen inferior
+ */
 .score-container {
     display: flex;
     flex-direction: column;
@@ -8,6 +30,13 @@
     margin-bottom: 0.5rem;
 }
 
+/**
+ * Contenedor de información del jugador
+ * - Flex container en fila
+ * - Espaciado entre elementos
+ * - Alineación central
+ * - Ancho completo
+ */
 .player-info {
     display: flex;
     flex-direction: row;
@@ -17,6 +46,12 @@
     gap: 0.5rem;
 }
 
+/**
+ * Nombre del jugador
+ * - Padding circular
+ * - Color activo del jugador
+ * - Color de texto adaptativo
+ */
 .player-name {
     padding: 0.5rem;
     border-radius: 999px;
@@ -24,12 +59,27 @@
     color: var(--player-text-color);
 }
 
+/**
+ * Estilos para el texto del nombre
+ * - Sin margen
+ * - Negrita
+ * - Tamaño grande
+ */
 .player-name p {
     margin: 0;
     font-weight: bold;
     font-size: 1.5rem;
 }
 
+/**
+ * Contenedor de estados
+ * - Flex container en columna
+ * - Ancho completo
+ * - Espaciado uniforme
+ * - Padding
+ * - Fondo oscuro
+ * - Bordes redondeados
+ */
 .state-container {
     display: flex;
     flex-direction: column;
@@ -41,16 +91,34 @@
     border-radius: 0.5rem;
 }
 
+/**
+ * Estado individual
+ * - Ancho completo
+ */
 .state {
     width: 100%;
 }
 
+/**
+ * Estilos para el texto del estado
+ * - Margen vertical
+ * - Tamaño normal
+ * - Negrita
+ */
 .state p {
     margin: 0.5rem 0;
     font-size: 1rem;
     font-weight: bold;
 }
 
+/**
+ * Contenedor de progreso
+ * - Flex container en fila
+ * - Espaciado uniforme
+ * - Alineación central
+ * - Ancho completo
+ * - Responsive (columna en móviles)
+ */
 .progress-container {
     display: flex;
     flex-direction: row;
@@ -64,10 +132,21 @@
     }
 }
 
+/**
+ * Barra de progreso
+ * - Ancho completo
+ */
 .progress {
     width: 100%;
 }
 
+/**
+ * Estilos para el texto de progreso
+ * - Sin margen
+ * - Centrado
+ * - Tamaño normal
+ * - Negrita
+ */
 .progress p {
     margin: 0;
     text-align: center;
@@ -75,6 +154,14 @@
     font-weight: bold;
 }
 
+/**
+ * Estilos para la barra de progreso
+ * - Altura fija
+ * - Bordes redondeados
+ * - Color hover del jugador
+ * - Color del jugador
+ * - Reset de estilos nativos
+ */
 .progress progress {
     width: 100%;
     height: 0.75rem;
@@ -82,18 +169,23 @@
     background-color: var(--player-color-hover);
     accent-color: var(--player-color);
 
-    /* Resetear estilos nativos (IMPORTANTE para Chromium) */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border: none;
 }
 
+/**
+ * Reset de estilos nativos para WebKit
+ */
 progress::-webkit-progress-bar,
-progress::-moz-progress-bakr {
+progress::-moz-progress-bar {
     background-color: var(--player-color) !important;
 }
 
+/**
+ * Reset de estilos nativos para WebKit
+ */
 progress::-webkit-progress-value,
 progress::-moz-progress-value {
     background-color: var(--player-color) !important;
