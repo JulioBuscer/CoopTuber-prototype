@@ -1,7 +1,6 @@
 import { createEffect, createMemo, createSignal } from "solid-js";
 import { playersConfig, playersStates } from "../../data/signals/player";
 import { AvatarConfig } from "../../data/types/avatar";
-import { getColorHover, sanitizedColor } from "../../utils/utils";
 
 interface ScoreProps {
     characterId: string
@@ -12,7 +11,7 @@ const State = ({ characterId }: ScoreProps) => {
         return playersStates().find(p => p.characterId === characterId);
     });
 
-    const [playerConfig, setPlayerConfig] = createSignal<AvatarConfig | null>(playersConfig().find(p => p.characterId === characterId)!);
+    const [_, setPlayerConfig] = createSignal<AvatarConfig | null>(playersConfig().find(p => p.characterId === characterId)!);
 
     createEffect(() => {
         setPlayerConfig(playersConfig().find(p => p.characterId === characterId)!);

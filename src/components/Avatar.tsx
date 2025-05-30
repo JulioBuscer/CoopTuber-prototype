@@ -9,7 +9,7 @@
 import { Component } from 'solid-js';
 import { playersConfig, playersStates, selectedPlayer, setSelectedPlayer } from '../data/signals/player';
 import ImageAvatar from './ImageAvatar';
-import { getBestTextColor, getColorActive, getColorHover, sanitizedColor, setColors } from '../utils/utils';
+import { getBestTextColor, getColorActive, sanitizedColor, setColors } from '../utils/utils';
 
 /**
  * Propiedades del componente Avatar
