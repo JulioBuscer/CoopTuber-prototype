@@ -11,18 +11,19 @@
  */
 
 import { defineConfig } from 'vite'
-import solid from 'vite-plugin-solid'
+import solidPlugin from 'vite-plugin-solid'
 
 /**
  * Configuración principal de Vite
  * @returns Configuración de Vite
  */
 export default defineConfig({
+  base: '/',
   /**
    * Plugins utilizados
    * - solid: Plugin para SolidJS
    */
-  plugins: [solid()],
+  plugins: [solidPlugin()],
 
   /**
    * Configuración del servidor de desarrollo
@@ -43,14 +44,15 @@ export default defineConfig({
    * - Polyfill para preload
    */
   build: {
+    assetsDir: './',
     sourcemap: true,
-    rollupOptions: {
-      /**
-       * Dependencias externas
-       * - @mediapipe/tasks-vision: Excluida para evitar bundling
-       */
-      external: ['@mediapipe/tasks-vision'],
-    },
+
+    /**
+  rollupOptions: {
+     * Dependencias externas
+     * - @mediapipe/tasks-vision: Excluida para evitar bundling
+    //external: ['@mediapipe/tasks-vision'],
+  },*/
     target: 'esnext',
     modulePreload: {
       polyfill: true
