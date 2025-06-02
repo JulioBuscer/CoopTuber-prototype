@@ -107,7 +107,7 @@ const WebcamViewer = () => {
     /**
      * Inicializar detector y reproducir video
      */
-    const initializeDetectorAndPlay = () => {
+    const initializeDetectorAndPlay = async () => {
         if (!detector()) {
             const canvas = canvasRef!;
             canvas.width = videoRef!.videoWidth || 1920;
@@ -116,6 +116,7 @@ const WebcamViewer = () => {
             
             debugLog("Inicializando nuevo detector...");
             const landmarkDetector = new FaceLandmarkDetector(canvas);
+            await landmarkDetector.initialize();
             setDetector(landmarkDetector);
         }
         
