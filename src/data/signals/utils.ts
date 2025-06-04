@@ -50,4 +50,4 @@ export const [selectedTool, setSelectedTool] = createSignal<string>("");
  * Signal que indica si está activo el modo de depuración
  * @type {boolean}
  */
-export const [isDebugMode, setIsDebugMode] = createSignal(true);
+export const [isDebugMode, setIsDebugMode] = createSignal(false);

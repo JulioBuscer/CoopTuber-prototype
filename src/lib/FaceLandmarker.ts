@@ -28,7 +28,7 @@ declare global {
 }
 
 import { FaceLandmarker } from "@mediapipe/tasks-vision";
-import { getColorHover } from "../utils/utils";
+import { debugLog, getColorHover } from "../utils/utils";
 
 /**
  * Clase que implementa la detección de puntos de referencia faciales
@@ -47,7 +47,8 @@ export class FaceLandmarkDetector {
 
 
     constructor(private canvas: HTMLCanvasElement) {
-        this.initialize();
+        if (!canvas) throw new Error("Canvas no proporcionado");
+        debugLog('FaceLandmarkDetector initialized con canvas:', canvas);
     }
 
     /**
@@ -58,36 +59,50 @@ export class FaceLandmarkDetector {
     async initialize() {
         try {
             if (import.meta.env.PROD) {
-                // Use CDN in production
+                // Usar CDN in production
+                debugLog('Inicializando FaceLandmarker en producción');
+                // Verificar si la variable global 'vision' está disponible
                 if (!window.vision) {
+                    debugLog('Cargando Vision CDN...');
                     await new Promise(resolve => {
                         const checkVision = () => {
                             if (window.vision) resolve(true);
                             else setTimeout(checkVision, 100);
+
                         };
                         checkVision();
                     });
+                    debugLog('Vision CDN cargado');
+                } else {
+                    debugLog('Vision CDN ya cargado');
+                    // Si ya está cargado, no hacemos nada
                 }
                 return this.initWithCDN();
             } else {
-                // Use local modules in development
+                // Usar local modules en desarrollo
+                debugLog('Inicializando FaceLandmarker en desarrollo');
                 const vision = await import('@mediapipe/tasks-vision');
                 const { DrawingUtils } = vision;
+                debugLog('Vision modulos cargados:', vision, DrawingUtils);
                 return this.initWithModules(vision, DrawingUtils);
             }
         } catch (error) {
-            console.error('Error initializing detector:', error);
-            throw error;
+            throw new Error(`Error initializing detector: ${error}`);
         }
     }
 
     private async initWithCDN() {
-        if (!window.vision) throw new Error("Vision CDN not loaded");
+        debugLog('Initializing FaceLandmarker con CDN');
+        if (!window.vision) throw new Error("Vision CDN no cargado")
 
         const vision = window.vision;
+        debugLog('Vision CDN cargado:', vision);
         const filesetResolver = await vision.FilesetResolver.forVisionTasks(
-            'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.12/wasm/vision_wasm_internal.js'
+            'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.12/wasm'
         );
+        debugLog('FilesetResolver:', filesetResolver);
+
+        // Crear instancia de FaceLandmarker
 
         this.faceLandmarker = await vision.FaceLandmarker.createFromOptions(filesetResolver, {
             baseOptions: {
@@ -99,15 +114,19 @@ export class FaceLandmarkDetector {
             runningMode: 'VIDEO',
             minTrackingConfidence: 0.3
         });
+        debugLog('FaceLandmarker instancia creada:', this.faceLandmarker);
 
         // Crear instancia de DrawingUtils
         this.drawingUtils = new vision.DrawingUtils(this.canvas.getContext('2d')!);
+        debugLog('DrawingUtils instancia creada:', this.drawingUtils);
     }
 
     private async initWithModules(
         vision: typeof import('@mediapipe/tasks-vision'),
         DrawingUtils: typeof import('@mediapipe/tasks-vision').DrawingUtils
     ) {
+        debugLog('Initializing FaceLandmarker con modulos locales');
+        // Verificar si la variable global 'vision' está disponible
         const filesetResolver = await vision.FilesetResolver.forVisionTasks(
             import.meta.env.PROD
                 ? '/CoopTuber-prototype/wasm'
@@ -125,12 +144,16 @@ export class FaceLandmarkDetector {
             runningMode: 'VIDEO',
             minTrackingConfidence: 0.3
         });
+        debugLog('FaceLandmarker instancia creada:', this.faceLandmarker);
 
         // Crear instancia de DrawingUtils
         this.drawingUtils = new DrawingUtils(this.canvas.getContext('2d')!);
+        debugLog('DrawingUtils instancia creada:', this.drawingUtils);
     }
 
     async detect(video: HTMLVideoElement) {
+        // Verificar si el detector está inicializado y si el tiempo del video ha cambiado
+        debugLog('Detectando face landmarks para video en tiempo: ', video.currentTime);
         if (!this.faceLandmarker) throw new Error("Detector no inicializado");
         if (video.currentTime === this.lastVideoTime) return null;
 
@@ -139,6 +162,7 @@ export class FaceLandmarkDetector {
     }
 
     destroy() {
+        debugLog('Destruyendo instancia FaceLandmarker');
         this.faceLandmarker?.close();
         this.faceLandmarker = null;
     }
