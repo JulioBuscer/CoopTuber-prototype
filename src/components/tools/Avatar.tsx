@@ -11,6 +11,7 @@
 import { createEffect, createSignal } from "solid-js";
 import { AvatarConfig } from "../../data/types/avatar";
 import { playersConfig, selectedPlayer, setPlayerConfig } from "../../data/signals/player";
+import { debugLog } from "../../utils/utils";
 
 /**
  * Componente que maneja la configuración de imágenes del avatar
@@ -39,7 +40,7 @@ const Avatar = () => {
 
     // Tipos de imágenes disponibles para el avatar
     const imageTypes: (keyof AvatarConfig['imagePaths'])[] = ['normal', 'blink', 'talking', 'blinkTalk'];
-
+    const imageTypeNames = ['Boca cerrada, Ojos abiertos', 'Boca cerrada, Ojos cerrados', 'Boca abierta, Ojos abiertos', 'Boca abierta, Ojos cerrados'];
     // Estado para la imagen seleccionada
     const [selectedImage, setSelectedImage] = createSignal(0);
 
@@ -48,7 +49,7 @@ const Avatar = () => {
      * @param {number} index - Índice de la imagen seleccionada
      */
     const handleImageClick = (index: number) => {
-        console.log('Selected image:', imageTypes[index], " - index:", index);
+        debugLog('Selected image:', imageTypeNames[index], " - index:", index);
         setSelectedImage(index);
     };
 
@@ -124,16 +125,18 @@ const Avatar = () => {
                 />
             </div>
 
+            <span>{imageTypeNames[selectedImage()]}</span>
+
             {/* Contenedor de selección de imágenes */}
             <div class="avatars-tools-content">
-                <button onClick={handlePrevImage}> {"<"} </button>
+                <button  onClick={handlePrevImage}> {"<"} </button>
                 <div class="avatars-tools-container">
                     {imageTypes.map((type, index) => (
                         <div class={`avatar-tool-image-picker${index === selectedImage() ? ' active' : ''}`}>
                             <img
                                 class="avatar-tool-image"
                                 src={player()!.imagePaths[type]!}
-                                alt={type}
+                                alt={imageTypeNames[index]}
                                 onClick={() => handleImageClick(index)}
                             />
                         </div>

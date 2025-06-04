@@ -42,7 +42,7 @@ const [selectedPlayer, setSelectedPlayer] = createSignal<AvatarConfig | null>(
  * Signal que contiene la fuente de video
  * @type {string}
  */
-const [videoSource, setVideoSource] = createSignal<string>("/video.mp4");
+const [videoSource, setVideoSource] = createSignal<string>();
 
 /**
  * Hook para acceder a los signals de jugadores

@@ -127,16 +127,25 @@ h1 {
  * - Transición suave
  */
 button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: var(--player-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
     cursor: pointer;
-    transition: border-color 0.25s;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    gap: 0.5rem;
 }
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 
 /**
  * Efecto hover de botones
@@ -144,6 +153,22 @@ button {
  */
 button:hover {
     border-color: var(--player-color-hover);
+}
+
+button.btn-outline {
+    background-color: transparent;
+    color: var(--color-gray-300);
+    border: 1px solid var(--color-gray-600);
+}
+
+button.btn-outline:hover {
+    background-color: var(--player-color);
+    color: var(--player-text-color);
+}
+
+button.btn-outline:active {
+    background-color: var(--player-color-active);
+    color: var(--player-text-color);
 }
 
 /**
