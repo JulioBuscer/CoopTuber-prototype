@@ -17,7 +17,7 @@ import Score from "./score/Score";
 import { playersConfig, setPlayerState, videoSource, setVideoSource } from "../data/signals/player";
 import Tools from "./tools/Tools";
 import { debugError, debugLog, sanitizedColor, setColors } from "../utils/utils";
-import { HiOutlineFilm, HiOutlinePause, HiOutlinePlay, HiSolidPause, HiSolidPlay } from "solid-icons/hi";
+import { HiOutlineCamera, HiOutlineEye, HiOutlineEyeSlash, HiOutlineFilm, HiOutlinePause, HiOutlinePlay, HiOutlineVideoCamera, HiOutlineVideoCameraSlash } from "solid-icons/hi";
 /**
  * Componente principal que maneja la detección facial y animación de avatares
  * @returns {JSX.Element} Componente de React con la interfaz de la cámara y control de avatares
@@ -28,6 +28,8 @@ const WebcamViewer = () => {
     const [isCameraSelected, setIsCameraSelected] = createSignal(true);
     const [isVideoPlaying, setIsVideoPlaying] = createSignal(false);
     const [isVideoHidden, setIsVideoHidden] = createSignal(false);
+    const [isVideoHiddenHovered, setIsVideoHiddenHovered] = createSignal(isVideoHidden());
+    const [isCameraSelectedHovered, setIsCameraSelectedHovered] = createSignal(isCameraSelected());
 
     // Referencias a elementos del DOM
     let videoRef: HTMLVideoElement | undefined;
@@ -86,11 +88,15 @@ const WebcamViewer = () => {
      * Manejador para el botón de video
      */
     const handleVideoClick = () => {
-        setIsVideoPlaying(!isVideoPlaying());
+        console.log("Video button clicked - videoSource:", videoSource());
         if (!videoSource()) {
+            alert("No hay video cargado");
             debugLog("No hay video cargado");
             return;
-        } debugLog("Video button clicked - isVideoPlaying:", isVideoPlaying());
+        } else {
+            debugLog("Video button clicked - isVideoPlaying:", isVideoPlaying());
+        }
+        setIsVideoPlaying(!isVideoPlaying());
         toggleVideo();
     };
 
@@ -108,7 +114,7 @@ const WebcamViewer = () => {
     /**
      * Inicializar detector y reproducir video
      */
-    const initializeDetectorAndPlay = () => {
+    const initializeDetectorAndPlay = async () => {
         if (!detector()) {
             const canvas = canvasRef!;
             canvas.width = videoRef!.videoWidth || 1920;
@@ -117,6 +123,7 @@ const WebcamViewer = () => {
 
             debugLog("Inicializando nuevo detector...");
             const landmarkDetector = new FaceLandmarkDetector(canvas);
+            await landmarkDetector.initialize();
             setDetector(landmarkDetector);
         }
         videoRef!.play().catch(error => {
@@ -148,6 +155,9 @@ const WebcamViewer = () => {
         } setIsVideoPlaying(false);
     };
 
+    /**
+     * Manejador para el botón de cámara
+     */
     const handleCameraClick = () => {
         setIsCameraOn(!isCameraOn());
         console.log("Camera button clicked - isCameraOn:", isCameraOn());
@@ -269,7 +279,7 @@ const WebcamViewer = () => {
     /**
      * Inicializar detector de puntos de referencia faciales
      */
-    const initializeDetector = () => {
+    const initializeDetector = async () => {
         const canvas = canvasRef!;
         canvas.width = videoRef?.videoWidth ?? 1920;
         canvas.height = videoRef?.videoHeight ?? 1080;
@@ -277,6 +287,7 @@ const WebcamViewer = () => {
 
         if (!detector()) {
             const landmarkDetector = new FaceLandmarkDetector(canvas);
+            await landmarkDetector.initialize();
             setDetector(landmarkDetector);
         }
         processFrame();
@@ -461,11 +472,12 @@ const WebcamViewer = () => {
                                 display: isCameraSelected() ? "flex" : "none",
                             }}
                         >
-                            {isCameraOn() ? <HiSolidPause /> : <HiSolidPlay />}
+                            {isCameraOn() ? <HiOutlineVideoCameraSlash /> : <HiOutlineVideoCamera />}
                         </span>
                         <span style={{ top: "0.5rem", left: "0.5rem", position: "absolute" }}>
                             {currentFPS()} FPS
                         </span>
+
                         <button
                             onClick={() => fileInputRef?.click()}
                             class="video-control-button file"
@@ -483,27 +495,26 @@ const WebcamViewer = () => {
                 <div class="content-flex">
                     <div class="flex-item">
                         <button
-                            class="switch-button"
-                            type="button"
-                            role="switch"
-                            aria-checked={isCameraSelected()}
-                            onClick={handleSwitchCameraVideo}
-                            value="on"
+                            class="video-control-button"
+                            on:mouseenter={() => setIsCameraSelectedHovered(!isCameraSelected())}
+                            on:mouseleave={() => setIsCameraSelectedHovered(isCameraSelected())}
+                            onClick={() => { handleSwitchCameraVideo(); setIsCameraSelectedHovered(!isCameraSelected()); }}
                         >
-                            <span class="switch-button-icon" />
+                            {isCameraSelectedHovered() ?
+                                <HiOutlineCamera size={24} /> :
+                                <HiOutlineFilm size={24} />}
+                            <span>Modo {isCameraSelectedHovered() ? "Cámara" : "Video"}</span>
                         </button>
-                        <label>{isCameraSelected() ? "Desactivar Cámara" : "Activar Cámara"}</label>
                         <button
-                            class="switch-button"
-                            type="button"
-                            role="switch"
-                            aria-checked={!isVideoHidden()}
-                            onClick={() => { setIsVideoHidden(!isVideoHidden()) }}
-                            value="on"
+                            class="video-control-button"
+                            on:mouseenter={() => setIsVideoHiddenHovered(!isVideoHidden())}
+                            on:mouseleave={() => setIsVideoHiddenHovered(isVideoHidden())}
+                            onClick={() => { setIsVideoHidden(!isVideoHidden()); setIsVideoHiddenHovered(!isVideoHidden()); }}
                         >
-                            <span class="switch-button-icon" />
+                            {isVideoHiddenHovered() ?
+                                <><HiOutlineEyeSlash size={24} /> <span>Ocultar</span></>
+                                : <><HiOutlineEye size={24} /> <span>Mostrar</span></>} <span>{isCameraSelected() ? "Cámara" : "Video"}</span>
                         </button>
-                        <label>{isVideoHidden() ? "Mostrar " : "Ocultar "} {isCameraSelected() ? "Cámara" : "Video"}</label>
                     </div>
                 </div>
                 <div>
