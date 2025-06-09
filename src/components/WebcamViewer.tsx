@@ -495,8 +495,7 @@ const WebcamViewer = () => {
                             {isCameraOn() ? <HiOutlineVideoCameraSlash /> : <HiOutlineVideoCamera />}
                         </span>
                         <span style={{ top: "0.5rem", left: "0.5rem", position: "absolute" }}>
-                            {currentFPS()} FPS  -   
-                            {canvasRef?.width} x {canvasRef?.height}
+                            {currentFPS()} FPS
                         </span>
 
                         <button

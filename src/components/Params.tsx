@@ -8,8 +8,7 @@
  */
 
 import { Component, createSignal, createEffect } from 'solid-js';
-import { playersConfig, selectedPlayer, setPlayersConfig } from '../data/signals/player';
-import { AvatarConfig } from '../data/types/avatar';
+import { playersConfig, selectedPlayer, setPlayerConfig} from '../data/signals/player';
 
 /**
  * Props del componente Params
@@ -31,9 +30,7 @@ type ParamsProps = {};
  */
 const Params: Component<ParamsProps> = () => {
     // Estado local del jugador seleccionado
-    const [player, setPlayer] = createSignal<AvatarConfig | null>(
-        playersConfig().find(p => p.characterId === selectedPlayer()!.characterId) ?? null
-    );
+    const [player, setPlayer] = createSignal(playersConfig().find(p => p.characterId === selectedPlayer()!.characterId) ?? null);
 
     /**
      * Efecto que se ejecuta cuando cambia el jugador seleccionado
@@ -52,13 +49,7 @@ const Params: Component<ParamsProps> = () => {
      */
     const handleChangeRateMouthOpen = (e: Event) => {
         const value = parseFloat((e.target as HTMLInputElement).value) / 100;
-        setPlayersConfig(prev => {
-            return prev.map(p => 
-                p.characterId === player()!.characterId 
-                    ? { ...p, rateMouthOpen: value } 
-                    : p
-            );
-        });
+        setPlayerConfig(selectedPlayer()!.characterId, { ...player()!, rateMouthOpen: value });
     };
 
     /**
@@ -67,13 +58,7 @@ const Params: Component<ParamsProps> = () => {
      */
     const handleChangeRateEyesClosed = (e: Event) => {
         const value = parseFloat((e.target as HTMLInputElement).value) / 100;
-        setPlayersConfig(prev => {
-            return prev.map(p => 
-                p.characterId === player()!.characterId 
-                    ? { ...p, rateEyesClosed: value } 
-                    : p
-            );
-        });
+        setPlayerConfig(selectedPlayer()!.characterId, { ...player()!, rateEyesClosed: value });
     };
 
     return (
