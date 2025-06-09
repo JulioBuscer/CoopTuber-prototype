@@ -18,6 +18,7 @@ import { playersConfig, setPlayerState, videoSource, setVideoSource } from "../d
 import Tools from "./tools/Tools";
 import { debugError, debugLog, sanitizedColor, setColors } from "../utils/utils";
 import { HiOutlineCamera, HiOutlineEye, HiOutlineEyeSlash, HiOutlineFilm, HiOutlinePause, HiOutlinePlay, HiOutlineVideoCamera, HiOutlineVideoCameraSlash } from "solid-icons/hi";
+import { setShowHeader } from "../data/signals/utils";
 /**
  * Componente principal que maneja la detección facial y animación de avatares
  * @returns {JSX.Element} Componente de React con la interfaz de la cámara y control de avatares
@@ -73,7 +74,7 @@ const WebcamViewer = () => {
      * Manejador para el botón de cámara
      */
     const handleSwitchCameraVideo = async () => {
-        console.log("Switching camera/video:", isCameraSelected());
+        debugLog("Switching camera/video:", isCameraSelected());
         adjustCanvasForOrientation();
         setIsCameraSelected(!isCameraSelected());
         if (isCameraSelected()) {
@@ -89,7 +90,7 @@ const WebcamViewer = () => {
      * Manejador para el botón de video
      */
     const handleVideoClick = () => {
-        console.log("Video button clicked - videoSource:", videoSource());
+        debugLog("Video button clicked - videoSource:", videoSource());
         if (!videoSource()) {
             alert("No hay video cargado");
             debugLog("No hay video cargado");
@@ -160,7 +161,7 @@ const WebcamViewer = () => {
      */
     const handleCameraClick = () => {
         setIsCameraOn(!isCameraOn());
-        console.log("Camera button clicked - isCameraOn:", isCameraOn());
+        debugLog("Camera button clicked - isCameraOn:", isCameraOn());
         toggleCamera();
     };
 
@@ -407,14 +408,13 @@ const WebcamViewer = () => {
 
     const adjustCanvasForOrientation = () => {
         const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-        console.log("isPortrait", isPortrait);
         if (canvasRef) {
             if (isPortrait) {
-                console.log("Portrait");
+                debugLog("Portrait orientation");
                 canvasRef.width = 1080; // Example width for portrait
                 canvasRef.height = 1920; // Example height for portrait
             } else {
-                console.log("Landscape");
+                debugLog("Landscape orientation");
                 canvasRef.width = 1920; // Example width for landscape
                 canvasRef.height = 1080; // Example height for landscape
             }
@@ -541,7 +541,7 @@ const WebcamViewer = () => {
                     {playersConfig().map(player => <Score characterId={player.characterId} color={player.color} />)}
                 </div>
             </div>
-            <div class="players section-alt">
+            <div id="studio" class="players section-alt">
                 <div class="players-container">
                     {playersConfig().map(player => <Avatar characterId={player.characterId} />)}
                 </div>
@@ -549,10 +549,10 @@ const WebcamViewer = () => {
                     <Tools />
                 </div>
             </div>
-            
+
             <div class="tools section-alt portatil">
-                    <Tools />
-                </div>
+                <Tools />
+            </div>
         </div>
     );
 };
