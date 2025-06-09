@@ -42,7 +42,6 @@ const Layout = (props: { children?: any }) => {
       setShowHeader(true);
     }
     lastScrollY = window.scrollY;
-    console.log("showHeader", showHeader());
   };
 
   window.addEventListener('scroll', handleScroll);

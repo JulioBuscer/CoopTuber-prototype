@@ -22,7 +22,7 @@ const HeroSection = () => {
                         </div>
 
                         <div class="hero-buttons">
-                            <a href="/app" class="btn btn-lg btn-primary">
+                            <a href="/app/#studio" class="btn btn-lg btn-primary">
                                 <BsPlayCircle class="icon" />
                                 Pruébalo ahora
                             </a>
@@ -62,7 +62,7 @@ const HeroSection = () => {
                                 </div>
                             </div>
                             <div class="preview-badge">
-                                <a href="/app" class="btn btn-primary btn-sm">
+                                <a href="/app/#studio" class="btn btn-primary btn-sm">
                                     <BsPlayCircle class="icon" />
                                     Pruébalo ahora
                                 </a>
