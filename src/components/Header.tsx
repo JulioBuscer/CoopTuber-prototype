@@ -2,7 +2,8 @@ import { Component, createSignal } from 'solid-js';
 import { A } from '@solidjs/router';
 import { VsGithub } from 'solid-icons/vs';
 import { OcPeople2 } from 'solid-icons/oc';
-import { HiOutlineBars3, HiOutlineXCircle } from 'solid-icons/hi';
+import { HiOutlineBars3 } from 'solid-icons/hi';
+import { showHeader } from '../data/signals/utils';
 
 const Nav: Component = () => (
   <nav class="header-nav">
@@ -38,8 +39,9 @@ const NavBurger: Component = () => {
   );
 };
 
+
 const Header: Component = () => (
-  <header class="header">
+  <header class={`header ${showHeader() ? 'visible' : 'hidden'}`}>
     <div class="header-content">
       <A href="/" class="logo">
         <div class="logo-icon">

@@ -44,10 +44,13 @@ export const setShowState = (playerId: string) => {
  * Signal que contiene la herramienta seleccionada
  * @type {string}
  */
-export const [selectedTool, setSelectedTool] = createSignal<string>("");
+export const [selectedTool, setSelectedTool] = createSignal<string>("Avatar");
 
 /**
  * Signal que indica si está activo el modo de depuración
  * @type {boolean}
  */
 export const [isDebugMode, setIsDebugMode] = createSignal(false);
+
+
+export const [showHeader, setShowHeader] = createSignal(true);
