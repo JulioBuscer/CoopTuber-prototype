@@ -82,8 +82,8 @@ export interface AvatarState {
  */
 export const defaultAvatarConfig: AvatarConfig = {
     characterId: "",
-    rateEyesClosed: 0.5,
-    rateMouthOpen: 0.5,
+    rateEyesClosed: 0.25,
+    rateMouthOpen: 0.14,
     useChroma: true,
     useBackgroundImage: false,
     backgroundColor: '#00FF00',//'#1a1a1a',

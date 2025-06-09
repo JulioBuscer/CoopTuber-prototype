@@ -74,6 +74,7 @@ const WebcamViewer = () => {
      */
     const handleSwitchCameraVideo = async () => {
         console.log("Switching camera/video:", isCameraSelected());
+        adjustCanvasForOrientation();
         setIsCameraSelected(!isCameraSelected());
         if (isCameraSelected()) {
             pauseVideo();
@@ -117,8 +118,7 @@ const WebcamViewer = () => {
     const initializeDetectorAndPlay = async () => {
         if (!detector()) {
             const canvas = canvasRef!;
-            canvas.width = videoRef!.videoWidth || 1920;
-            canvas.height = videoRef!.videoHeight || 1080;
+            adjustCanvasForOrientation();
             setupCanvasStyle(canvas);
 
             debugLog("Inicializando nuevo detector...");
@@ -242,10 +242,11 @@ const WebcamViewer = () => {
         if (!navigator.mediaDevices?.getUserMedia) {
             throw new Error("getUserMedia no está soportado en este navegador o el sitio no está en HTTPS/localhost");
         }
+        adjustCanvasForOrientation();
         mediaStream = await navigator.mediaDevices.getUserMedia({
             video: {
-                width: 1920,
-                height: 1080,
+                width: canvasRef!.width,
+                height: canvasRef!.height,
                 facingMode: "user",
                 aspectRatio: 16 / 9,
             }
@@ -281,8 +282,7 @@ const WebcamViewer = () => {
      */
     const initializeDetector = async () => {
         const canvas = canvasRef!;
-        canvas.width = videoRef?.videoWidth ?? 1920;
-        canvas.height = videoRef?.videoHeight ?? 1080;
+        adjustCanvasForOrientation();
         setupCanvasStyle(canvas);
 
         if (!detector()) {
@@ -402,15 +402,39 @@ const WebcamViewer = () => {
     // Inicializar la cámara cuando el componente se monta
     onMount(async () => {
         setColors(playersConfig()[0].color);
+        adjustCanvasForOrientation();
     });
+
+    const adjustCanvasForOrientation = () => {
+        const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+        console.log("isPortrait", isPortrait);
+        if (canvasRef) {
+            if (isPortrait) {
+                console.log("Portrait");
+                canvasRef.width = 1080; // Example width for portrait
+                canvasRef.height = 1920; // Example height for portrait
+            } else {
+                console.log("Landscape");
+                canvasRef.width = 1920; // Example width for landscape
+                canvasRef.height = 1080; // Example height for landscape
+            }
+            setupCanvasStyle(canvasRef);
+        }
+    };
+
+    window.addEventListener("resize", adjustCanvasForOrientation);
+
 
     return (
         <div class="layout-panel">
-            <div class="webcam">
+            <div class="title">
+                <h1>CoopTuber</h1>
+            </div>
+            <div class="webcam section-alt">
                 <div class="card webcam-container">
                     <video
                         style={{
-                            "z-index": isVideoHidden() ? -1 : 0
+                            "z-index": isVideoHidden() ? -1 : 0,
                         }}
                         ref={el => {
                             videoRef = el!;
@@ -422,8 +446,6 @@ const WebcamViewer = () => {
                                 el.pause();
                             }
                         }}
-                        width={1920}
-                        height={1080}
                         src={videoSource()}
                         playsinline
                         loop
@@ -431,8 +453,6 @@ const WebcamViewer = () => {
                     />
                     <canvas
                         ref={el => (canvasRef = el!)}
-                        width={1920}
-                        height={1080}
                     />
                     <input
                         type="file"
@@ -455,7 +475,7 @@ const WebcamViewer = () => {
                     />
                     <div classList={{
                         "video-control-container": true,
-                        "playing": isVideoPlaying()
+                        "playing": isCameraSelected() ? isCameraOn() : isVideoPlaying()
                     }}>
                         <span
                             class="video-control-button"
@@ -475,7 +495,8 @@ const WebcamViewer = () => {
                             {isCameraOn() ? <HiOutlineVideoCameraSlash /> : <HiOutlineVideoCamera />}
                         </span>
                         <span style={{ top: "0.5rem", left: "0.5rem", position: "absolute" }}>
-                            {currentFPS()} FPS
+                            {currentFPS()} FPS  -   
+                            {canvasRef?.width} x {canvasRef?.height}
                         </span>
 
                         <button
@@ -503,7 +524,7 @@ const WebcamViewer = () => {
                             {isCameraSelectedHovered() ?
                                 <HiOutlineCamera size={24} /> :
                                 <HiOutlineFilm size={24} />}
-                            <span>Modo {isCameraSelectedHovered() ? "Cámara" : "Video"}</span>
+                            <span>Cambiar a {isCameraSelectedHovered() ? "Cámara" : "Video"}</span>
                         </button>
                         <button
                             class="video-control-button"
@@ -521,12 +542,18 @@ const WebcamViewer = () => {
                     {playersConfig().map(player => <Score characterId={player.characterId} color={player.color} />)}
                 </div>
             </div>
-            <div class="players">
+            <div class="players section-alt">
                 <div class="players-container">
                     {playersConfig().map(player => <Avatar characterId={player.characterId} />)}
                 </div>
-                <Tools />
+                <div class="tools section-alt landscape">
+                    <Tools />
+                </div>
             </div>
+            
+            <div class="tools section-alt portatil">
+                    <Tools />
+                </div>
         </div>
     );
 };

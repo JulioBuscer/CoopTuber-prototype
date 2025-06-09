@@ -66,13 +66,16 @@ const Tools = () => {
     ];
 
     return (
-        <div class="tools">
+        <div class="tools-container">
             {/* Barra de herramientas con botones de navegación */}
             <div class="tools-bar">
                 {tools.map((tool) => (
                     <button
                         classList={{
-                            "active": selectedTool() === tool.name
+                            "active": selectedTool() === tool.name,
+                            "btn": true,
+                            "btn-outline": true,
+                            "btn-primary": selectedTool() === tool.name
                         }}
                         onClick={() => handleToolClick(tool.name)}
                     >
@@ -87,6 +90,7 @@ const Tools = () => {
                 {/* Configuración del Avatar */}
                 {selectedTool() === "Avatar" && (
                     <div class="tools-player">
+                        <h3>Sube tu avatar</h3>
                         <Avatar />
                     </div>
                 )}
@@ -94,6 +98,7 @@ const Tools = () => {
                 {/* Configuración del Fondo */}
                 {selectedTool() === "Fondo" && (
                     <div class="tools-background">
+                        <h3>Selecciona tu fondo</h3>
                         <Background />
                     </div>
                 )}
@@ -101,6 +106,7 @@ const Tools = () => {
                 {/* Configuración de Parámetros */}
                 {selectedTool() === "Parametros" && (
                     <div class="tools-params">
+                        <h3>Ajusta los parámetros de detección facial</h3>
                         <Params />
                     </div>
                 )}
@@ -108,13 +114,15 @@ const Tools = () => {
                 {/* Configuración de Efectos */}
                 {selectedTool() === "Efectos" && (
                     <div class="tools-effects">
-                        <p>Configuración de los Efectos</p>
+                        <h3>Configuración de los Efectos</h3>
+                        <h4>...Proximamente</h4>
                     </div>
                 )}
 
                 {/* Configuración de Color */}
                 {selectedTool() === "Color" && (
                     <div class="tools-color">
+                        <h3>Elije tu color</h3>
                         <Color />
                     </div>
                 )}

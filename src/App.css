@@ -33,8 +33,8 @@
  * - Espaciado uniforme
  */
 main {
-  flex: 1 1 0%;
-  gap: 1.5rem;
+    flex: 1 1 0%;
+    gap: 1.5rem;
 }
 
 /**
@@ -46,9 +46,25 @@ main {
 .main-content {
     max-width: 80rem;
     margin: 0 auto;
-    min-height: 80vh;
+    min-height: 100vh;
+    padding: 1rem;
 
-    padding: 5rem 1rem;
+    @media screen and (max-width: 768px) {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+
+.landscape {
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+}
+
+.portatil {
+    @media screen and (min-width: 768px) {
+        display: none;
+    }
 }
 
 /**
@@ -62,11 +78,13 @@ main {
 .layout-panel {
     width: 100%;
     display: grid;
+    padding: 1rem 0;
     gap: 16px 16px;
     grid-auto-flow: row;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: auto;
     grid-template-areas:
+        "title title title"
         "players players webcam";
 
     @media screen and (max-width: 768px) {
@@ -74,9 +92,34 @@ main {
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;
         grid-template-areas:
+            "title"
+            "players"
             "webcam"
-            "players";
+            "tools";
     }
+}
+
+/* Sections */
+.section {
+    padding: 5rem 0;
+}
+
+.section-alt {
+    background-color: rgba(17, 24, 39, 0.3);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    color: var(--color-gray-300);
+    text-align: center;
+    margin-bottom: 4rem;
 }
 
 /**
@@ -95,21 +138,6 @@ main {
     filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-/**
- * Tarjeta
- * - Padding
- * - Bordes redondeados
- * - Borde
- * - Fondo oscuro
- * - Sombra suave
- */
-.card {
-    padding: 2em;
-    border-radius: 10px;
-    border: 1px solid #444;
-    background-color: #242424;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 /**
  * Texto de documentación
@@ -143,8 +171,8 @@ main {
  */
 .players,
 .webcam {
-    border: 1px solid #444;
-    padding: 1rem;
+    border: 1px solid #222;
+    padding: 0.5rem;
     border-radius: 0.5rem;
 }
 
@@ -166,12 +194,16 @@ main {
 
 /**
  * Área de jugadores
- * - Grid area específica
- * - Padding
  */
 .players {
     grid-area: players;
-    padding: 1.5rem;
+}
+
+/**
+ * Área de título
+ */
+.title {
+    grid-area: title;
 }
 
 /**
@@ -182,14 +214,9 @@ main {
  * - Espaciado
  */
 .players-container {
-  padding: 1rem;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  @media screen and (max-width: 768px) {
-    grid-template-columns: 1fr;
-  } 
-
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
 }
 
 /**
@@ -213,7 +240,6 @@ main {
 .player {
     overflow: hidden;
     border-radius: 0.5rem;
-    
 }
 
 /**
@@ -319,6 +345,11 @@ button {
 /**
  * SVG del botón
  * - Ancho y alto
+ */
+/**
+ * Tamaño del SVG del botón
+ * - Ancho y alto
+ * - Esto garantiza que el SVG se muestre en la misma escala en todos los tama os de pantalla
  */
 button svg {
     width: 24px;
