@@ -18,7 +18,6 @@ import { playersConfig, setPlayerState, videoSource, setVideoSource } from "../d
 import Tools from "./tools/Tools";
 import { debugError, debugLog, sanitizedColor, setColors } from "../utils/utils";
 import { HiOutlineCamera, HiOutlineEye, HiOutlineEyeSlash, HiOutlineFilm, HiOutlinePause, HiOutlinePlay, HiOutlineVideoCamera, HiOutlineVideoCameraSlash } from "solid-icons/hi";
-import { setShowHeader } from "../data/signals/utils";
 /**
  * Componente principal que maneja la detección facial y animación de avatares
  * @returns {JSX.Element} Componente de React con la interfaz de la cámara y control de avatares
