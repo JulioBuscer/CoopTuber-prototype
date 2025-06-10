@@ -129,7 +129,7 @@ const Avatar = () => {
 
             {/* Contenedor de selección de imágenes */}
             <div class="avatars-tools-content">
-                <button  onClick={handlePrevImage}> {"<"} </button>
+                <button class="btn btn-outline btn-primary" onClick={handlePrevImage}> {"<"} </button>
                 <div class="avatars-tools-container">
                     {imageTypes.map((type, index) => (
                         <div class={`avatar-tool-image-picker${index === selectedImage() ? ' active' : ''}`}>
@@ -142,12 +142,12 @@ const Avatar = () => {
                         </div>
                     ))}
                 </div>
-                <button onClick={handleNextImage}> {">"} </button>
+                <button class="btn btn-outline btn-primary" onClick={handleNextImage}> {">"} </button>
             </div>
 
             {/* Botones de carga de imágenes */}
             <div class="avatar-tools-buttons">
-                <label class="upload-button">
+                <label class="upload-button btn btn-outline btn-primary">
                     <input
                         type="file"
                         accept="image/*"
