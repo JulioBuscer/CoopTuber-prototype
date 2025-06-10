@@ -27,19 +27,39 @@ import { Router, Route } from '@solidjs/router';
 import LegalPages from './components/LegalPages'
 import Header from './components/Header'
 import LandingPage from './components/landing/Landing'
+import { onCleanup } from 'solid-js'
+import { setShowHeader, showHeader } from './data/signals/utils'
 
-const Layout = (props: { children?: any }) => (
-  <div class='app-container'>
-    <Header />
-    <main>
-      {props.children}
-    </main>
-    <Footer />
-  </div>
-);
+const Layout = (props: { children?: any }) => {
+  let lastScrollY = window.scrollY;
+
+  const handleScroll = () => {
+    if (window.scrollY > lastScrollY) {
+      // Scrolling down
+      setShowHeader(false);
+    } else {
+      // Scrolling up
+      setShowHeader(true);
+    }
+    lastScrollY = window.scrollY;
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  onCleanup(() => window.removeEventListener('scroll', handleScroll));
+
+  return (
+    <div class='app-container'>      
+      <Header />
+      <main>
+        {props.children}
+      </main>
+      <Footer />
+    </div>
+  );
+}
 
 const Home = () => (
-    <LandingPage />
+  <LandingPage />
 );
 
 const AppView = () => (

@@ -18,6 +18,7 @@ import { playersConfig, setPlayerState, videoSource, setVideoSource } from "../d
 import Tools from "./tools/Tools";
 import { debugError, debugLog, sanitizedColor, setColors } from "../utils/utils";
 import { HiOutlineCamera, HiOutlineEye, HiOutlineEyeSlash, HiOutlineFilm, HiOutlinePause, HiOutlinePlay, HiOutlineVideoCamera, HiOutlineVideoCameraSlash } from "solid-icons/hi";
+import { setShowHeader } from "../data/signals/utils";
 /**
  * Componente principal que maneja la detección facial y animación de avatares
  * @returns {JSX.Element} Componente de React con la interfaz de la cámara y control de avatares
@@ -73,7 +74,8 @@ const WebcamViewer = () => {
      * Manejador para el botón de cámara
      */
     const handleSwitchCameraVideo = async () => {
-        console.log("Switching camera/video:", isCameraSelected());
+        debugLog("Switching camera/video:", isCameraSelected());
+        adjustCanvasForOrientation();
         setIsCameraSelected(!isCameraSelected());
         if (isCameraSelected()) {
             pauseVideo();
@@ -88,7 +90,7 @@ const WebcamViewer = () => {
      * Manejador para el botón de video
      */
     const handleVideoClick = () => {
-        console.log("Video button clicked - videoSource:", videoSource());
+        debugLog("Video button clicked - videoSource:", videoSource());
         if (!videoSource()) {
             alert("No hay video cargado");
             debugLog("No hay video cargado");
@@ -117,8 +119,7 @@ const WebcamViewer = () => {
     const initializeDetectorAndPlay = async () => {
         if (!detector()) {
             const canvas = canvasRef!;
-            canvas.width = videoRef!.videoWidth || 1920;
-            canvas.height = videoRef!.videoHeight || 1080;
+            adjustCanvasForOrientation();
             setupCanvasStyle(canvas);
 
             debugLog("Inicializando nuevo detector...");
@@ -160,7 +161,7 @@ const WebcamViewer = () => {
      */
     const handleCameraClick = () => {
         setIsCameraOn(!isCameraOn());
-        console.log("Camera button clicked - isCameraOn:", isCameraOn());
+        debugLog("Camera button clicked - isCameraOn:", isCameraOn());
         toggleCamera();
     };
 
@@ -242,10 +243,11 @@ const WebcamViewer = () => {
         if (!navigator.mediaDevices?.getUserMedia) {
             throw new Error("getUserMedia no está soportado en este navegador o el sitio no está en HTTPS/localhost");
         }
+        adjustCanvasForOrientation();
         mediaStream = await navigator.mediaDevices.getUserMedia({
             video: {
-                width: 1920,
-                height: 1080,
+                width: canvasRef!.width,
+                height: canvasRef!.height,
                 facingMode: "user",
                 aspectRatio: 16 / 9,
             }
@@ -281,8 +283,7 @@ const WebcamViewer = () => {
      */
     const initializeDetector = async () => {
         const canvas = canvasRef!;
-        canvas.width = videoRef?.videoWidth ?? 1920;
-        canvas.height = videoRef?.videoHeight ?? 1080;
+        adjustCanvasForOrientation();
         setupCanvasStyle(canvas);
 
         if (!detector()) {
@@ -402,15 +403,38 @@ const WebcamViewer = () => {
     // Inicializar la cámara cuando el componente se monta
     onMount(async () => {
         setColors(playersConfig()[0].color);
+        adjustCanvasForOrientation();
     });
+
+    const adjustCanvasForOrientation = () => {
+        const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+        if (canvasRef) {
+            if (isPortrait) {
+                debugLog("Portrait orientation");
+                canvasRef.width = 1080; // Example width for portrait
+                canvasRef.height = 1920; // Example height for portrait
+            } else {
+                debugLog("Landscape orientation");
+                canvasRef.width = 1920; // Example width for landscape
+                canvasRef.height = 1080; // Example height for landscape
+            }
+            setupCanvasStyle(canvasRef);
+        }
+    };
+
+    window.addEventListener("resize", adjustCanvasForOrientation);
+
 
     return (
         <div class="layout-panel">
-            <div class="webcam">
+            <div class="title">
+                <h1>CoopTuber</h1>
+            </div>
+            <div class="webcam section-alt">
                 <div class="card webcam-container">
                     <video
                         style={{
-                            "z-index": isVideoHidden() ? -1 : 0
+                            "z-index": isVideoHidden() ? -1 : 0,
                         }}
                         ref={el => {
                             videoRef = el!;
@@ -422,8 +446,6 @@ const WebcamViewer = () => {
                                 el.pause();
                             }
                         }}
-                        width={1920}
-                        height={1080}
                         src={videoSource()}
                         playsinline
                         loop
@@ -431,8 +453,6 @@ const WebcamViewer = () => {
                     />
                     <canvas
                         ref={el => (canvasRef = el!)}
-                        width={1920}
-                        height={1080}
                     />
                     <input
                         type="file"
@@ -455,7 +475,7 @@ const WebcamViewer = () => {
                     />
                     <div classList={{
                         "video-control-container": true,
-                        "playing": isVideoPlaying()
+                        "playing": isCameraSelected() ? isCameraOn() : isVideoPlaying()
                     }}>
                         <span
                             class="video-control-button"
@@ -503,7 +523,7 @@ const WebcamViewer = () => {
                             {isCameraSelectedHovered() ?
                                 <HiOutlineCamera size={24} /> :
                                 <HiOutlineFilm size={24} />}
-                            <span>Modo {isCameraSelectedHovered() ? "Cámara" : "Video"}</span>
+                            <span>Cambiar a {isCameraSelectedHovered() ? "Cámara" : "Video"}</span>
                         </button>
                         <button
                             class="video-control-button"
@@ -521,10 +541,16 @@ const WebcamViewer = () => {
                     {playersConfig().map(player => <Score characterId={player.characterId} color={player.color} />)}
                 </div>
             </div>
-            <div class="players">
+            <div id="studio" class="players section-alt">
                 <div class="players-container">
                     {playersConfig().map(player => <Avatar characterId={player.characterId} />)}
                 </div>
+                <div class="tools section-alt landscape">
+                    <Tools />
+                </div>
+            </div>
+
+            <div class="tools section-alt portatil">
                 <Tools />
             </div>
         </div>
