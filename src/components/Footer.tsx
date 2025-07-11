@@ -44,7 +44,7 @@ const Footer: Component<FooterProps> = () => {
 
                 <div class="footer-section">
                     <h3>Licencia</h3>
-                    <p>Este proyecto está bajo la <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">Licencia MIT</a></p>
+                    <p>Este proyecto está bajo la <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener noreferrer">Licencia Apache 2.0</a></p>
                 </div >
             </div >
             <div class="footer-bottom">

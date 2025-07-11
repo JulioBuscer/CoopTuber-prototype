@@ -1,6 +1,6 @@
 # 🎥 CoopTuber - Streaming en Pareja / Co-streaming Solution
 
-[![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Licencia: Apache 2.0](https://img.shields.io/badge/Licencia-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Estrellas GitHub](https://img.shields.io/github/stars/JulioBuscer/CoopTuber-prototype.svg?style=social)](https://github.com/JulioBuscer/CoopTuber-prototype/stargazers)
 [![Contribuciones Bienvenidas](https://img.shields.io/badge/contribuciones-bienvenidas-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -127,8 +127,8 @@
 
 |||
 | --- | --- |
-| 🇲🇽 | Este proyecto está bajo la Licencia MIT. Consulta el archivo [📄 LICENSE](LICENSE) para más detalles. Puedes encontrar más información sobre la licencia en [🌐 Licencia](https://opensource.org/licenses/MIT). |
-| 🇺🇸 | This project is under the MIT License. Check the [📄 LICENSE](LICENSE) file for more details. You can find more information about the license at [🌐 License](https://opensource.org/licenses/MIT). |
+| 🇲🇽 | Este proyecto está bajo la Licencia Apache 2.0. Consulta el archivo [📄 LICENSE](LICENSE) para más detalles. Puedes encontrar más información sobre la licencia en [🌐 Licencia](https://www.apache.org/licenses/LICENSE-2.0). |
+| 🇺🇸 | This project is under the Apache 2.0 License. Check the [📄 LICENSE](LICENSE) file for more details. You can find more information about the license at [🌐 License](https://www.apache.org/licenses/LICENSE-2.0). |
 
 ## 🚫 Código de Conducta / Code of Conduct
 

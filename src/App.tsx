@@ -28,7 +28,7 @@ import LegalPages from './components/LegalPages'
 import Header from './components/Header'
 import LandingPage from './components/landing/Landing'
 import { onCleanup } from 'solid-js'
-import { setShowHeader, showHeader } from './data/signals/utils'
+import { setShowHeader } from './data/signals/utils'
 
 const Layout = (props: { children?: any }) => {
   let lastScrollY = window.scrollY;
