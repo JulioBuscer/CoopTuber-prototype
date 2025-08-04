@@ -66,9 +66,20 @@
 }
 
 .preview-grid {
-    display: grid;
+    display: none;
+    /* display: grid; */
     grid-template-columns: 1.5fr 1.5fr 1fr;
     gap: 1rem;
+}
+.preview-video-cooptuber {
+    aspect-ratio: 16 / 9;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform: scaleX(1);
+    
 }
 
 .preview-avatar {

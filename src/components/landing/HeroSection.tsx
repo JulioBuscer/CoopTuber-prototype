@@ -50,7 +50,21 @@ const HeroSection = () => {
 
                     <div class="hero-preview">
                         <div class="preview-container">
-                            <div class="preview-grid">
+
+                            <video
+                                autoplay
+                                loop
+                                muted
+                                playsinline
+                                class="preview-video-cooptuber"
+                                preload="auto"
+                                crossOrigin="anonymous"
+                            >
+                                <source src="https://pub-558fc3315aa946559101841eb6baee7e.r2.dev/public/projects/Cooptuber/cooptuber%20preview.webm" type="video/webm" />
+                                <source src="https://pub-558fc3315aa946559101841eb6baee7e.r2.dev/public/projects/Cooptuber/cooptuber%20preview.mp4" type="video/mp4" />
+                                Tu navegador no soporta videos HTML5
+                            </video>
+                            <div class="preview-grid display-none">
                                 <div class="preview-avatar preview-avatar-1">
                                     <div class="avatar-face">😆</div>
                                 </div>
