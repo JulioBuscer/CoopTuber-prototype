@@ -6,7 +6,7 @@ import { TbDownloadOff } from 'solid-icons/tb';
 import { createSignal, onCleanup, onMount } from 'solid-js';
 
 const HeroSection = () => {
-    const emojis = ['🙂', '😊', '😃', '😆'];
+    const emojis = ['🙂', '😃','🙂', '😃','🙂', '😃','😆','😃','🙂', '😃','😆'];
     const [currentEmoji, setCurrentEmoji] = createSignal(0);
     
     let interval: number;
@@ -14,7 +14,7 @@ const HeroSection = () => {
     onMount(() => {
         interval = window.setInterval(() => {
             setCurrentEmoji((prev) => (prev + 1) % emojis.length);
-        }, 1000) as unknown as number;
+        }, 300) as unknown as number;
     });
     
     onCleanup(() => {

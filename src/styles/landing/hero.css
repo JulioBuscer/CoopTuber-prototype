@@ -6,7 +6,7 @@
 .hero-grid {
     display: grid;
     gap: 3rem;
-    align-items: center;
+    align-items: start;
 }
 
 .hero-content {
@@ -130,7 +130,7 @@
     top: 50%;
     transform: translateY(-50%);
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    /* transition: opacity 0.5s ease-in-out; */
     font-size: 1.2em;
     line-height: 1;
     width: 100%;
