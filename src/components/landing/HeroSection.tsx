@@ -3,16 +3,41 @@ import '../../styles/landing/hero.css'
 import { BsPlayCircle } from 'solid-icons/bs';
 import { HiOutlineCodeBracket, HiOutlineStar } from 'solid-icons/hi';
 import { TbDownloadOff } from 'solid-icons/tb';
-const HeroSection = () => {
-    return (
+import { createSignal, onCleanup, onMount } from 'solid-js';
 
+const HeroSection = () => {
+    const emojis = ['🙂', '😊', '😃', '😆'];
+    const [currentEmoji, setCurrentEmoji] = createSignal(0);
+    
+    let interval: number;
+    
+    onMount(() => {
+        interval = window.setInterval(() => {
+            setCurrentEmoji((prev) => (prev + 1) % emojis.length);
+        }, 1000) as unknown as number;
+    });
+    
+    onCleanup(() => {
+        if (interval) clearInterval(interval);
+    });
+
+    return (
         <section class="hero">
             <div class="container">
                 <div class="hero-grid">
                     <div class="hero-content">
                         <div class="space-y-4">
                             <h1 class="hero-title">
-                                😆 Anima tu rostro en <span class="gradient-text">tiempo real</span> con tus avatares personalizados
+                                <span class="emoji-container">
+                                    {emojis.map((emoji, index) => (
+                                        <span 
+                                            class="emoji"
+                                            classList={{ 'active': currentEmoji() === index }}
+                                        >
+                                            {emoji}
+                                        </span>
+                                    ))}
+                                </span> Anima tu rostro en <span class="gradient-text">tiempo real</span> con tus avatares personalizados
                             </h1>
                             <p class="hero-subtitle">
                                 CoopTuber es una herramienta gratuita y open source para animar tu rostro con avatares animados desde tu
