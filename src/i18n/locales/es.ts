@@ -15,6 +15,7 @@ export default {
     app: 'Aplicación',
     github: 'GitHub',
     language: 'Idioma',
+    languageIcon: '🇲🇽',
     features: 'Características',
     howTo: 'Cómo usar',
     benefits: 'Beneficios',

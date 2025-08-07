@@ -9,16 +9,16 @@ import { useI18n } from '../i18n/context'
 const Nav: Component = () => {
   const { t } = useI18n();
   return (
-  <nav class="header-nav">
-    <A href="/#features" class="nav-link">{t('nav.features')}</A>
-    <A href="/#how-to" class="nav-link">{t('nav.howTo')}</A>
-    <A href="/#benefits" class="nav-link">{t('nav.benefits')}</A>
-    <A href="/app" class="nav-link">{t('nav.tryNow')}</A>
-    <A href="https://github.com/JulioBuscer/CoopTuber-prototype" class="nav-link btn btn-outline" target="_blank">
-      <VsGithub class="icon" /> GitHub
-    </A>
-  </nav>
-);
+    <nav class="header-nav">
+      <A href="/#features" class="nav-link">{t('nav.features')}</A>
+      <A href="/#how-to" class="nav-link">{t('nav.howTo')}</A>
+      <A href="/#benefits" class="nav-link">{t('nav.benefits')}</A>
+      <A href="/app" class="nav-link">{t('nav.tryNow')}</A>
+      <A href="https://github.com/JulioBuscer/CoopTuber-prototype" class="nav-link btn btn-outline" target="_blank">
+        <VsGithub class="icon" /> GitHub
+      </A>
+    </nav>
+  );
 };
 
 const NavBurger: Component = () => {
@@ -45,41 +45,34 @@ const NavBurger: Component = () => {
 };
 
 const LanguageSelector = () => {
-  const { t, setLocale, locale } = useI18n();
+  const { t, setLocale } = useI18n();
   const [showDropdown, setShowDropdown] = createSignal(false);
 
   return (
-    <div class="relative">
-      <button
-        class="nav-link flex items-center gap-1"
-        onClick={() => setShowDropdown(!showDropdown())}
-        aria-label={t('nav.language')}
-      >
-        <span class="text-sm">{locale().toUpperCase()}</span>
+    <div class="nav-lng-container">
+      <button class="nav-lng-btn" aria-label="Abrir menú" onClick={() => setShowDropdown(true)}>
+        <span class="text-xl">{t('nav.languageIcon')}</span>
       </button>
+      <div class={`nav-lng-menu${showDropdown() ? ' active' : ''}`}>
+        <button
+          class="nav-lng-link"
+          onClick={() => {
+            setLocale('es');
+            setShowDropdown(false);
+          }}>
+          🇲🇽 ES
+        </button>
 
-      <Show when={showDropdown()}>
-        <div class="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50">
-          <button
-            class={`w-full text-left px-4 py-2 text-sm ${locale() === 'es' ? 'bg-gray-100 dark:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-            onClick={() => {
-              setLocale('es');
-              setShowDropdown(false);
-            }}
-          >
-            🇪🇸 Español
-          </button>
-          <button
-            class={`w-full text-left px-4 py-2 text-sm ${locale() === 'en' ? 'bg-gray-100 dark:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-            onClick={() => {
-              setLocale('en');
-              setShowDropdown(false);
-            }}
-          >
-            🇬🇧 English
-          </button>
-        </div>
-      </Show>
+        <button
+          class="nav-lng-link"
+          onClick={() => {
+            setLocale('en');
+            setShowDropdown(false);
+          }}>
+          🇺🇸 EN
+        </button>
+      </div>
+      {showDropdown() && <div class="nav-lng-backdrop" onClick={() => setShowDropdown(false)} />}
     </div>
   );
 };
