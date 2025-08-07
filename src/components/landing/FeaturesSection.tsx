@@ -1,12 +1,14 @@
+import { useI18n } from '../../i18n/context';
 import '../../styles/landing/features.css'
 const FeaturesSection = () => {
+    const { t } = useI18n();
     return (
         <section id="features" class="section section-alt">
                 <div class="container">
                     <div class="text-center mb-8">
-                        <h2 class="section-title">¿Qué es CoopTuber?</h2>
+                        <h2 class="section-title">{t('features.title')}</h2>
                         <p class="section-subtitle">
-                            Una app web de animación facial en tiempo real para creadores, sin complicaciones.
+                            {t('features.description')}
                         </p>
                     </div>
 
@@ -15,8 +17,8 @@ const FeaturesSection = () => {
                             <div class="card-content">
                                 <div class="feature-card">
                                     <div class="feature-icon">🎭</div>
-                                    <h3 class="feature-title">Avatar animado</h3>
-                                    <p class="feature-description">Usa tu rostro para dar vida a un avatar animado en pantalla</p>
+                                    <h3 class="feature-title">{t('features.items.0.title')}</h3>
+                                    <p class="feature-description">{t('features.items.0.description')}</p>
                                 </div>
                             </div>
                         </div>
@@ -33,8 +35,8 @@ const FeaturesSection = () => {
                                             />
                                         </svg>
                                     </div>
-                                    <h3 class="feature-title">Detección facial</h3>
-                                    <p class="feature-description">Detecta expresiones mediante tu cámara, desde el navegador</p>
+                                    <h3 class="feature-title">{t('features.items.1.title')}</h3>
+                                    <p class="feature-description">{t('features.items.1.description')}</p>
                                 </div>
                             </div>
                         </div>
@@ -51,10 +53,8 @@ const FeaturesSection = () => {
                                             />
                                         </svg>
                                     </div>
-                                    <h3 class="feature-title">Compatible con OBS</h3>
-                                    <p class="feature-description">
-                                        Usa OBS o cualquier programa de streaming para capturar la ventana
-                                    </p>
+                                    <h3 class="feature-title">{t('features.items.2.title')}</h3>
+                                    <p class="feature-description">{t('features.items.2.description')}</p>
                                 </div>
                             </div>
                         </div>
@@ -63,8 +63,8 @@ const FeaturesSection = () => {
                             <div class="card-content">
                                 <div class="feature-card">
                                     <div class="feature-icon">🧠</div>
-                                    <h3 class="feature-title">Local</h3>
-                                    <p class="feature-description">Se ejecuta completamente en tu máquina (sin servidores)</p>
+                                    <h3 class="feature-title">{t('features.items.3.title')}</h3>
+                                    <p class="feature-description">{t('features.items.3.description')}</p>
                                 </div>
                             </div>
                         </div>
@@ -81,10 +81,8 @@ const FeaturesSection = () => {
                                             />
                                         </svg>
                                     </div>
-                                    <h3 class="feature-title">Open Source</h3>
-                                    <p class="feature-description">
-                                        100% gratuito, libre y open source – contribuye o crea tu propia versión
-                                    </p>
+                                    <h3 class="feature-title"> {t('features.items.4.title')}</h3>
+                                    <p class="feature-description">{t('features.items.4.description')}</p>
                                 </div>
                             </div>
                         </div>

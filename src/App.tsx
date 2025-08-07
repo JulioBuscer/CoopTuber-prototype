@@ -1,15 +1,16 @@
 /**
  * @file App.tsx
- * Componente principal de la aplicación CoopTuber
+ * Main component of the CoopTuber application
  * 
- * Este componente:
- * - Define la estructura principal de la aplicación
- * - Importa los estilos necesarios
- * - Renderiza el componente WebcamViewer
- * - Mantiene la consistencia visual de la aplicación
+ * This component:
+ * - Sets up the main application structure
+ * - Imports necessary styles
+ * - Renders the WebcamViewer component
+ * - Maintains visual consistency of the application
+ * - Integrates i18n for internationalization
  */
 
-// Importaciones de estilos
+// Style imports
 import './App.css'
 import './styles/score.css'
 import './styles/tools.css'
@@ -20,7 +21,7 @@ import './styles/tools/color.css'
 import './styles/header.css'
 import './styles/markdown.css'
 
-// Importación de componentes
+// Component imports
 import WebcamViewer from './components/WebcamViewer'
 import Footer from './components/Footer'
 import { Router, Route } from '@solidjs/router';
@@ -29,6 +30,7 @@ import Header from './components/Header'
 import LandingPage from './components/landing/Landing'
 import { onCleanup } from 'solid-js'
 import { setShowHeader } from './data/signals/utils'
+import { I18nProvider } from './i18n/context';
 
 const Layout = (props: { children?: any }) => {
   let lastScrollY = window.scrollY;
@@ -68,16 +70,17 @@ const AppView = () => (
   </div>
 );
 
-
 function App() {
   return (
-    <Router root={Layout} base={import.meta.env.BASE_URL}>
-      <Route path="/" component={Home} />
-      <Route path="/app" component={AppView} />
-      <Route path="/terms" component={() => <LegalPages path="/docs/terms.md" />} />
-      <Route path="/privacy" component={() => <LegalPages path="/docs/privacy.md" />} />
-      <Route path="/cookies" component={() => <LegalPages path="/docs/cookies.md" />} />
-    </Router>
+    <I18nProvider>
+      <Router root={Layout} base={import.meta.env.BASE_URL}>
+        <Route path="/" component={Home} />
+        <Route path="/app" component={AppView} />
+        <Route path="/terms" component={() => <LegalPages path="/docs/terms.md" />} />
+        <Route path="/privacy" component={() => <LegalPages path="/docs/privacy.md" />} />
+        <Route path="/cookies" component={() => <LegalPages path="/docs/cookies.md" />} />
+      </Router>
+    </I18nProvider>
   );
 }
 

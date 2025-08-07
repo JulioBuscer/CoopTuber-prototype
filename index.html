@@ -1,20 +1,51 @@
 <!doctype html>
-<html lang="es">
-
+<html lang="es" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CoopTuber V0.0.1</title>
+  <meta name="description" content="CoopTuber - Herramienta de animación facial en tiempo real. Anima avatares con tus expresiones faciales usando tu cámara web." />
+  <meta name="keywords" content="animación facial, avatar, expresiones faciales, tiempo real, cámara web, CoopTuber, animación en vivo" />
+  <meta name="author" content="Equipo CoopTuber" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://cooptuber.app/" />
+  
+  <!-- Language alternatives -->
+  <link rel="alternate" hreflang="es" href="https://cooptuber.app/" />
+  <link rel="alternate" hreflang="en" href="https://cooptuber.app/?lang=en" />
+  <link rel="alternate" hreflang="x-default" href="https://cooptuber.app/" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cooptuber.app/" />
+  <meta property="og:title" content="CoopTuber - Anima avatares con tus expresiones faciales" />
+  <meta property="og:description" content="Herramienta de animación facial en tiempo real para dar vida a avatares con tus expresiones faciales." />
+  <meta property="og:image" content="https://cooptuber.app/preview.jpg" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:site_name" content="CoopTuber" />
 
-  <!-- Cargar MediaPipe desde CDN -->
-  <script type="module">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://cooptuber.app/" />
+  <meta name="twitter:title" content="CoopTuber - Anima avatares con tus expresiones faciales" />
+  <meta name="twitter:description" content="Herramienta de animación facial en tiempo real para dar vida a avatares con tus expresiones faciales." />
+  <meta name="twitter:image" content="https://cooptuber.app/preview.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  
+  <!-- Preload critical resources -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.12" as="script">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  
+  <!-- Load MediaPipe from CDN -->
+  <script type="module" defer>
     import * as vision from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.12";
     window.vision = vision;
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1675466124"></script>
-
-  <!-- Configuración WASM -->
+  
+  <!-- WASM Configuration -->
   <script>
     window.__mediapipe__ = window.__mediapipe__ || {};
     window.__mediapipe__.setWasmPaths = (paths) => {
@@ -23,33 +54,35 @@
     };
   </script>
 
+  <!-- Google Analytics with deferred loading -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-97K0ZY4N09"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-97K0ZY4N09');
   </script>
 
   <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-TCG7H5NS');</script>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-TCG7H5NS');</script>
   <!-- End Google Tag Manager -->
+  
+  <title>CoopTuber - Anima avatares con tus expresiones faciales</title>
 </head>
 
 <body>
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCG7H5NS" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCG7H5NS" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
+  
   <div id="root"></div>
+  
+  <!-- Scripts no críticos con atributo defer -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1675466124" defer></script>
   <script type="module" src="/src/index.tsx"></script>
 </body>
-
 </html>

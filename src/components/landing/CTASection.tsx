@@ -1,18 +1,19 @@
 import { HiOutlineCodeBracket, HiOutlineStar } from "solid-icons/hi";
 import { TbDownloadOff } from "solid-icons/tb";
 import '../../styles/landing/cta.css'
+import { useI18n } from "../../i18n/context";
 
 const CTASection = () => {
+    const { t } = useI18n();
     return (
 
         <section class="section cta-section">
             <div class="container">
                 <div class="cta-content">
                     <h2 class="cta-title">🚀 Empieza a dar vida a tu avatar sin límites, sin costos y sin complicaciones</h2>
+                    <h4>{t('cta.description')}</h4>
                     <p class="cta-subtitle">
-                        Tu avatar en vivo. Tu estilo. Tu ritmo.
-                        <br />
-                        Con la libertad de lo open source.
+                        {t('cta.subtitle')}
                     </p>
 
                     <div class="cta-buttons">
@@ -24,7 +25,7 @@ const CTASection = () => {
                                     clip-rule="evenodd"
                                 />
                             </svg>
-                            Probar CoopTuber ahora
+                            {t('cta.tryNow')}
                         </a>
                         <a href="#" class="btn btn-outline btn-lg">
                             <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
@@ -34,22 +35,22 @@ const CTASection = () => {
                                     clip-rule="evenodd"
                                 />
                             </svg>
-                            Visitar el repositorio en GitHub
+                            {t('cta.viewOnGithub')}
                         </a>
                     </div>
 
                     <div class="cta-features">
                         <div class="cta-feature">
                             <HiOutlineStar class="icon text-yellow-400" />
-                            100% gratuito
+                            {t('cta.features.free')}
                         </div>
                         <div class="cta-feature">
                             <HiOutlineCodeBracket class="icon text-green-400" />
-                            Open source
+                            {t('cta.features.openSource')}
                         </div>
                         <div class="cta-feature">
                             <TbDownloadOff class="icon text-blue-400" />
-                            Sin instalación
+                            {t('cta.features.noInstallation')}
                         </div>
                     </div>
                 </div>

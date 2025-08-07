@@ -4,8 +4,10 @@ import { BsPlayCircle } from 'solid-icons/bs';
 import { HiOutlineCodeBracket, HiOutlineStar } from 'solid-icons/hi';
 import { TbDownloadOff } from 'solid-icons/tb';
 import { createSignal, onCleanup, onMount } from 'solid-js';
+import { useI18n } from '../../i18n/context';
 
 const HeroSection = () => {
+    const { t } = useI18n();
     const emojis = ['🙂', '😃','🙂', '😃','🙂', '😃','😆','😃','🙂', '😃','😆'];
     const [currentEmoji, setCurrentEmoji] = createSignal(0);
     
@@ -37,38 +39,39 @@ const HeroSection = () => {
                                             {emoji}
                                         </span>
                                     ))}
-                                </span> Anima tu rostro en <span class="gradient-text">tiempo real</span> con tus avatares personalizados
+                                </span> {t('hero.title.part1')}<span class="gradient-text">{t('hero.title.highlight')}</span>{t('hero.title.part2')}
                             </h1>
                             <p class="hero-subtitle">
-                                CoopTuber es una herramienta gratuita y open source para animar tu rostro con avatares animados desde tu
-                                navegador. No necesitas instalar nada ni preocuparte por el rendimiento… si tu PC puede con el stream,
-                                puede con CoopTuber.
+                                {t('hero.description')}
                             </p>
                         </div>
 
                         <div class="hero-buttons">
                             <a href="/app/#studio" class="btn btn-lg btn-primary">
-                                <BsPlayCircle class="icon" />
-                                Pruébalo ahora
+                                {t('hero.tryNow')} <BsPlayCircle class="ml-2" />
                             </a>
-                            <a href="#" class="btn btn-outline btn-lg">
-                                <VsGithub class="icon" />
-                                Ver en GitHub
+                            <a 
+                                href="https://github.com/JulioBuscer/CoopTuber-prototype" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                class="btn btn-lg btn-outline"
+                            >
+                                <VsGithub class="mr-2" /> {t('hero.viewOnGithub')}
                             </a>
                         </div>
 
                         <div class="hero-features">
                             <div class="feature-item">
                                 <TbDownloadOff class="icon text-blue-400" />
-                                Sin instalación
+                                <span>{t('hero.features.openSource')}</span>
                             </div>
                             <div class="feature-item">
                                 <HiOutlineStar class="icon text-yellow-400" />
-                                100% gratuito
+                                <span>{t('hero.features.noInstallation')}</span>
                             </div>
                             <div class="feature-item">
                                 <HiOutlineCodeBracket class="icon text-green-400" />
-                                Open source
+                                <span>{t('hero.features.free')}</span>
                             </div>
                         </div>
                     </div>
@@ -103,7 +106,7 @@ const HeroSection = () => {
                             <div class="preview-badge">
                                 <a href="/app/#studio" class="btn btn-primary btn-sm">
                                     <BsPlayCircle class="icon" />
-                                    Pruébalo ahora
+                                    {t('hero.tryNow')}
                                 </a>
                             </div>
                         </div>
@@ -112,6 +115,6 @@ const HeroSection = () => {
             </div>
         </section>
     );
-}
+};
 
 export default HeroSection;
