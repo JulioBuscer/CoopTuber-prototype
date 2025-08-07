@@ -10,6 +10,7 @@
 
 import { Component, createEffect, createSignal } from "solid-js";
 import { playersConfig, selectedPlayer, setPlayerConfig } from "../../data/signals/player";
+import { useI18n } from "../../i18n/context";
 
 /**
  * Componente que maneja la configuración del fondo del avatar
@@ -23,6 +24,7 @@ import { playersConfig, selectedPlayer, setPlayerConfig } from "../../data/signa
  * @returns {JSX.Element} Interfaz de configuración del fondo
  */
 const Background: Component = () => {
+    const {t} = useI18n();
     // Estado local del jugador seleccionado
     const [player, setPlayer] = createSignal(playersConfig().find(p => p.characterId === selectedPlayer()!.characterId) ?? null);
 
@@ -97,7 +99,7 @@ const Background: Component = () => {
                     >
                         <span class="switch-button-icon" />
                     </button>
-                    <label>Usar Chroma</label>
+                    <label>{t('app.tools.background.useChroma')}</label>
                 </div>
             </div>
 
@@ -116,7 +118,7 @@ const Background: Component = () => {
                             ></div>
                         </div>
                         <div>
-                            <label>Color de fondo </label>
+                            <label>{t('app.tools.background.backgroundColor')}</label>
                             <input
                                 type="color"
                                 value={player()!.backgroundColor}
@@ -145,7 +147,7 @@ const Background: Component = () => {
                                         accept="image/*"
                                         hidden
                                     />
-                                    Cargar imagen
+                                    {t('app.tools.background.uploadImage')}
                                 </label>
                             </div>
                         </div>

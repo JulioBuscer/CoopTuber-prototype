@@ -11,6 +11,7 @@
 import { Component, createEffect, createSignal } from "solid-js";
 import { playersConfig, selectedPlayer, setPlayerConfig } from "../../data/signals/player";
 import { setColors } from "../../utils/utils";
+import { useI18n } from "../../i18n/context";
 
 /**
  * Componente que maneja la selección de colores
@@ -24,6 +25,7 @@ import { setColors } from "../../utils/utils";
  * @returns {JSX.Element} Interfaz de selección de colores
  */
 const Color: Component = () => {
+    const {t} = useI18n();
     // Estado local del jugador seleccionado
     const [player, setPlayer] = createSignal(playersConfig().find(p => p.characterId === selectedPlayer()!.characterId) ?? null);
 
@@ -52,7 +54,7 @@ const Color: Component = () => {
     return (
         <div class="tools-color-content">
             {/* Etiqueta del selector de color */}
-            <label>Color de {selectedPlayer()!.characterId}</label>
+            <label>{t('app.tools.color.colorOf')} {selectedPlayer()!.characterId}</label>
             
             {/* Contenedor del selector de color */}
             <div class="tools-color-selector">

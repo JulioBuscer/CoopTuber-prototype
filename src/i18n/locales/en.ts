@@ -1,5 +1,3 @@
-import { title } from "process";
-
 export default {
   // Common
   common: {
@@ -78,6 +76,60 @@ export default {
     cameraAccessRequired: 'Camera access required',
     cameraAccessDenied: 'Camera access denied',
     cameraNotSupported: 'Your browser does not support camera access',
+    noVideoLoaded: 'No video loaded',
+    loadVideo: 'Load Video',
+    switchCameraVideo: 'Switch to',
+    camera: 'Camera',
+    video: 'Video',
+    hide: 'Hide',
+    show: 'Show',
+    yes:'Yes',
+    no:'No',
+    state:{
+      mouthOpen:'Mouth Open',
+      eyesClosed:'Eyes Closed',
+      leftEye: 'Left Eye',
+      rightEye: 'Right Eye',
+    },
+    score:{
+      settings: 'Settings'
+    },
+    tools:{
+      avatar: {
+        title: 'Avatar',
+        text: 'Upload your avatar',
+        uploadImage: 'Upload Image',
+      },
+      background: {
+        title: 'Background',
+        text: 'Select your background',
+        useChroma:'Use Chroma',
+        backgroundColor:'Background Color',
+        uploadImage: 'Upload Image',
+      },
+      params: {
+        title: 'Params',
+        text: 'Adjust the face detection parameters',
+      },
+      effects: {
+        title: 'Effects',
+        text: 'Effects configuration',
+        placeHolder:'... Coming soon'
+      },
+      color: {
+        title: 'Color',
+        text: 'Choose your color',
+        colorOf: 'Color of '
+      },
+    },
+    avatar:{
+      imageTypeNames: {
+        normal:'Mouth closed, Eyes open',
+        blink:'Mouth closed, Eyes closed',
+        talking:'Mouth open, Eyes open',
+        blinkTalk:'Mouth open, Eyes closed'
+      }
+    }
   },
   
   // Features Section

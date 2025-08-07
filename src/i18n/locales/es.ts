@@ -77,6 +77,60 @@ export default {
     cameraAccessRequired: 'Se requiere acceso a la cámara',
     cameraAccessDenied: 'Acceso a la cámara denegado',
     cameraNotSupported: 'Tu navegador no soporta el acceso a la cámara',
+    noVideoLoaded: 'No hay video cargado',
+    loadVideo: 'Cargar video',
+    switchCameraVideo: 'Cambiar a',
+    camera: 'Cámara',
+    video: 'Video',
+    hide: 'Ocultar',
+    show: 'Mostrar',
+    yes: 'Si',
+    no: 'No',
+    state:{
+      mouthOpen: 'Boca abierta',
+      eyesClosed: 'Ojos cerrados',   
+      leftEye: 'Ojo izquierdo',
+      rightEye: 'Ojo derecho',   
+    },
+    score:{
+      settings: 'Settings',
+    },
+    tools:{
+      avatar: {
+        title: 'Avatar',
+        text: 'Sube tu avatar',
+        uploadImage:'Cargar imagen'
+      },
+      background: {
+        title: 'Background',
+        text: 'Selecciona tu fondo',
+        useChroma:'Usar Chroma',
+        backgroundColor:'Color de fondo',
+        uploadImage: 'Subir imagen',
+      },
+      params: {
+        title: 'Params',
+        text: 'Ajusta los parámetros de detección facial',
+      },
+      effects: {
+        title: 'Effects',
+        text: 'Configuración de los Efectos',
+        placeHolder:'..Proximamente'
+      },
+      color: {
+        title: 'Color',
+        text: 'Elige tu color',
+        colorOf: 'Color de '
+      },
+    },
+    avatar:{
+      imageTypeNames: {
+        normal:'Mouth closed, Eyes open',
+        blink:'Mouth closed, Eyes closed',
+        talking:'Mouth open, Eyes open',
+        blinkTalk:'Mouth open, Eyes closed'
+      }
+    }
   },
   
   // Features Section

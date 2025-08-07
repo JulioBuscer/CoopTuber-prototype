@@ -18,6 +18,7 @@ import Avatar from "./Avatar";
 import Background from "./Background";
 import { VsSymbolColor } from "solid-icons/vs";
 import Color from "./Color";
+import { useI18n } from "../../i18n/context";
 
 /**
  * Componente principal de la interfaz de herramientas
@@ -30,6 +31,7 @@ import Color from "./Color";
  * @returns {JSX.Element} Interfaz completa de herramientas y configuración
  */
 const Tools = () => {
+    const {t} = useI18n();
     /**
      * Manejador para el clic en una herramienta
      * @param {string} tool - Nombre de la herramienta a seleccionar
@@ -44,23 +46,23 @@ const Tools = () => {
      */
     const tools = [
         {
-            name: "Avatar",
+            name: t('app.tools.avatar.title'),
             icon: <HiOutlineUser />
         },
         {
-            name: "Fondo",
+            name: t('app.tools.background.title'),
             icon: <HiOutlinePhoto />
         },
         {
-            name: "Parametros",
+            name: t('app.tools.params.title'),
             icon: <HiOutlineAdjustmentsHorizontal />
         },
         {
-            name: "Efectos",
+            name: t('app.tools.effects.title'),
             icon: <HiOutlineSparkles />
         },
         {
-            name: "Color",
+            name: t('app.tools.color.title'),
             icon: <VsSymbolColor />
         }
     ];
@@ -88,41 +90,41 @@ const Tools = () => {
             {/* Área de configuración de la herramienta seleccionada */}
             <div class="tools-config">
                 {/* Configuración del Avatar */}
-                {selectedTool() === "Avatar" && (
+                {selectedTool() === t('app.tools.avatar.title') && (
                     <div class="tools-player">
-                        <h3>Sube tu avatar</h3>
+                        <h3>{t('app.tools.avatar.text')}</h3>
                         <Avatar />
                     </div>
                 )}
 
                 {/* Configuración del Fondo */}
-                {selectedTool() === "Fondo" && (
+                {selectedTool() === t('app.tools.background.title') && (
                     <div class="tools-background">
-                        <h3>Selecciona tu fondo</h3>
+                        <h3>{t('app.tools.background.text')}</h3>
                         <Background />
                     </div>
                 )}
 
                 {/* Configuración de Parámetros */}
-                {selectedTool() === "Parametros" && (
+                {selectedTool() === t('app.tools.params.title') && (
                     <div class="tools-params">
-                        <h3>Ajusta los parámetros de detección facial</h3>
+                        <h3>{t('app.tools.params.text')}</h3>
                         <Params />
                     </div>
                 )}
 
                 {/* Configuración de Efectos */}
-                {selectedTool() === "Efectos" && (
+                {selectedTool() === t('app.tools.effects.title') && (
                     <div class="tools-effects">
-                        <h3>Configuración de los Efectos</h3>
-                        <h4>...Proximamente</h4>
+                        <h3>{t('app.tools.effects.text')}</h3>
+                        <h4>{t('app.tools.effects.placeHolder')}</h4>
                     </div>
                 )}
 
                 {/* Configuración de Color */}
-                {selectedTool() === "Color" && (
+                {selectedTool() === t('app.tools.color.title') && (
                     <div class="tools-color">
-                        <h3>Elije tu color</h3>
+                        <h3>{t('app.tools.color.text')}</h3>
                         <Color />
                     </div>
                 )}

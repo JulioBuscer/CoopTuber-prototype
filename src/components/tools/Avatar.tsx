@@ -12,6 +12,7 @@ import { createEffect, createSignal } from "solid-js";
 import { AvatarConfig } from "../../data/types/avatar";
 import { playersConfig, selectedPlayer, setPlayerConfig } from "../../data/signals/player";
 import { debugLog } from "../../utils/utils";
+import { useI18n } from "../../i18n/context";
 
 /**
  * Componente que maneja la configuración de imágenes del avatar
@@ -25,6 +26,7 @@ import { debugLog } from "../../utils/utils";
  * @returns {JSX.Element} Interfaz de configuración de imágenes del avatar
  */
 const Avatar = () => {
+    const {t} = useI18n();
     // Estado local del jugador seleccionado
     const [player, setPlayer] = createSignal<AvatarConfig | null>(
         playersConfig().find(p => p.characterId === selectedPlayer()!.characterId) ?? null
@@ -40,7 +42,7 @@ const Avatar = () => {
 
     // Tipos de imágenes disponibles para el avatar
     const imageTypes: (keyof AvatarConfig['imagePaths'])[] = ['normal', 'blink', 'talking', 'blinkTalk'];
-    const imageTypeNames = ['Boca cerrada, Ojos abiertos', 'Boca cerrada, Ojos cerrados', 'Boca abierta, Ojos abiertos', 'Boca abierta, Ojos cerrados'];
+    const imageTypeNames = [t('app.avatar.imageTypeNames.normal'), t('app.avatar.imageTypeNames.blink'), t('app.avatar.imageTypeNames.talking'), t('app.avatar.imageTypeNames.blinkTalk')];
     // Estado para la imagen seleccionada
     const [selectedImage, setSelectedImage] = createSignal(0);
 
@@ -154,7 +156,7 @@ const Avatar = () => {
                         onChange={handleImageChange}
                         style={{ display: 'none' }}
                     />
-                    Cargar imagen
+                    {t('app.tools.avatar.uploadImage')}
                 </label>
             </div>
         </div>

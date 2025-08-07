@@ -9,6 +9,7 @@
 
 import { Component, createSignal, createEffect } from 'solid-js';
 import { playersConfig, selectedPlayer, setPlayerConfig} from '../data/signals/player';
+import { useI18n } from '../i18n/context';
 
 /**
  * Props del componente Params
@@ -29,6 +30,7 @@ type ParamsProps = {};
  * @returns {JSX.Element} Interfaz de parámetros de configuración
  */
 const Params: Component<ParamsProps> = () => {
+    const {t} = useI18n();
     // Estado local del jugador seleccionado
     const [player, setPlayer] = createSignal(playersConfig().find(p => p.characterId === selectedPlayer()!.characterId) ?? null);
 
@@ -66,7 +68,7 @@ const Params: Component<ParamsProps> = () => {
             {/* Control para ajustar el umbral de habla */}
             <div class="tools-params-container-item">
                 <div class="tools-params-container-item-label">
-                    <label for="rateMouthOpen">Hablar:</label>
+                    <label for="rateMouthOpen">{t('app.state.mouthOpen')}</label>
                     <input 
                         id="rateMouthOpen"
                         type="number"
@@ -92,7 +94,7 @@ const Params: Component<ParamsProps> = () => {
             {/* Control para ajustar el umbral de parpadeo */}
             <div class="tools-params-container-item">
                 <div class="tools-params-container-item-label">
-                    <label for="rateEyesClosed">Parpadeo:</label>
+                    <label for="rateEyesClosed">{t('app.state.eyesClosed')}</label>
                     <input 
                         id="rateEyesClosed"
                         type="number"

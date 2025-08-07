@@ -18,11 +18,13 @@ import { playersConfig, setPlayerState, videoSource, setVideoSource } from "../d
 import Tools from "./tools/Tools";
 import { debugError, debugLog, sanitizedColor, setColors } from "../utils/utils";
 import { HiOutlineCamera, HiOutlineEye, HiOutlineEyeSlash, HiOutlineFilm, HiOutlinePause, HiOutlinePlay, HiOutlineVideoCamera, HiOutlineVideoCameraSlash } from "solid-icons/hi";
+import { useI18n } from "../i18n/context";
 /**
  * Componente principal que maneja la detección facial y animación de avatares
  * @returns {JSX.Element} Componente de React con la interfaz de la cámara y control de avatares
  */
 const WebcamViewer = () => {
+    const { t } = useI18n();
     // Estados para control de cámara y video
     const [isCameraOn, setIsCameraOn] = createSignal(false);
     const [isCameraSelected, setIsCameraSelected] = createSignal(true);
@@ -91,8 +93,8 @@ const WebcamViewer = () => {
     const handleVideoClick = () => {
         debugLog("Video button clicked - videoSource:", videoSource());
         if (!videoSource()) {
-            alert("No hay video cargado");
-            debugLog("No hay video cargado");
+            alert(t('app.noVideoLoaded'));
+            debugLog(t('app.noVideoLoaded'));
             return;
         } else {
             debugLog("Video button clicked - isVideoPlaying:", isVideoPlaying());
@@ -207,7 +209,7 @@ const WebcamViewer = () => {
      * Iniciar la cámara
      */
     const startCamera = async () => {
-        debugLog("Iniciando la cámara...");
+        debugLog(t('app.startCamera'));
         try {
             if (!videoRef) {
                 debugError(new Error("Video element no está disponible"));
@@ -219,9 +221,9 @@ const WebcamViewer = () => {
             initializeDetector();
 
         } catch (error) {
-            debugError(error as Error, "Error al acceder a la cámara: ");
+            debugError(error as Error, t('app.cameraAccessDenied'));
             setIsCameraOn(false);
-            alert("Error al acceder a la cámara");
+            alert(t('app.cameraAccessDenied'));
             return;
         }
     };
@@ -439,7 +441,7 @@ const WebcamViewer = () => {
                             videoRef = el!;
                             if (isVideoPlaying()) {
                                 el.play().catch(error => {
-                                    debugError(error as Error, "Error al reproducir video");
+                                    debugError(error as Error, t('app.cameraAccessDenied'));
                                 });
                             } else {
                                 el.pause();
@@ -504,10 +506,10 @@ const WebcamViewer = () => {
                                 display: isCameraSelected() ? "none" : "flex",
                                 opacity: isVideoPlaying() ? 0 : 1,
                             }}
-                            title="Cargar video"
+                            title={t('app.loadVideo')}
                         >
                             <HiOutlineFilm />
-                            <span>Cargar video</span>
+                            <span>{t('app.loadVideo')}</span>
                         </button>
                     </div>
                 </div>
@@ -522,7 +524,7 @@ const WebcamViewer = () => {
                             {isCameraSelectedHovered() ?
                                 <HiOutlineCamera size={24} /> :
                                 <HiOutlineFilm size={24} />}
-                            <span>Cambiar a {isCameraSelectedHovered() ? "Cámara" : "Video"}</span>
+                            <span>{t('app.switchCameraVideo')} {isCameraSelectedHovered() ? t('app.camera') : t('app.video')}</span>
                         </button>
                         <button
                             class="video-control-button"
@@ -531,8 +533,8 @@ const WebcamViewer = () => {
                             onClick={() => { setIsVideoHidden(!isVideoHidden()); setIsVideoHiddenHovered(!isVideoHidden()); }}
                         >
                             {isVideoHiddenHovered() ?
-                                <><HiOutlineEyeSlash size={24} /> <span>Ocultar</span></>
-                                : <><HiOutlineEye size={24} /> <span>Mostrar</span></>} <span>{isCameraSelected() ? "Cámara" : "Video"}</span>
+                                <><HiOutlineEyeSlash size={24} /> <span>{t('app.hide')}</span></>
+                                : <><HiOutlineEye size={24} /> <span>{t('app.show')}</span></>} <span>{isCameraSelected() ? t('app.camera') : t('app.video')}</span>
                         </button>
                     </div>
                 </div>

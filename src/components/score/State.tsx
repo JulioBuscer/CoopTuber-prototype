@@ -1,11 +1,13 @@
 import { createEffect, createMemo, createSignal } from "solid-js";
 import { playersConfig, playersStates } from "../../data/signals/player";
 import { AvatarConfig } from "../../data/types/avatar";
+import { useI18n } from "../../i18n/context";
 
 interface ScoreProps {
     characterId: string
 }
 const State = ({ characterId }: ScoreProps) => {
+    const { t } = useI18n();
 
     const state = createMemo(() => {
         return playersStates().find(p => p.characterId === characterId);
@@ -35,7 +37,7 @@ const State = ({ characterId }: ScoreProps) => {
     return (
         <div class="state-container">
             <div class="state">
-                <p>Boca abierta: <span>{state()!.mouthOpen ? "Si" : "No"}</span></p>
+                <p>{t('app.state.mouthOpen')}: <span>{state()!.mouthOpen ? t('app.yes') : t('app.no')}</span></p>
 
                 <div class="progress">
                     <p>{getPercentage(state()!.jawOpenScore)}%</p>
@@ -48,10 +50,10 @@ const State = ({ characterId }: ScoreProps) => {
                 </div>
             </div>
             <div class="state">
-                <p>Ojos cerrados: <span>{state()!.eyesClosed ? "Si" : "No"}</span></p>
+                <p>{t('app.state.eyesClosed')}: <span>{state()!.eyesClosed ? t('app.yes') : t('app.no')}</span></p>
                 <div class="progress-container">
                     <div class="progress">
-                        <p> Izquierdo: {getPercentage(state()!.eyeBlinkLeftScore)}% </p>
+                        <p> {t('app.state.leftEye')}: {getPercentage(state()!.eyeBlinkLeftScore)}% </p>
                         <div class="custom-progress-container">
                             <div class="custom-progress-bar">
                                 <div class="custom-progress-fill"
@@ -60,7 +62,7 @@ const State = ({ characterId }: ScoreProps) => {
                         </div>
                     </div>
                     <div class="progress">
-                        <p> Derecho: {getPercentage(state()!.eyeBlinkRightScore)}% </p>
+                        <p> {t('app.state.rightEye')}: {getPercentage(state()!.eyeBlinkRightScore)}% </p>
                         <div class="custom-progress-container">
                             <div class="custom-progress-bar">
                                 <div class="custom-progress-fill"
