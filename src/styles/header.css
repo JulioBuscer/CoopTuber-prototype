@@ -103,6 +103,19 @@
   display: none;
 }
 
+.nav-spacer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-burger-container,
+.nav-lng-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.25rem;
+}
+
 .nav-lng-menu {
   position: absolute;
   top: 100%;

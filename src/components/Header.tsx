@@ -88,13 +88,15 @@ const Header: Component = () => {
           CoopTuber
           <span class="badge badge-outline">Open Source</span>
         </A>
-        <div class="desktop-nav">
-          <Nav />
-          <LanguageSelector />
-        </div>
-        <div class="mobile-nav">
-          <NavBurger />
-          <LanguageSelector />
+        <div class="nav-spacer">
+          <div class="desktop-nav">
+            <Nav />
+            <LanguageSelector />
+          </div>
+          <div class="mobile-nav">
+            <NavBurger />
+            <LanguageSelector />
+          </div>
         </div>
       </div>
     </header>
