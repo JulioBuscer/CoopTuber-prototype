@@ -5,6 +5,7 @@ import { OcPeople2 } from 'solid-icons/oc';
 import { HiOutlineBars3 } from 'solid-icons/hi';
 import { showHeader } from '../data/signals/utils';
 import { useI18n } from '../i18n/context'
+import Icon from './icons/Icon';
 
 const Nav: Component = () => {
   const { t } = useI18n();
@@ -51,7 +52,7 @@ const LanguageSelector = () => {
   return (
     <div class="nav-lng-container">
       <button class="nav-lng-btn" aria-label="Abrir menú" onClick={() => setShowDropdown(true)}>
-        <span class="text-xl">{t('nav.languageIcon')}</span>
+        <span class="text-xl"><Icon name={t('nav.languageIcon')} /></span>
       </button>
       <div class={`nav-lng-menu${showDropdown() ? ' active' : ''}`}>
         <button
