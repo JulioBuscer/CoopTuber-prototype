@@ -52,7 +52,9 @@ const LanguageSelector = () => {
   return (
     <div class="nav-lng-container">
       <button class="nav-lng-btn" aria-label="Abrir menú" onClick={() => setShowDropdown(true)}>
-        <span class="text-xl"><Icon name={t('nav.languageIcon')} /></span>
+        <span class="text-xl">{
+          t('nav.languageCode') === 'mx' ? <Icon name="mx" /> : <Icon name="us" />
+          }</span>
       </button>
       <div class={`nav-lng-menu${showDropdown() ? ' active' : ''}`}>
         <button
@@ -61,7 +63,7 @@ const LanguageSelector = () => {
             setLocale('es');
             setShowDropdown(false);
           }}>
-          🇲🇽 ES
+          <Icon name="mx" /> ES
         </button>
 
         <button
@@ -70,7 +72,7 @@ const LanguageSelector = () => {
             setLocale('en');
             setShowDropdown(false);
           }}>
-          🇺🇸 EN
+          <Icon name="us" /> EN
         </button>
       </div>
       {showDropdown() && <div class="nav-lng-backdrop" onClick={() => setShowDropdown(false)} />}

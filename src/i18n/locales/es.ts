@@ -16,6 +16,7 @@ export default {
     github: 'GitHub',
     language: 'Idioma',
     languageIcon: '🇲🇽',
+    languageCode: 'mx',
     features: 'Características',
     howTo: 'Cómo usar',
     benefits: 'Beneficios',
